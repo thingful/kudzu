@@ -1,0 +1,9 @@
+FROM ARG_FROM
+
+LABEL maintainer="info@thingful.net"
+LABEL description="Production image for running kuzu for GROW"
+
+ADD bin/ARG_ARCH/ARG_BIN /ARG_BIN
+
+USER nobody:nobody
+ENTRYPOINT ["/ARG_BIN"]

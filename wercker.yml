@@ -1,0 +1,24 @@
+box: golang:1.11-alpine
+
+build:
+  steps:
+    - setup-go-workspace
+
+    - script:
+        name: go version
+        code: |
+          go version
+
+    - script:
+        name: install build tooling
+        code: |
+          apk --no-cache add build-base git
+
+    - script:
+        name: go test
+        code: |
+          echo
+          go test -i -installsuffix "static" ./cmd/... ./pkg/...
+          go test -v -installsuffix "static" -coverprofile=$WERCKER_REPORT_ARTEFACTS_DIR/coverage.out ./cmd/... ./pkg/...
+          go tool cover -html=$WERCKER_REPORT_ARTEFACTS_DIR/coverage.out -o $WERCKER_REPORT_ARTEFACTS_DIR/coverage.html
+          go tool cover -func=$WERCKER_REPORT_ARTEFACTS_DIR/coverage.out

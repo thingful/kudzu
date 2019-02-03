@@ -1,0 +1,20 @@
+# This file should not be used as is - instead should be used via Make which
+# rewrites the below to match the current build environment.
+
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .dockerfile-dev
+    image: thingful/kuzu-dev:
+    volumes:
+      - /home/sam/Workspace/go/src/github.com/thingful/kuzu/.go:/go
+      - /home/sam/Workspace/go/src/github.com/thingful/kuzu:/go/src/github.com/thingful/kuzu
+      - /home/sam/Workspace/go/src/github.com/thingful/kuzu/bin/ARG_ARCH:/go/bin
+      - /home/sam/Workspace/go/src/github.com/thingful/kuzu/.go/std:/usr/local/go/pkg/linux_ARG_ARCH_static
+      - /home/sam/Workspace/go/src/github.com/thingful/kuzu/.cache/go-build:/.cache/go-build
+    working_dir: /go/src/github.com/thingful/kuzu
+    ports:
+      - "8080:8080"
+    command: /go/bin/kuzu server

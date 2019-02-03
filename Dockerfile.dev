@@ -1,0 +1,20 @@
+FROM ARG_FROM
+
+LABEL maintainer="info@thingful.net"
+LABEL description="Development image for building and testing kuzu for GROW"
+
+# add git and any other required packages to build the application
+RUN apk add --update \
+    build-base \
+    git && \
+  rm -rf /var/cache/apk/*
+
+# install retool for vendoring tools we require within the dev container
+# note we have to move out of /go/bin so it is not masked
+RUN go get -u github.com/twitchtv/retool && \
+  mv /go/bin/* /usr/local/bin
+
+
+WORKDIR ARG_WORKDIR
+
+CMD ["/bin/sh"]
