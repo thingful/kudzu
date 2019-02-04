@@ -7,7 +7,7 @@ if set -o | grep -q "pipefail"; then
 fi
 
 export CGO_ENABLED="${CGO_ENABLED:-0}"
-export GOARCH="${ARCH}"
+export GOARCH=amd64
 
 go install \
     -v \

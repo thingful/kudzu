@@ -3,7 +3,7 @@ package tasks
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/thingful/go-build-template/pkg/http"
+	"github.com/thingful/kuzu/pkg/http"
 )
 
 func init() {

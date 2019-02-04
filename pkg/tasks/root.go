@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/thingful/go-build-template/pkg/version"
+	"github.com/thingful/kuzu/pkg/version"
 )
 
 var rootCmd = &cobra.Command{

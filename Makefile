@@ -63,9 +63,7 @@ shell: .shell ## Open shell in containerized environment
 		--rm \
 		-u "$$(id -u):$$(id -g)" \
 		app \
-		/bin/sh -c " \
-			./build/dev.sh \
-		"
+		/bin/sh
 
 .PHONY: test
 test: $(BUILD_DIRS) .compose ## Run tests in the containerized environment
@@ -144,4 +142,4 @@ container-clean: ## clean container artefacts
 
 .PHONY: bin-clean
 bin-clean: ## remove generated build artefacts
-	rm -rf .go bin .cache .coverage
+	rm -rf .go bin .coverage

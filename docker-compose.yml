@@ -11,9 +11,9 @@ services:
     volumes:
       - ARG_PWD/.go:/go
       - ARG_PWD:/go/src/ARG_PKG
-      - ARG_PWD/bin/ARG_ARCH:/go/bin
-      - ARG_PWD/.go/std:/usr/local/go/pkg/linux_ARG_ARCH_static
-      - ARG_PWD/.cache/go-build:/.cache/go-build
+      - ARG_PWD/bin:/go/bin
+      - ARG_PWD/.go/std:/usr/local/go/pkg/linux_amd64_static
+      - ARG_PWD/.go/cache:/.cache/go-build
     working_dir: /go/src/ARG_PKG
     ports:
       - "8080:8080"

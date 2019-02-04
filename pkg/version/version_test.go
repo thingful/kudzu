@@ -3,7 +3,7 @@ package version_test
 import (
 	"testing"
 
-	"github.com/thingful/go-build-template/pkg/version"
+	"github.com/thingful/kuzu/pkg/version"
 )
 
 func TestVersionString(t *testing.T) {
