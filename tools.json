@@ -5,8 +5,8 @@
       "Commit": "224a564abe296670b692fe08bb63a3e4c4ad7978"
     },
     {
-      "Repository": "github.com/mjibson/esc",
-      "Commit": "e93e776f8cb66a6bdcdf1afbef94460c0a62d7d9"
+      "Repository": "github.com/kevinburke/go-bindata/go-bindata",
+      "Commit": "53d73b98acf3bd9f56d7f9136ed8e1be64756e1d"
     }
   ],
   "RetoolVersion": "1.3.7"
