@@ -98,7 +98,10 @@ func NewMigration(dirName, migrationName string, logger kitlog.Logger) error {
 }
 
 func getMigrator(db *sql.DB, logger kitlog.Logger) (*migrate.Migrate, error) {
-	dbDriver, err := postgres.WithInstance(db, &postgres.Config{})
+	dbDriver, err := postgres.WithInstance(db, &postgres.Config{
+		MigrationsTable: "kuzu_schema_migrations",
+	})
+
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get postgres db driver for migrations")
 	}
