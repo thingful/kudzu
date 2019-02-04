@@ -16,5 +16,5 @@ services:
       - ARG_PWD/.go/cache:/.cache/go-build
     working_dir: /go/src/ARG_PKG
     ports:
-      - "8080:8080"
+      - "3001:3001"
     command: /go/bin/ARG_BIN server

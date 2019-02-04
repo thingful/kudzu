@@ -3,13 +3,13 @@ package commands
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/thingful/kuzu/pkg/http"
+	"github.com/thingful/kuzu/pkg/app"
 )
 
 func init() {
 	rootCmd.AddCommand(serverCmd)
 
-	serverCmd.Flags().StringP("addr", "a", "0.0.0.0:8080", "Specify the address to which the server binds")
+	serverCmd.Flags().StringP("addr", "a", "0.0.0.0:3001", "Specify the address to which the server binds")
 }
 
 var serverCmd = &cobra.Command{
@@ -22,10 +22,8 @@ var serverCmd = &cobra.Command{
 			return err
 		}
 
-		s := http.NewServer(addr)
+		a := app.NewApp(addr)
 
-		s.Start()
-
-		return nil
+		return a.Start()
 	},
 }

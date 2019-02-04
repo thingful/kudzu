@@ -2,55 +2,87 @@ package http
 
 import (
 	"context"
-	"log"
 	"net/http"
-	"os"
-	"os/signal"
+	"sync"
 	"time"
+
+	"github.com/thingful/kuzu/pkg/http/handlers"
+	goji "goji.io"
+
+	kitlog "github.com/go-kit/kit/log"
 )
 
-type Server struct {
-	srv *http.Server
+const (
+	// Timeout is a timeout we add on the server to enforce timeouts for slow
+	// clients
+	Timeout = 5
+)
+
+// HTTP is our struct that exposes an HTTP server for handling incoming
+// requests.
+type HTTP struct {
+	logger kitlog.Logger
+	srv    *http.Server
+	*Config
 }
 
-// NewServer returns a new simple HTTP server.
-func NewServer(addr string) *Server {
-	// create a simple multiplexer
-	mux := http.NewServeMux()
+// Config is a struct used to pass configuration into the HTTP instance
+type Config struct {
+	Addr      string
+	QuitChan  <-chan struct{}
+	ErrChan   chan<- error
+	WaitGroup *sync.WaitGroup
+}
 
-	// pass mux into handlers to add mappings
-	MuxHandlers(mux)
+// NewHTTP returns a new HTTP instance configured and ready to use, but not yet
+// started.
+func NewHTTP(config *Config, logger kitlog.Logger) *HTTP {
+	logger = kitlog.With(logger, "module", "http")
 
-	// create our http.Server instance
 	srv := &http.Server{
-		Addr:    addr,
-		Handler: mux,
+		Addr:         config.Addr,
+		ReadTimeout:  Timeout * time.Second,
+		WriteTimeout: 2 * Timeout * time.Second,
 	}
 
-	// return the instantiated server
-	return &Server{
-		srv: srv,
+	logger.Log(
+		"msg", "configuring http service",
+		"addr", config.Addr,
+		"readTimeout", Timeout,
+		"writeTimeout", 2*Timeout,
+	)
+
+	return &HTTP{
+		logger: logger,
+		srv:    srv,
+		Config: config,
 	}
 }
 
-// Start starts the server running. We also create a channel listening for
-// interrupt signals before gracefully shutting down.
-func (s *Server) Start() {
-	stopChan := make(chan os.Signal)
-	signal.Notify(stopChan, os.Interrupt)
+// Start starts the HTTP service running. Requires any dependencies to already
+// be started elsewhere. Note we do return an error from the function, rather as
+// we start in a separate goroutine we use a channel to report back any errors.
+func (h *HTTP) Start() {
+	h.logger.Log("msg", "starting http service")
+
+	mux := goji.NewMux()
+	handlers.RegisterHealthCheck(mux)
+
+	h.srv.Handler = mux
 
 	go func() {
-		log.Println("Starting server")
-		if err := s.srv.ListenAndServe(); err != nil {
-			log.Fatal(err)
+		if err := h.srv.ListenAndServe(); err != nil {
+			h.ErrChan <- err
 		}
 	}()
 
-	<-stopChan
-	log.Println("Stopping server")
+	<-h.QuitChan
+
+	h.logger.Log("msg", "stopping http service")
 
 	ctx, cancelFn := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancelFn()
 
-	s.srv.Shutdown(ctx)
+	h.srv.Shutdown(ctx)
+	h.WaitGroup.Done()
 }
