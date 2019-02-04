@@ -1,4 +1,4 @@
-package tasks
+package commands
 
 import (
 	"fmt"
@@ -10,14 +10,13 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   version.BinaryName,
-	Short: "A tool to do something",
-	Long: `An app to do something built by Thingful.
-
-This description spans multiple lines.`,
+	Use:     version.BinaryName,
+	Short:   "A server and indexer for GROW",
+	Long:    `The updated server and indexer component for GROW.`,
 	Version: version.VersionString(),
 }
 
+// Execute is the main entry point for our cobra commands
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

@@ -1,7 +1,7 @@
 package main
 
-import "github.com/thingful/kuzu/pkg/tasks"
+import "github.com/thingful/kuzu/cmd/kuzu/commands"
 
 func main() {
-	tasks.Execute()
+	commands.Execute()
 }

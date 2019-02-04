@@ -1,4 +1,4 @@
-package tasks
+package commands
 
 import (
 	"github.com/spf13/cobra"
@@ -14,9 +14,8 @@ func init() {
 
 var serverCmd = &cobra.Command{
 	Use:   "server",
-	Short: "Start http server",
-	Long: `Starts a simple http server to verify that the process runs
-continuously within the container.`,
+	Short: "Start the server",
+	Long:  `Starts the server running along with a background indexer.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		addr, err := cmd.Flags().GetString("addr")
 		if err != nil {
