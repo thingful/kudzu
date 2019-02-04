@@ -143,3 +143,8 @@ container-clean: ## clean container artefacts
 .PHONY: bin-clean
 bin-clean: ## remove generated build artefacts
 	rm -rf .go bin .coverage
+
+.PHONY: psql
+psql: .compose
+	@docker-compose -f .docker-compose.yml start postgres
+	@docker exec -it kuzu_postgres_1 psql -U postgres kuzu_development
