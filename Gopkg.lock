@@ -26,6 +26,18 @@
   version = "v0.4.0"
 
 [[projects]]
+  digest = "1:e5d10dd0f618f8391908cfc500811e1f4c40f12db00cc71f0aea508b83d8a862"
+  name = "github.com/golang-migrate/migrate"
+  packages = [
+    ".",
+    "database",
+    "source",
+  ]
+  pruneopts = "UT"
+  revision = "4937cd088f7c7193ee59b319c1c2caa7482aae8e"
+  version = "v3.5.4"
+
+[[projects]]
   digest = "1:97df918963298c287643883209a2c3f642e6593379f97ab400c2a2e219ab647d"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
@@ -86,6 +98,14 @@
   pruneopts = "UT"
   revision = "c12348ce28de40eed0136aa2b644d0ee0650e56c"
   version = "v1.0.1"
+
+[[projects]]
+  digest = "1:cf31692c14422fa27c83a05292eb5cbe0fb2775972e8f1f8446a71549bd8980b"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
+  version = "v0.8.1"
 
 [[projects]]
   branch = "master"
@@ -165,9 +185,11 @@
   analyzer-version = 1
   input-imports = [
     "github.com/go-kit/kit/log",
+    "github.com/golang-migrate/migrate",
     "github.com/heptiolabs/healthcheck",
     "github.com/jmoiron/sqlx",
     "github.com/lib/pq",
+    "github.com/pkg/errors",
     "github.com/spf13/cobra",
     "goji.io",
     "goji.io/pat",
