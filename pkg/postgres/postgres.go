@@ -3,7 +3,7 @@ package postgres
 import (
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // required by go sql driver
 )
 
 // Open is a simple helper function to return a new sqlx.DB instance or an error
