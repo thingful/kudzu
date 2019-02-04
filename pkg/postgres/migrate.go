@@ -20,7 +20,7 @@ import (
 
 // MigrateUp attempts to run all up migrations against the database
 func MigrateUp(db *sql.DB, logger kitlog.Logger) error {
-	logger.Log("msg", "migrating DB up")
+	logger.Log("msg", "migrating postgres up")
 
 	m, err := getMigrator(db, logger)
 	if err != nil {
@@ -38,7 +38,7 @@ func MigrateUp(db *sql.DB, logger kitlog.Logger) error {
 // MigrateDown attempts to run the specified number of down migrations against
 // the database.
 func MigrateDown(db *sql.DB, steps int, logger kitlog.Logger) error {
-	logger.Log("msg", "migrating DB down", "steps", steps)
+	logger.Log("msg", "migrating postgres down", "steps", steps)
 
 	m, err := getMigrator(db, logger)
 	if err != nil {
@@ -50,7 +50,7 @@ func MigrateDown(db *sql.DB, steps int, logger kitlog.Logger) error {
 
 // MigrateDownAll attempts to run all down migrations.
 func MigrateDownAll(db *sql.DB, logger kitlog.Logger) error {
-	logger.Log("msg", "migrating DB down all")
+	logger.Log("msg", "migrating postgres down all")
 
 	m, err := getMigrator(db, logger)
 	if err != nil {

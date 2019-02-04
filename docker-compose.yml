@@ -24,7 +24,7 @@ services:
       - PGHOST=postgres
       - PGPASSWORD=password
       - PGUSER=kuzu
-      - DATABASE_URL=postgres://kuzu:password@postgres:5432/kuzu_development?sslmode=disable
+      - KUZU_DATABASE_URL=postgres://kuzu:password@postgres:5432/kuzu_development?sslmode=disable
 
   postgres:
     build:

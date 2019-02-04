@@ -4,6 +4,7 @@ import (
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq" // required by go sql driver
+	"github.com/pkg/errors"
 )
 
 // Open is a simple helper function to return a new sqlx.DB instance or an error
@@ -31,16 +32,17 @@ func NewDB(connStr string, logger kitlog.Logger) *DB {
 	}
 }
 
-// Start attempts to connect to the configured database, returning any error.
+// Start attempts to connect to the configured database, running up migrations
+// and returning any error.
 func (d *DB) Start() error {
 	d.logger.Log("msg", "starting postgres service")
 
 	db, err := Open(d.connStr)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "failed to open db connection")
 	}
 
 	d.DB = db
 
-	return nil
+	return MigrateUp(d.DB.DB, d.logger)
 }
