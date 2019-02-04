@@ -46,3 +46,10 @@ func (d *DB) Start() error {
 
 	return MigrateUp(d.DB.DB, d.logger)
 }
+
+// Stop stops the postgres connection pool
+func (d *DB) Stop() error {
+	d.logger.Log("msg", "stopping postgres service")
+
+	return d.DB.Close()
+}
