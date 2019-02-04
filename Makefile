@@ -72,6 +72,7 @@ test: $(BUILD_DIRS) .compose ## Run tests in the containerized environment
 		run \
 		--rm \
 		-u $$(id -u):$$(id -g) \
+		-e "KUZU_DATABASE_URL=postgres://kuzu:password@postgres/kuzu_test?sslmode=disable" \
 		app \
 		/bin/sh -c " \
 			./build/test.sh $(SRC_DIRS) \
