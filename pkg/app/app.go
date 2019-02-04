@@ -5,6 +5,8 @@ import (
 	"os/signal"
 	"sync"
 
+	"github.com/thingful/kuzu/pkg/postgres"
+
 	kitlog "github.com/go-kit/kit/log"
 
 	"github.com/thingful/kuzu/pkg/http"
@@ -13,14 +15,17 @@ import (
 
 // NewApp returns a new App instance with components configured but not yet
 // started.
-func NewApp(addr string) *App {
+func NewApp(addr string, connStr string) *App {
 	logger := logger.NewLogger()
+
+	db := postgres.NewDB(connStr, logger)
 
 	quitChan := make(chan struct{})
 	errChan := make(chan error)
 	var wg sync.WaitGroup
 
 	h := http.NewHTTP(&http.Config{
+		DB:        db,
 		Addr:      addr,
 		QuitChan:  quitChan,
 		ErrChan:   errChan,
@@ -28,8 +33,9 @@ func NewApp(addr string) *App {
 	}, logger)
 
 	return &App{
-		logger:   logger,
+		logger:   kitlog.With(logger, "module", "app"),
 		http:     h,
+		db:       db,
 		quitChan: quitChan,
 		errChan:  errChan,
 		wg:       &wg,
@@ -41,6 +47,7 @@ func NewApp(addr string) *App {
 // communication between these elements.
 type App struct {
 	logger kitlog.Logger
+	db     *postgres.DB
 	http   *http.HTTP
 
 	quitChan chan struct{}
@@ -53,6 +60,11 @@ type App struct {
 // tasks.
 func (a *App) Start() error {
 	a.logger.Log("msg", "starting app")
+
+	err := a.db.Start()
+	if err != nil {
+		return err
+	}
 
 	stopChan := make(chan os.Signal)
 	signal.Notify(stopChan, os.Interrupt)

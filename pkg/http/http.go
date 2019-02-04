@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/thingful/kuzu/pkg/http/handlers"
+	"github.com/thingful/kuzu/pkg/postgres"
 	goji "goji.io"
 
 	kitlog "github.com/go-kit/kit/log"
@@ -29,6 +30,7 @@ type HTTP struct {
 // Config is a struct used to pass configuration into the HTTP instance
 type Config struct {
 	Addr      string
+	DB        *postgres.DB
 	QuitChan  <-chan struct{}
 	ErrChan   chan<- error
 	WaitGroup *sync.WaitGroup
@@ -66,7 +68,7 @@ func (h *HTTP) Start() {
 	h.logger.Log("msg", "starting http service")
 
 	mux := goji.NewMux()
-	handlers.RegisterHealthCheck(mux)
+	handlers.RegisterHealthCheck(mux, h.DB)
 
 	h.srv.Handler = mux
 

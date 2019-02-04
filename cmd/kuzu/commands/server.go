@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"os"
+
 	"github.com/spf13/cobra"
 
 	"github.com/thingful/kuzu/pkg/app"
@@ -10,6 +12,7 @@ func init() {
 	rootCmd.AddCommand(serverCmd)
 
 	serverCmd.Flags().StringP("addr", "a", "0.0.0.0:3001", "Specify the address to which the server binds")
+	serverCmd.Flags().StringP("database-url", "d", "", "Connection string for a PostgreSQL instance")
 }
 
 var serverCmd = &cobra.Command{
@@ -22,7 +25,14 @@ var serverCmd = &cobra.Command{
 			return err
 		}
 
-		a := app.NewApp(addr)
+		//connStr, err := cmd.Flags().GetString("database-url")
+		//if err != nil {
+		//	return err
+		//}
+
+		connStr := os.Getenv("DATABASE_URL")
+
+		a := app.NewApp(addr, connStr)
 
 		return a.Start()
 	},

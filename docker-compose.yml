@@ -18,3 +18,26 @@ services:
     ports:
       - "3001:3001"
     command: /go/bin/ARG_BIN server
+    depends_on:
+      - postgres
+    environment:
+      - PGHOST=postgres
+      - PGPASSWORD=password
+      - PGUSER=kuzu
+      - DATABASE_URL=postgres://kuzu:password@postgres:5432/kuzu_development?sslmode=disable
+
+  postgres:
+    build:
+      context: ./docker/postgres
+    ports:
+      - "5432"
+    volumes:
+      - postgres_vol:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=kuzu
+      - POSTGRES_DB=postgres
+      - DATABASES=kuzu_development,kuzu_test
+
+volumes:
+  postgres_vol:
