@@ -9,6 +9,9 @@ fi
 export CGO_ENABLED="${CGO_ENABLED:-0}"
 export GOARCH=amd64
 
+# generate binary assets
+go generate -x "${PKG}/pkg/migrations/"
+
 go install \
     -v \
     -installsuffix "static" \
