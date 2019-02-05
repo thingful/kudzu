@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/thingful/kuzu/pkg/http/handlers"
+	"github.com/thingful/kuzu/pkg/http/middleware"
 	"github.com/thingful/kuzu/pkg/postgres"
 	goji "goji.io"
 
@@ -69,6 +70,12 @@ func (h *HTTP) Start() {
 
 	mux := goji.NewMux()
 	handlers.RegisterHealthCheck(mux, h.DB)
+	handlers.RegisterUserHandlers(mux, h.DB)
+
+	mux.Use(middleware.RequestIDMiddleware)
+
+	loggingMiddleware := middleware.NewLoggingMiddleware(h.logger, true)
+	mux.Use(loggingMiddleware.Handler)
 
 	h.srv.Handler = mux
 

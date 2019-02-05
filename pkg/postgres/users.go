@@ -1,9 +1,12 @@
 package postgres
 
 import (
+	"context"
 	"time"
 
 	"github.com/pkg/errors"
+
+	"github.com/thingful/kuzu/pkg/http/middleware"
 )
 
 type User struct {
@@ -13,7 +16,11 @@ type User struct {
 }
 
 // SaveUser attempts to save a user into the database
-func (d *DB) SaveUser(uid string) error {
+func (d *DB) SaveUser(ctx context.Context, uid string) error {
+	logger := middleware.LoggerFromContext(ctx)
+
+	logger.Log("msg", "saving user")
+
 	sql := `INSERT INTO users (uid) VALUES (:uid)`
 	mapArgs := map[string]interface{}{
 		"uid": uid,
@@ -29,9 +36,10 @@ func (d *DB) SaveUser(uid string) error {
 		return errors.Wrap(err, "failed to open transaction")
 	}
 
-	_, err = tx.Exec(sql, args)
+	_, err = tx.Exec(sql, args...)
 	if err != nil {
-		return tx.Rollback()
+		tx.Rollback()
+		return errors.Wrap(err, "failed to insert user")
 	}
 
 	return tx.Commit()
