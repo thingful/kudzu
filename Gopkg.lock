@@ -64,6 +64,14 @@
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:236d7e1bdb50d8f68559af37dbcf9d142d56b431c9b2176d41e2a009b664cda8"
+  name = "github.com/google/uuid"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "9b3b1e0f5f99ae461456d768e7d301a7acdaa2d8"
+  version = "v1.1.0"
+
+[[projects]]
   digest = "1:c0d19ab64b32ce9fe5cf4ddceba78d5bc9807f0016db6b1183599da3dcc24d10"
   name = "github.com/hashicorp/hcl"
   packages = [
@@ -343,6 +351,7 @@
     "github.com/golang-migrate/migrate",
     "github.com/golang-migrate/migrate/database/postgres",
     "github.com/golang-migrate/migrate/source/go_bindata",
+    "github.com/google/uuid",
     "github.com/heptiolabs/healthcheck",
     "github.com/jmoiron/sqlx",
     "github.com/lib/pq",
@@ -350,6 +359,7 @@
     "github.com/serenize/snaker",
     "github.com/spf13/cobra",
     "github.com/spf13/viper",
+    "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/suite",
     "goji.io",
     "goji.io/pat",
