@@ -1,0 +1,99 @@
+{
+  "locations": [
+    {
+      "location_identifier": "lIqc7Bmzvu1542380643633",
+      "total_sample_count": 8359,
+      "last_sample_upload": "2019-02-02T11:29:13Z",
+      "first_sample_utc": "2018-11-06T06:19:49Z",
+      "last_sample_utc": "2019-02-02T11:21:47Z",
+      "status_creation_datetime_utc": "2019-02-02T11:29:12Z",
+      "global_validity_datetime_utc": "2019-02-04T11:21:47Z",
+      "growth_day": true,
+      "air_temperature": {
+        "status_key": "status_ok",
+        "instruction_key": "air_temperature_no_plant",
+        "next_analysis_datetime_utc": null,
+        "gauge_values": {
+          "min_threshold": null,
+          "max_threshold": null,
+          "current_value": null
+        }
+      },
+      "light": {
+        "status_key": "status_ok",
+        "instruction_key": "light_no_plant",
+        "next_analysis_datetime_utc": null,
+        "gauge_values": {
+          "min_threshold": null,
+          "max_threshold": null,
+          "current_value": null
+        }
+      },
+      "fertilizer": {
+        "status_key": "status_ok",
+        "instruction_key": "fertilizer_no_plant",
+        "next_analysis_datetime_utc": null,
+        "gauge_values": {
+          "min_threshold": null,
+          "max_threshold": null,
+          "current_value": null
+        }
+      },
+      "watering": {
+        "status_key": "status_ok",
+        "instruction_key": "soil_moisture_good",
+        "automatic_watering": {
+          "status_key": "status_ok",
+          "instruction_key": "automatic_watering_off",
+          "predicted_action_datetime_utc": null,
+          "next_watering_datetime_utc": null,
+          "last_watering_datetime_utc": null,
+          "full_autonomy_days": null,
+          "done_action_datetime_utc": null,
+          "gauge_values": {
+            "min_threshold": 0,
+            "max_threshold": 100,
+            "current_value": null
+          }
+        },
+        "soil_moisture": {
+          "status_key": "status_ok",
+          "instruction_key": "soil_moisture_good",
+          "predicted_action_datetime_utc": null,
+          "predicted_action_vwc_value": null,
+          "gauge_values": {
+            "min_threshold": null,
+            "max_threshold": null,
+            "current_value": 61.28857421875
+          }
+        }
+      },
+      "user_sharing": {
+        "first_all_green": {
+          "sharing_status": "to_be_shared"
+        }
+      },
+      "sensor": {
+        "sensor_type": "flower-power",
+        "sensor_identifier": "Flower power E7F0",
+        "current_history_index": 8461,
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "firmware_update": {
+          "firmware_upgrade_available": false
+        }
+      },
+      "battery": {
+        "gauge_values": {
+          "min_threshold": 0,
+          "max_threshold": 100,
+          "current_value": 66
+        }
+      },
+      "processing_uploads": false
+    }
+  ],
+  "user_config_version": 42,
+  "garden_status_version": 89,
+  "errors": [],
+  "server_identifier": "2.1.18 April 6th 2017"
+}

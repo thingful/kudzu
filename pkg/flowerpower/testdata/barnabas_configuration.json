@@ -1,0 +1,1927 @@
+{
+  "locations": [
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G200185",
+        "sensor_identifier": "Flower power B25E",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f6001900ffffffffa500ef025405d005df002802",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power B25E",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-14T15:21:40Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_B25E_CSB",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-14T15:21:40Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "Gu80jTmwyq1539530459586",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "c2f93450acd18c65e7e8b767aa29bffa56043adc5896e184d1cf20d467ca397f5b7a286d224d6561043e6ecbe88a7e0aff6688b2439bda832a86e873da10a440",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/Gu80jTmwyq1539530459586/c2f93450acd18c65e7e8b767aa29bffa56043adc5896e184d1cf20d467ca397f5b7a286d224d6561043e6ecbe88a7e0aff6688b2439bda832a86e873da10a440",
+          "location_identifier": "Gu80jTmwyq1539530459586",
+          "image_identifier": "c2f93450acd18c65e7e8b767aa29bffa56043adc5896e184d1cf20d467ca397f5b7a286d224d6561043e6ecbe88a7e0aff6688b2439bda832a86e873da10a440",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5I203236",
+        "sensor_identifier": "Flower power 4C87",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f2001800ffffffff8000ef025c058205d500ea01",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 4C87",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-14T15:19:58Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_4C87_CSB",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-14T15:19:58Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "yDNBoyOkx41539530354252",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "b988fedff4708ae8a8b58bbccff21b231fae0bfd155a551911c3137e5ed1031cc4f09d1f33b9ab31875aabf65a0eeff83e4b43876f846c7b47bf3916aad536bd",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/yDNBoyOkx41539530354252/b988fedff4708ae8a8b58bbccff21b231fae0bfd155a551911c3137e5ed1031cc4f09d1f33b9ab31875aabf65a0eeff83e4b43876f846c7b47bf3916aad536bd",
+          "location_identifier": "yDNBoyOkx41539530354252",
+          "image_identifier": "b988fedff4708ae8a8b58bbccff21b231fae0bfd155a551911c3137e5ed1031cc4f09d1f33b9ab31875aabf65a0eeff83e4b43876f846c7b47bf3916aad536bd",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210468",
+        "sensor_identifier": "Flower power EBEC",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f8001800ffffffffa100fc0260056f05d5005e02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power EBEC",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:41:27Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_EBEC_FACELIA_F",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:41:27Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "KEfSXmUaCR1539362441969",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "e9631da236a504f64703dff506a9179f6bc6191a810119cb34dc44f6a5991f84c40982f8b7528b98e2a877b977fae82cc36e46c7064835e78e19f5000117de8a",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/KEfSXmUaCR1539362441969/68abf189730f3f0c3270b25af96d5704eef60cec8b00c4e27152fa29c687293d535df703829e2f57e2c4466993a07a38b3f51d939a3d64445278b6bc28e4e641",
+          "location_identifier": "KEfSXmUaCR1539362441969",
+          "image_identifier": "68abf189730f3f0c3270b25af96d5704eef60cec8b00c4e27152fa29c687293d535df703829e2f57e2c4466993a07a38b3f51d939a3d64445278b6bc28e4e641",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/KEfSXmUaCR1539362441969/e9631da236a504f64703dff506a9179f6bc6191a810119cb34dc44f6a5991f84c40982f8b7528b98e2a877b977fae82cc36e46c7064835e78e19f5000117de8a",
+          "location_identifier": "KEfSXmUaCR1539362441969",
+          "image_identifier": "e9631da236a504f64703dff506a9179f6bc6191a810119cb34dc44f6a5991f84c40982f8b7528b98e2a877b977fae82cc36e46c7064835e78e19f5000117de8a",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5I203672",
+        "sensor_identifier": "Flower power 96DE",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ec001800ffffffff9100e80246057a05f1006a02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 96DE",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:44:34Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_96DE_FACELIA_A",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:44:34Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "Cab7nzlDua1539362628377",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "38da61b8b42520845a0d5e4367aabfa4a143119b4d43ef4a1c3df9be065067f833dfc10e074cb1487fba3aafdcd199e078d82cf03760b7431f3fa65fde64039f",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/Cab7nzlDua1539362628377/ea2fd73c692732842a575269527b61d3ca9d380bfb172ddb5d1351f8842ff3af20af56c5448e3ccdc97e66cb027398bcb26c4e2aedfb973adabec3eafb6ecf07",
+          "location_identifier": "Cab7nzlDua1539362628377",
+          "image_identifier": "ea2fd73c692732842a575269527b61d3ca9d380bfb172ddb5d1351f8842ff3af20af56c5448e3ccdc97e66cb027398bcb26c4e2aedfb973adabec3eafb6ecf07",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/Cab7nzlDua1539362628377/38da61b8b42520845a0d5e4367aabfa4a143119b4d43ef4a1c3df9be065067f833dfc10e074cb1487fba3aafdcd199e078d82cf03760b7431f3fa65fde64039f",
+          "location_identifier": "Cab7nzlDua1539362628377",
+          "image_identifier": "38da61b8b42520845a0d5e4367aabfa4a143119b4d43ef4a1c3df9be065067f833dfc10e074cb1487fba3aafdcd199e078d82cf03760b7431f3fa65fde64039f",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AA4E029766",
+        "sensor_identifier": "Flower power 93FD",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f8001700ffffffff9500e0025005b105e700d202",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 93FD",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:22:29Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_93FD_TAK_A",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:22:29Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "UXINgRZPtl1539361305532",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "1a689b2f2a88bd9b2e657bdb76bfc9d4b768bb4c28f7f7490539aa85d06b95abff14c7cf9cd4e91fa33a6617ad5185b54746bbb83ebcdbc0ab56c8c669d57c38",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/UXINgRZPtl1539361305532/1a689b2f2a88bd9b2e657bdb76bfc9d4b768bb4c28f7f7490539aa85d06b95abff14c7cf9cd4e91fa33a6617ad5185b54746bbb83ebcdbc0ab56c8c669d57c38",
+          "location_identifier": "UXINgRZPtl1539361305532",
+          "image_identifier": "1a689b2f2a88bd9b2e657bdb76bfc9d4b768bb4c28f7f7490539aa85d06b95abff14c7cf9cd4e91fa33a6617ad5185b54746bbb83ebcdbc0ab56c8c669d57c38",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210555",
+        "sensor_identifier": "Flower power 090E",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f8001900ffffffffa100fd0258053105d700a802",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 090E",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:13:18Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_090E_TERM_A",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:13:18Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "XqiyYmWn4m1539360739354",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "c3a221ae43c644d6ee5156191997191c3c91b50accbb906a01c99d3bf84c1ae5c78b14188a605c4e2d34d25827d5108073f02a0ccedd878211a1f5b45b9250f0",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/XqiyYmWn4m1539360739354/c3a221ae43c644d6ee5156191997191c3c91b50accbb906a01c99d3bf84c1ae5c78b14188a605c4e2d34d25827d5108073f02a0ccedd878211a1f5b45b9250f0",
+          "location_identifier": "XqiyYmWn4m1539360739354",
+          "image_identifier": "c3a221ae43c644d6ee5156191997191c3c91b50accbb906a01c99d3bf84c1ae5c78b14188a605c4e2d34d25827d5108073f02a0ccedd878211a1f5b45b9250f0",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": null,
+      "plant_nickname": "Plant #47",
+      "plant_ids": [],
+      "main_plant_id": null,
+      "plant_assigned_datetime_utc": null,
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "scVGNXoq6N1539788068533",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "",
+      "pictures": []
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5I205800",
+        "sensor_identifier": "Flower power CCC5",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000df001500ffffffffa200060369057d05ec00fc01",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power CCC5",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T15:52:52Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_CCC5",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T15:52:52Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "Iwimj9bNRe1539359536304",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "7fa72cf4f8619290bf2e7299368326a8e5c979c3279a3642d7c9f033cfe191782ccfbae8a43082420ba79519057989bfafeae693e3d438b1261771bee638152f",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/Iwimj9bNRe1539359536304/7fa72cf4f8619290bf2e7299368326a8e5c979c3279a3642d7c9f033cfe191782ccfbae8a43082420ba79519057989bfafeae693e3d438b1261771bee638152f",
+          "location_identifier": "Iwimj9bNRe1539359536304",
+          "image_identifier": "7fa72cf4f8619290bf2e7299368326a8e5c979c3279a3642d7c9f033cfe191782ccfbae8a43082420ba79519057989bfafeae693e3d438b1261771bee638152f",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5I202753",
+        "sensor_identifier": "Flower power 4E1B",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000e1001600ffffffff9500f4026a056305de00c201",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 4E1B",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T15:47:15Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_4E1B",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T15:47:15Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "OB7uF03wvn1539359190580",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "2e345e3684e0bea170d921fa7ccd0e8a36e7d7939b0504babb2ae035b25f1abf82850b14b6faa03266a38761efe9a7c82054ebeae3783107edf7fe581cc712cb",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/OB7uF03wvn1539359190580/2e345e3684e0bea170d921fa7ccd0e8a36e7d7939b0504babb2ae035b25f1abf82850b14b6faa03266a38761efe9a7c82054ebeae3783107edf7fe581cc712cb",
+          "location_identifier": "OB7uF03wvn1539359190580",
+          "image_identifier": "2e345e3684e0bea170d921fa7ccd0e8a36e7d7939b0504babb2ae035b25f1abf82850b14b6faa03266a38761efe9a7c82054ebeae3783107edf7fe581cc712cb",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5I203825",
+        "sensor_identifier": "Flower power 3F68",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000dd001500ffffffff8d00ff02bb058505cc004e02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 3F68",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T10:46:31Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_3F68_FELH",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-13T10:46:31Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "x8lSYNcYAc1539427552601",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "2a1dcaa7057089a20f2c6453bc7522ece06f2b14e528761601ccfb6fa91109db3b089836de4ceed517ed3a4799fd86e2bf3593e74becbfd51f8a59da9e0306d1",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/x8lSYNcYAc1539427552601/2a1dcaa7057089a20f2c6453bc7522ece06f2b14e528761601ccfb6fa91109db3b089836de4ceed517ed3a4799fd86e2bf3593e74becbfd51f8a59da9e0306d1",
+          "location_identifier": "x8lSYNcYAc1539427552601",
+          "image_identifier": "2a1dcaa7057089a20f2c6453bc7522ece06f2b14e528761601ccfb6fa91109db3b089836de4ceed517ed3a4799fd86e2bf3593e74becbfd51f8a59da9e0306d1",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G201051",
+        "sensor_identifier": "Flower power 13D4",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f6001800ffffffff8500f0025105ce05dd005a02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 13D4",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T10:56:15Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_13D4_EXT",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-13T10:56:15Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "amFoAYELpn1539428128614",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "b2cdace2c68f06cee5266a0fad695e2e49ba37c4249b423914055e46f8a98a6e65878081f6110eb807d929c0763bf0e180a90e72094043e91ae25db66887b430",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/amFoAYELpn1539428128614/b2cdace2c68f06cee5266a0fad695e2e49ba37c4249b423914055e46f8a98a6e65878081f6110eb807d929c0763bf0e180a90e72094043e91ae25db66887b430",
+          "location_identifier": "amFoAYELpn1539428128614",
+          "image_identifier": "b2cdace2c68f06cee5266a0fad695e2e49ba37c4249b423914055e46f8a98a6e65878081f6110eb807d929c0763bf0e180a90e72094043e91ae25db66887b430",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210440",
+        "sensor_identifier": "Flower power 4028",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ed001600ffffffff9500e9026405840503010802",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 4028",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T11:12:01Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_4028_EXT",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-13T11:12:01Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "cz0vlLqWj01539429068387",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "5349cdc3d2c3d3dcebf61bf10b9637cffac9c96b6d98951a94fb4474c2f9075a44369478aa7b962485e1a8bbf7d4d19e6e69631bfc9319c63ae793c0b8828a95",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/cz0vlLqWj01539429068387/5349cdc3d2c3d3dcebf61bf10b9637cffac9c96b6d98951a94fb4474c2f9075a44369478aa7b962485e1a8bbf7d4d19e6e69631bfc9319c63ae793c0b8828a95",
+          "location_identifier": "cz0vlLqWj01539429068387",
+          "image_identifier": "5349cdc3d2c3d3dcebf61bf10b9637cffac9c96b6d98951a94fb4474c2f9075a44369478aa7b962485e1a8bbf7d4d19e6e69631bfc9319c63ae793c0b8828a95",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5I204503",
+        "sensor_identifier": "Flower power 0989",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ed001700ffffffff9f00f80266058005df001503",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 0989",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:39:40Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_0989_PILL_F",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:39:40Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "8OHADdfUON1539362334774",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "8fe2ec3ecd5c8e80b5ad0cd43eecb3580db434041b7728d1e810384687a864288fd27c5ef6a2a5465f92ba02e6afd37b29f5be8d2e4c14a2d0411bbb2bbe0298",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/8OHADdfUON1539362334774/9c0c7062d37652c942caaa64e61204badf069a95c09127dbd3df6964bf9a6ab92122d5c957e535448a2360c47fd8212de580667c8cb15785872069ff3c00ed42",
+          "location_identifier": "8OHADdfUON1539362334774",
+          "image_identifier": "9c0c7062d37652c942caaa64e61204badf069a95c09127dbd3df6964bf9a6ab92122d5c957e535448a2360c47fd8212de580667c8cb15785872069ff3c00ed42",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/8OHADdfUON1539362334774/8fe2ec3ecd5c8e80b5ad0cd43eecb3580db434041b7728d1e810384687a864288fd27c5ef6a2a5465f92ba02e6afd37b29f5be8d2e4c14a2d0411bbb2bbe0298",
+          "location_identifier": "8OHADdfUON1539362334774",
+          "image_identifier": "8fe2ec3ecd5c8e80b5ad0cd43eecb3580db434041b7728d1e810384687a864288fd27c5ef6a2a5465f92ba02e6afd37b29f5be8d2e4c14a2d0411bbb2bbe0298",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G200894",
+        "sensor_identifier": "Flower power 160C",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f6001800ffffffff9400f1025a05c105e0005502",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 160C",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:38:07Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_160C_PILL_K",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:38:07Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "aC208P2kBA1539362233990",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "37a654fdb1c732b52517b3a2dcbb8f4f1b73bddb3b3c3a3e99f414a82ae61af4143be4a5b621e88ee712390a3251490852af95264ded2ccf4190892fd497a9f1",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/aC208P2kBA1539362233990/674bf1dc9f2bfabcbc3de90b793d5e5846e7c94af68ff06baed8d68832047b3c9303728895f9aa2f5d968bcb7b61a8ee2497c09894f21b51d25588a45badad28",
+          "location_identifier": "aC208P2kBA1539362233990",
+          "image_identifier": "674bf1dc9f2bfabcbc3de90b793d5e5846e7c94af68ff06baed8d68832047b3c9303728895f9aa2f5d968bcb7b61a8ee2497c09894f21b51d25588a45badad28",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/aC208P2kBA1539362233990/37a654fdb1c732b52517b3a2dcbb8f4f1b73bddb3b3c3a3e99f414a82ae61af4143be4a5b621e88ee712390a3251490852af95264ded2ccf4190892fd497a9f1",
+          "location_identifier": "aC208P2kBA1539362233990",
+          "image_identifier": "37a654fdb1c732b52517b3a2dcbb8f4f1b73bddb3b3c3a3e99f414a82ae61af4143be4a5b621e88ee712390a3251490852af95264ded2ccf4190892fd497a9f1",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5I209005",
+        "sensor_identifier": "Flower power B11B",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f0001600ffffffff8e00eb0258058a05e700f301",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power B11B",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:43:09Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_B11B_FACELIA_K",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:43:09Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "4zJA50GcaH1539362541160",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "57771e51bc5398f372eb15bda4dff31532334da31c153f76b73aa06ad2e6b10d1be984a36a182acf23e75108e06e54f9f2214c11f22d2a84ed9f923ae8d74b2c",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/4zJA50GcaH1539362541160/48d1795ace9bd9c176f2c1ee7aba000479ae22489f62131bbd9f89c5bb144bab88274eeae1617a97ccb4824a669783b119fe3cf7b0a11bd1893d1b7617c6e46a",
+          "location_identifier": "4zJA50GcaH1539362541160",
+          "image_identifier": "48d1795ace9bd9c176f2c1ee7aba000479ae22489f62131bbd9f89c5bb144bab88274eeae1617a97ccb4824a669783b119fe3cf7b0a11bd1893d1b7617c6e46a",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/4zJA50GcaH1539362541160/57771e51bc5398f372eb15bda4dff31532334da31c153f76b73aa06ad2e6b10d1be984a36a182acf23e75108e06e54f9f2214c11f22d2a84ed9f923ae8d74b2c",
+          "location_identifier": "4zJA50GcaH1539362541160",
+          "image_identifier": "57771e51bc5398f372eb15bda4dff31532334da31c153f76b73aa06ad2e6b10d1be984a36a182acf23e75108e06e54f9f2214c11f22d2a84ed9f923ae8d74b2c",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G200298",
+        "sensor_identifier": "Flower power 1732",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f6001800ffffffffa70000035205ca05e0007a02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 1732",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:36:16Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_1732_pill_a",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:36:16Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "tOUQanztEy1539361920368",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "42e17e76a5666cddc53b5370c2bff0a16eb36f962f97399e04ed3948b67b3aa132967a7ba63730e7028e43272c3580c711655b64aa6841e753ab077f39579c27",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/tOUQanztEy1539361920368/ec5ba7c5d8c9c32e6c8bcf7978dcbe89071f03afe6f33f20d3122527e6cbe33bdc7bea3c1b201a81f4bebc3fe1ec8b6d2352b82e969b2dde94e6f42846199095",
+          "location_identifier": "tOUQanztEy1539361920368",
+          "image_identifier": "ec5ba7c5d8c9c32e6c8bcf7978dcbe89071f03afe6f33f20d3122527e6cbe33bdc7bea3c1b201a81f4bebc3fe1ec8b6d2352b82e969b2dde94e6f42846199095",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/tOUQanztEy1539361920368/42e17e76a5666cddc53b5370c2bff0a16eb36f962f97399e04ed3948b67b3aa132967a7ba63730e7028e43272c3580c711655b64aa6841e753ab077f39579c27",
+          "location_identifier": "tOUQanztEy1539361920368",
+          "image_identifier": "42e17e76a5666cddc53b5370c2bff0a16eb36f962f97399e04ed3948b67b3aa132967a7ba63730e7028e43272c3580c711655b64aa6841e753ab077f39579c27",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5I208638",
+        "sensor_identifier": "Flower power C7C5",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ed001600ffffffff9e00f40258057c05e6007403",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power C7C5",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:31:50Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_C7C5_CSENKESZ_A",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:31:50Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "uvorUb1fqS1539361851559",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "dc18440d55aac23c56dafdcf46b472cd4e152f03c355f00085da5e32e15e855b75bac3c0a0635bffa27d2218ab5fd7df871cd470ac26a91bd9ad5ccb870433a9",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/uvorUb1fqS1539361851559/8cd83245793a6044aca6fabdabeba60d8969fca027d76061aa542ce3dd461573e37a5639f2cba4385392cdf9811d020e43e21d73416e027172edaaac70baceec",
+          "location_identifier": "uvorUb1fqS1539361851559",
+          "image_identifier": "8cd83245793a6044aca6fabdabeba60d8969fca027d76061aa542ce3dd461573e37a5639f2cba4385392cdf9811d020e43e21d73416e027172edaaac70baceec",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/uvorUb1fqS1539361851559/dc18440d55aac23c56dafdcf46b472cd4e152f03c355f00085da5e32e15e855b75bac3c0a0635bffa27d2218ab5fd7df871cd470ac26a91bd9ad5ccb870433a9",
+          "location_identifier": "uvorUb1fqS1539361851559",
+          "image_identifier": "dc18440d55aac23c56dafdcf46b472cd4e152f03c355f00085da5e32e15e855b75bac3c0a0635bffa27d2218ab5fd7df871cd470ac26a91bd9ad5ccb870433a9",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G200154",
+        "sensor_identifier": "Flower power B006",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f6001800ffffffff9600f0024b05ce05e0002602",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power B006",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:24:01Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_B006_TAK_K",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:24:01Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "kMiYURgW8v1539361404128",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "540987df619b65cca6ff116c2832eaefc7bfe0576e1d1953d9479269949e90bec944b6a622a6b9a092735d9258d94648ccbee745e5b89f8e70612efab70e00db",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/kMiYURgW8v1539361404128/540987df619b65cca6ff116c2832eaefc7bfe0576e1d1953d9479269949e90bec944b6a622a6b9a092735d9258d94648ccbee745e5b89f8e70612efab70e00db",
+          "location_identifier": "kMiYURgW8v1539361404128",
+          "image_identifier": "540987df619b65cca6ff116c2832eaefc7bfe0576e1d1953d9479269949e90bec944b6a622a6b9a092735d9258d94648ccbee745e5b89f8e70612efab70e00db",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5I208283",
+        "sensor_identifier": "Flower power CC65",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f0001600ffffffff990014038105a805e200f101",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power CC65",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:16:34Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_CC65_TERM_F",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:16:34Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "bg0chSLLEr1539360954121",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "5f51dd01e2eb97cc2bd4d3673d53faa3f3559581f17ee325f14d4571751b1b53dd4fce7fadccab9dc790ab6b531f0c6eb09722c3b06ea9896be33135b6e410cf",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/bg0chSLLEr1539360954121/5f51dd01e2eb97cc2bd4d3673d53faa3f3559581f17ee325f14d4571751b1b53dd4fce7fadccab9dc790ab6b531f0c6eb09722c3b06ea9896be33135b6e410cf",
+          "location_identifier": "bg0chSLLEr1539360954121",
+          "image_identifier": "5f51dd01e2eb97cc2bd4d3673d53faa3f3559581f17ee325f14d4571751b1b53dd4fce7fadccab9dc790ab6b531f0c6eb09722c3b06ea9896be33135b6e410cf",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5I205956",
+        "sensor_identifier": "Flower power E417",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000e8001600ffffffff9400f4026b056e050301f601",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power E417",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T15:55:53Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_E417_MECH",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T15:55:53Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "V4Az7M78sK1539359707563",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "ddc651f1f83b37b64eac94f3516ffc5f2571189379da59a1e10dfd59c0ccc64275e917b34d9f4ac5db730cfb029bdf7d4402777ef89848d4725ee64ec484f676",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/V4Az7M78sK1539359707563/ddc651f1f83b37b64eac94f3516ffc5f2571189379da59a1e10dfd59c0ccc64275e917b34d9f4ac5db730cfb029bdf7d4402777ef89848d4725ee64ec484f676",
+          "location_identifier": "V4Az7M78sK1539359707563",
+          "image_identifier": "ddc651f1f83b37b64eac94f3516ffc5f2571189379da59a1e10dfd59c0ccc64275e917b34d9f4ac5db730cfb029bdf7d4402777ef89848d4725ee64ec484f676",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210717",
+        "sensor_identifier": "Flower power EE16",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f8001800ffffffff9200e6025f058405d8006802",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power EE16",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T15:50:34Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_EE16",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T15:50:34Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "APXpvn2xCq1539359310518",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "f996a56673f5a06c43b202f4dee89a0befed905fc3e8e5125b66e07b56c8e5e10f5b8f0f99c94dadc371d81223496971336c00f65ae059ca4dfcf9ec03061085",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/APXpvn2xCq1539359310518/f996a56673f5a06c43b202f4dee89a0befed905fc3e8e5125b66e07b56c8e5e10f5b8f0f99c94dadc371d81223496971336c00f65ae059ca4dfcf9ec03061085",
+          "location_identifier": "APXpvn2xCq1539359310518",
+          "image_identifier": "f996a56673f5a06c43b202f4dee89a0befed905fc3e8e5125b66e07b56c8e5e10f5b8f0f99c94dadc371d81223496971336c00f65ae059ca4dfcf9ec03061085",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5I206793",
+        "sensor_identifier": "Flower power DA97",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ec001600ffffffff9500e8027a058905ee00ce01",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power DA97",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-14T15:26:49Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_DA97_V",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-14T15:26:49Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "VNsmfJx6zK1539530758410",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "e769ea5d4ceb100ad883a8a915f2e86be26d0d586cc841c69747d8e7a4a22f32d3f82bb122977619127dbbb7c927c3db3752d37d35a4826fd24667b8c4bf7aee",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/VNsmfJx6zK1539530758410/e769ea5d4ceb100ad883a8a915f2e86be26d0d586cc841c69747d8e7a4a22f32d3f82bb122977619127dbbb7c927c3db3752d37d35a4826fd24667b8c4bf7aee",
+          "location_identifier": "VNsmfJx6zK1539530758410",
+          "image_identifier": "e769ea5d4ceb100ad883a8a915f2e86be26d0d586cc841c69747d8e7a4a22f32d3f82bb122977619127dbbb7c927c3db3752d37d35a4826fd24667b8c4bf7aee",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5G201511",
+        "sensor_identifier": "Flower power C192",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ec001700ffffffff9500f90250058405e2004f02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power C192",
+        "system_id": "A0143D00007DC192",
+        "assignment_datetime_utc": "2018-10-14T15:38:20Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_C192_SZ",
+      "plant_ids": [],
+      "main_plant_id": null,
+      "plant_assigned_datetime_utc": null,
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "BMJgHLixku1539531464512",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "2473944e4ce7fd5f9e054aead120f92009f2674ed0a18a3ea7bc3a2bb0be2754d38c19f146b91ac965814d9dc35811325507dfeaa2e09294ddf2ee221174b956",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/BMJgHLixku1539531464512/2473944e4ce7fd5f9e054aead120f92009f2674ed0a18a3ea7bc3a2bb0be2754d38c19f146b91ac965814d9dc35811325507dfeaa2e09294ddf2ee221174b956",
+          "location_identifier": "BMJgHLixku1539531464512",
+          "image_identifier": "2473944e4ce7fd5f9e054aead120f92009f2674ed0a18a3ea7bc3a2bb0be2754d38c19f146b91ac965814d9dc35811325507dfeaa2e09294ddf2ee221174b956",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210439",
+        "sensor_identifier": "Flower power 401A",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000e8001600ffffffffa000f5026f05570517016e01",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 401A",
+        "system_id": "A0143D0000A4401A",
+        "assignment_datetime_utc": "2018-10-14T15:36:36Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_401A_SZ",
+      "plant_ids": [],
+      "main_plant_id": null,
+      "plant_assigned_datetime_utc": null,
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "FRrkq7XmeT1539531359532",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "a1bf5e4dcdfa9a194a356c5d60559933f2133519b139b91f6314dc2439264a75e39f7fd06825c028752a79d009113b6c15b006fad79ad9cf2043d21a4de10912",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/FRrkq7XmeT1539531359532/a1bf5e4dcdfa9a194a356c5d60559933f2133519b139b91f6314dc2439264a75e39f7fd06825c028752a79d009113b6c15b006fad79ad9cf2043d21a4de10912",
+          "location_identifier": "FRrkq7XmeT1539531359532",
+          "image_identifier": "a1bf5e4dcdfa9a194a356c5d60559933f2133519b139b91f6314dc2439264a75e39f7fd06825c028752a79d009113b6c15b006fad79ad9cf2043d21a4de10912",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210733",
+        "sensor_identifier": "Flower power 027B",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000e8001600ffffffffb200120368056d051301e901",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 027B",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-14T15:34:54Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_027B_SZ",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-14T15:34:54Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "oUzyD9ILgl1539531253313",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "a692d5c2706d30a665cb5ef9501c5e02ddce31c5ca3f8d0f3895121fed7fb57de1114880aa415b463437f7a69235ad79aee290e0ec7796f2d07e096fab0a1d95",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/oUzyD9ILgl1539531253313/a692d5c2706d30a665cb5ef9501c5e02ddce31c5ca3f8d0f3895121fed7fb57de1114880aa415b463437f7a69235ad79aee290e0ec7796f2d07e096fab0a1d95",
+          "location_identifier": "oUzyD9ILgl1539531253313",
+          "image_identifier": "a692d5c2706d30a665cb5ef9501c5e02ddce31c5ca3f8d0f3895121fed7fb57de1114880aa415b463437f7a69235ad79aee290e0ec7796f2d07e096fab0a1d95",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210786",
+        "sensor_identifier": "Flower power 0C03",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000fb001800ffffffff9500e40259054505d8008202",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 0C03",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-14T15:31:19Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_0C03_V",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-14T15:31:19Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "XMJEYVdKus1539531024157",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "b5b4f68c9939ec104ffd80817d0127e340afcadecb553281c38518af769cd03962e040d6472bde0833124298c04e80e439207288e7c079508ef4f108d2051094",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/XMJEYVdKus1539531024157/b5b4f68c9939ec104ffd80817d0127e340afcadecb553281c38518af769cd03962e040d6472bde0833124298c04e80e439207288e7c079508ef4f108d2051094",
+          "location_identifier": "XMJEYVdKus1539531024157",
+          "image_identifier": "b5b4f68c9939ec104ffd80817d0127e340afcadecb553281c38518af769cd03962e040d6472bde0833124298c04e80e439207288e7c079508ef4f108d2051094",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210770",
+        "sensor_identifier": "Flower power EDCC",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f7001800ffffffffa100e70264057805e9003502",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power EDCC",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-14T15:28:38Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_EDCC_V",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-14T15:28:38Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "tQ2FsuzQoo1539530869018",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "9962536d26dd8ed30449b3cec525269ef2ca13dd41d84c0c0f49fc5d447021855250eae943f8f158c51a4fb9e8e04720d6b85c7729fd56d03dfdaa7300a79011",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/tQ2FsuzQoo1539530869018/9962536d26dd8ed30449b3cec525269ef2ca13dd41d84c0c0f49fc5d447021855250eae943f8f158c51a4fb9e8e04720d6b85c7729fd56d03dfdaa7300a79011",
+          "location_identifier": "tQ2FsuzQoo1539530869018",
+          "image_identifier": "9962536d26dd8ed30449b3cec525269ef2ca13dd41d84c0c0f49fc5d447021855250eae943f8f158c51a4fb9e8e04720d6b85c7729fd56d03dfdaa7300a79011",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AA4E029973",
+        "sensor_identifier": "Flower power 931D",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f2001700ffffffff9800d5023a05a405e7004a02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 931D",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-14T15:18:09Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_931D_CSB",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-14T15:18:09Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "6ebgzfdFpC1539530239979",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "b35f922ea3898a5398793334b23bbd60c8f40f76cead2d332495abbc186bbc24bb7390b608da068a3be3dca316d9574ecb99d93405b4495a12d2a98932dd5df0",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/6ebgzfdFpC1539530239979/b35f922ea3898a5398793334b23bbd60c8f40f76cead2d332495abbc186bbc24bb7390b608da068a3be3dca316d9574ecb99d93405b4495a12d2a98932dd5df0",
+          "location_identifier": "6ebgzfdFpC1539530239979",
+          "image_identifier": "b35f922ea3898a5398793334b23bbd60c8f40f76cead2d332495abbc186bbc24bb7390b608da068a3be3dca316d9574ecb99d93405b4495a12d2a98932dd5df0",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210311",
+        "sensor_identifier": "Flower power E8D1",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f8001800ffffffff8e00e6025e056805dc004b02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power E8D1",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T11:09:51Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_E8D1_INT",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-13T11:09:51Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "HBRMHWfhLL1539428945610",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "2cdbf37aa595b409d722b8528f21506273b10520f478079ea13e1bb17c517f0099cc36c3a93b2cec2daca47aaadb45f944ef8e23a52f41087b4c59af9c9106d9",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/HBRMHWfhLL1539428945610/2cdbf37aa595b409d722b8528f21506273b10520f478079ea13e1bb17c517f0099cc36c3a93b2cec2daca47aaadb45f944ef8e23a52f41087b4c59af9c9106d9",
+          "location_identifier": "HBRMHWfhLL1539428945610",
+          "image_identifier": "2cdbf37aa595b409d722b8528f21506273b10520f478079ea13e1bb17c517f0099cc36c3a93b2cec2daca47aaadb45f944ef8e23a52f41087b4c59af9c9106d9",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J211154",
+        "sensor_identifier": "Flower power 3E51",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000e8001700ffffffff9700f30276055305f8002702",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 3E51",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T11:07:09Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_3E51_INT",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-13T11:07:09Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "nLOXfCKvwW1539428791289",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "609f85034283d929bc83b7796a33491582976cd335e1f52612b8bcff035a676c8ddf2d2ab13ce084d9cb5de7ddc61eb0585ba5f34bcc6670953162968fe8a5e0",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/nLOXfCKvwW1539428791289/609f85034283d929bc83b7796a33491582976cd335e1f52612b8bcff035a676c8ddf2d2ab13ce084d9cb5de7ddc61eb0585ba5f34bcc6670953162968fe8a5e0",
+          "location_identifier": "nLOXfCKvwW1539428791289",
+          "image_identifier": "609f85034283d929bc83b7796a33491582976cd335e1f52612b8bcff035a676c8ddf2d2ab13ce084d9cb5de7ddc61eb0585ba5f34bcc6670953162968fe8a5e0",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G201422",
+        "sensor_identifier": "Flower power 151C",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f2001800ffffffff9300f2021e05a605de009002",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 151C",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T11:04:37Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_151C_EXT",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-13T11:04:37Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "8szBgfD8sq1539428630081",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "dd4426c185b8bdcc9d12a8ac53bafb85f6bb8c534453fbc940c72a3e7ef1e78ea9293364e71a572f8a2539a0674398adcbdd2ae31b784421cdf241d294e05b4d",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/8szBgfD8sq1539428630081/dd4426c185b8bdcc9d12a8ac53bafb85f6bb8c534453fbc940c72a3e7ef1e78ea9293364e71a572f8a2539a0674398adcbdd2ae31b784421cdf241d294e05b4d",
+          "location_identifier": "8szBgfD8sq1539428630081",
+          "image_identifier": "dd4426c185b8bdcc9d12a8ac53bafb85f6bb8c534453fbc940c72a3e7ef1e78ea9293364e71a572f8a2539a0674398adcbdd2ae31b784421cdf241d294e05b4d",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G201571",
+        "sensor_identifier": "Flower power 984E",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ed001800ffffffff9b00f90264058d05dc00e401",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 984E",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T10:53:15Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_984E_EXT",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-13T10:53:15Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "dKuLwIroNp1539427940452",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "df0694102297e4e63a634ebcac2bde412728a19ac119bf8124534ed7192520fb9d7d8b80d7ad1e814db28a5a0ffac347697691dedaa96381bfb6d36ed1dae348",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/dKuLwIroNp1539427940452/df0694102297e4e63a634ebcac2bde412728a19ac119bf8124534ed7192520fb9d7d8b80d7ad1e814db28a5a0ffac347697691dedaa96381bfb6d36ed1dae348",
+          "location_identifier": "dKuLwIroNp1539427940452",
+          "image_identifier": "df0694102297e4e63a634ebcac2bde412728a19ac119bf8124534ed7192520fb9d7d8b80d7ad1e814db28a5a0ffac347697691dedaa96381bfb6d36ed1dae348",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AA4G030016",
+        "sensor_identifier": "Flower power 44FB",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000eb001700ffffffffa5000e03c1059b05d800cf02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 44FB",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T10:44:44Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_44FB_FELH",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-13T10:44:44Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "A3PRtniRxi1539427439045",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "2facb2d2e6dcbf09325f13713732664ca41551069c537ada60a7e68b79326d021188f09b2b89ce6305eb2b5ad7267add5fd6e75c4690693196b504750bd9cfe3",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/A3PRtniRxi1539427439045/2facb2d2e6dcbf09325f13713732664ca41551069c537ada60a7e68b79326d021188f09b2b89ce6305eb2b5ad7267add5fd6e75c4690693196b504750bd9cfe3",
+          "location_identifier": "A3PRtniRxi1539427439045",
+          "image_identifier": "2facb2d2e6dcbf09325f13713732664ca41551069c537ada60a7e68b79326d021188f09b2b89ce6305eb2b5ad7267add5fd6e75c4690693196b504750bd9cfe3",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G200329",
+        "sensor_identifier": "Flower power 0FDD",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f6001800ffffffff9800f9024f05d405db006b02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 0FDD",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T10:42:39Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_OFDD_FELH",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-13T10:42:39Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "nRXDL3dClK1539427291347",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "7c23b3bd7880b125cccae4734ff0ef183110770dc0334365cd4d00c870522d802e80365515f9c1e96dcc61bf911266d05429429225446c9b8937479fd446d432",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/nRXDL3dClK1539427291347/7c23b3bd7880b125cccae4734ff0ef183110770dc0334365cd4d00c870522d802e80365515f9c1e96dcc61bf911266d05429429225446c9b8937479fd446d432",
+          "location_identifier": "nRXDL3dClK1539427291347",
+          "image_identifier": "7c23b3bd7880b125cccae4734ff0ef183110770dc0334365cd4d00c870522d802e80365515f9c1e96dcc61bf911266d05429429225446c9b8937479fd446d432",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210298",
+        "sensor_identifier": "Flower power E9AB",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f8001800ffffffff8c00e40259057605da005a02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power E9AB",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-13T09:13:06Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_E9AB_TP",
+      "plant_ids": [
+        10292
+      ],
+      "main_plant_id": 10292,
+      "plant_assigned_datetime_utc": "2018-10-13T09:13:06Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "SY1CjcvnYn1539421886008",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "5114d564a3e4b284e749681f0b6d7c14ad011153a326b52237cf7365006dbe6931dc910301e5b60848ead7e4da1fe4e68ba1e44536f8215cc7cb606ba8d6bed6",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/SY1CjcvnYn1539421886008/5114d564a3e4b284e749681f0b6d7c14ad011153a326b52237cf7365006dbe6931dc910301e5b60848ead7e4da1fe4e68ba1e44536f8215cc7cb606ba8d6bed6",
+          "location_identifier": "SY1CjcvnYn1539421886008",
+          "image_identifier": "5114d564a3e4b284e749681f0b6d7c14ad011153a326b52237cf7365006dbe6931dc910301e5b60848ead7e4da1fe4e68ba1e44536f8215cc7cb606ba8d6bed6",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J211036",
+        "sensor_identifier": "Flower power 031F",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000e8001700ffffffffa70009036b0560051201fc01",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 031F",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:29:33Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_031F_CSENKESZ_K",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:29:44Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "7iRIkpOzND1539361728374",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "af3f266934aae3da02939fee05098293eb4b3fde7ffa4d5368cd0b4af9e822441ed0a045ed4e6c4710e205131119e2f59f46cdaa5483d89d3c1a9f38308b9a15",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/7iRIkpOzND1539361728374/108d4572db2205924f930d5734ad503a59f9e17fe05abb0f2cc5d1ea113db1ebe033edeca136e475cfe2fdc76237a5306b50ce93e9dab08f5a97f045a5fb6bf6",
+          "location_identifier": "7iRIkpOzND1539361728374",
+          "image_identifier": "108d4572db2205924f930d5734ad503a59f9e17fe05abb0f2cc5d1ea113db1ebe033edeca136e475cfe2fdc76237a5306b50ce93e9dab08f5a97f045a5fb6bf6",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/7iRIkpOzND1539361728374/af3f266934aae3da02939fee05098293eb4b3fde7ffa4d5368cd0b4af9e822441ed0a045ed4e6c4710e205131119e2f59f46cdaa5483d89d3c1a9f38308b9a15",
+          "location_identifier": "7iRIkpOzND1539361728374",
+          "image_identifier": "af3f266934aae3da02939fee05098293eb4b3fde7ffa4d5368cd0b4af9e822441ed0a045ed4e6c4710e205131119e2f59f46cdaa5483d89d3c1a9f38308b9a15",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J211042",
+        "sensor_identifier": "Flower power E848",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000fb001800ffffffff9000ea0255058c05cb007c02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power E848",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:28:05Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_E848_csenkesz_f",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:28:05Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "VaWRHogK4j1539361634939",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "2675dacad32f207910199ac7132ca7019d85237383333ebccc2b50380b2722b197580a1fdeaa6b7091f1c1ee3d9fdbcd7734ebe63d85870dc00e46ce68a08549",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/VaWRHogK4j1539361634939/2675dacad32f207910199ac7132ca7019d85237383333ebccc2b50380b2722b197580a1fdeaa6b7091f1c1ee3d9fdbcd7734ebe63d85870dc00e46ce68a08549",
+          "location_identifier": "VaWRHogK4j1539361634939",
+          "image_identifier": "2675dacad32f207910199ac7132ca7019d85237383333ebccc2b50380b2722b197580a1fdeaa6b7091f1c1ee3d9fdbcd7734ebe63d85870dc00e46ce68a08549",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/VaWRHogK4j1539361634939/5d1aeea570dd65fba41f54c4928a2a776b9cc06533115a8dd95c9f19686f384425685c1fe913c1a86f0ecac48c38a3ba9750009849dd1c0796e1edb17d2bafbb",
+          "location_identifier": "VaWRHogK4j1539361634939",
+          "image_identifier": "5d1aeea570dd65fba41f54c4928a2a776b9cc06533115a8dd95c9f19686f384425685c1fe913c1a86f0ecac48c38a3ba9750009849dd1c0796e1edb17d2bafbb",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/VaWRHogK4j1539361634939/b4d58b6f4d00411ce1d5087727c2105020233d6d9fa6dd65552ca03bc94e9cb82cafb634631469c27bea86fbd3c5c6e27b939ca3ba1b7fc238c90e8447deb858",
+          "location_identifier": "VaWRHogK4j1539361634939",
+          "image_identifier": "b4d58b6f4d00411ce1d5087727c2105020233d6d9fa6dd65552ca03bc94e9cb82cafb634631469c27bea86fbd3c5c6e27b939ca3ba1b7fc238c90e8447deb858",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G200432",
+        "sensor_identifier": "Flower power 17CB",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f7001900ffffffffa80005035405d005e0007802",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 17CB",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:25:26Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_17CB_TAK_F",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:25:26Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "eU6QmB50h21539361489299",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "eb7c0ed17fa405317b9429e7bac845cef149a0ad7c7760eebef1571bf26b6ae1e62476dbfd4c94a34f70752ea64dcfd185414274178c7aaa295887b5d4429cbd",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/eU6QmB50h21539361489299/eb7c0ed17fa405317b9429e7bac845cef149a0ad7c7760eebef1571bf26b6ae1e62476dbfd4c94a34f70752ea64dcfd185414274178c7aaa295887b5d4429cbd",
+          "location_identifier": "eU6QmB50h21539361489299",
+          "image_identifier": "eb7c0ed17fa405317b9429e7bac845cef149a0ad7c7760eebef1571bf26b6ae1e62476dbfd4c94a34f70752ea64dcfd185414274178c7aaa295887b5d4429cbd",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5I207011",
+        "sensor_identifier": "Flower power EBEE",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000de001600ffffffff9b00f2026a059f05e900e401",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power EBEE",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:15:01Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_EBEE_TERM_K",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:15:01Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "s2gwnoWiYq1539360853925",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "e6fd9acfb69a481c2917085974117ae4aaa1b094b4187ab334f45cc956b5e3ba3b48d4a82196ab772639bcbfd132e000c56359d0d94837fedf38ccee6b1260bb",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/s2gwnoWiYq1539360853925/e6fd9acfb69a481c2917085974117ae4aaa1b094b4187ab334f45cc956b5e3ba3b48d4a82196ab772639bcbfd132e000c56359d0d94837fedf38ccee6b1260bb",
+          "location_identifier": "s2gwnoWiYq1539360853925",
+          "image_identifier": "e6fd9acfb69a481c2917085974117ae4aaa1b094b4187ab334f45cc956b5e3ba3b48d4a82196ab772639bcbfd132e000c56359d0d94837fedf38ccee6b1260bb",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5I204908",
+        "sensor_identifier": "Flower power F38D",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000cf001500ffffffff9200f902d6052305cc00b102",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power F38D",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:07:58Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_F38D_Buza",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:07:58Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "rTLatPvImj1539360438441",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "1dc279bd4a7a9b5ea3694179426b8c48ce9283cf3ac937c92e60483a7949f57f8b06e6ffd98164519a3cccc9f60cc84b91d62e615b2413030325abdd953ba949",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/rTLatPvImj1539360438441/1dc279bd4a7a9b5ea3694179426b8c48ce9283cf3ac937c92e60483a7949f57f8b06e6ffd98164519a3cccc9f60cc84b91d62e615b2413030325abdd953ba949",
+          "location_identifier": "rTLatPvImj1539360438441",
+          "image_identifier": "1dc279bd4a7a9b5ea3694179426b8c48ce9283cf3ac937c92e60483a7949f57f8b06e6ffd98164519a3cccc9f60cc84b91d62e615b2413030325abdd953ba949",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G202360",
+        "sensor_identifier": "Flower power 9C7B",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ed001700ffffffff9900e2025f057305de00f001",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 9C7B",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:06:09Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_9C7B",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:06:09Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "RtHwIT8kBU1539360315686",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "bdc77f848f8255f6e13333ecd6ef363d546cf73ac3f33dbee8d9d669d5aaa34c82b8deed2e9d9fe90e671946006fc3ab0fd437b0a481bb4ed892deffda387639",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/RtHwIT8kBU1539360315686/2c7b57d543cb3e72be6b0127cd481fd4053e335315342fa0cc17728b2c907806a1819ce67c9c2dc1453ae202802fbb313d61014d3cc52c7f9af94a4a84884ab0",
+          "location_identifier": "RtHwIT8kBU1539360315686",
+          "image_identifier": "2c7b57d543cb3e72be6b0127cd481fd4053e335315342fa0cc17728b2c907806a1819ce67c9c2dc1453ae202802fbb313d61014d3cc52c7f9af94a4a84884ab0",
+          "expires": "2219-02-05T18:04:54+00:00"
+        },
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/RtHwIT8kBU1539360315686/bdc77f848f8255f6e13333ecd6ef363d546cf73ac3f33dbee8d9d669d5aaa34c82b8deed2e9d9fe90e671946006fc3ab0fd437b0a481bb4ed892deffda387639",
+          "location_identifier": "RtHwIT8kBU1539360315686",
+          "image_identifier": "bdc77f848f8255f6e13333ecd6ef363d546cf73ac3f33dbee8d9d669d5aaa34c82b8deed2e9d9fe90e671946006fc3ab0fd437b0a481bb4ed892deffda387639",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G200272",
+        "sensor_identifier": "Flower power 19C7",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000fc001900ffffffff8f00ef025105d505e1005c02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 19C7",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T16:02:01Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_19C7_buza_a",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T16:02:01Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "G2d3pS0Uoq1539360015079",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "7f1a0bc2accf93da806829d1d96cc9a2ebf0279ecae8c06c8e087a5f10357a34732a9275d3a48960adc3ef8fea4281e5c74b96b0742129f64b3b7217fcffc2fd",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/G2d3pS0Uoq1539360015079/7f1a0bc2accf93da806829d1d96cc9a2ebf0279ecae8c06c8e087a5f10357a34732a9275d3a48960adc3ef8fea4281e5c74b96b0742129f64b3b7217fcffc2fd",
+          "location_identifier": "G2d3pS0Uoq1539360015079",
+          "image_identifier": "7f1a0bc2accf93da806829d1d96cc9a2ebf0279ecae8c06c8e087a5f10357a34732a9275d3a48960adc3ef8fea4281e5c74b96b0742129f64b3b7217fcffc2fd",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G200448",
+        "sensor_identifier": "Flower power 16EB",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000fb001800ffffffffa500f2025705d205e1005902",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 16EB",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T15:45:44Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_16EB",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T15:45:44Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "NuJyVd1hPj1539359070515",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "a0806e2e84bd76162783f27b2f8588033fa281daa1f82a9de9e7e9a6fe3fff4f855c2a88bd2d830fc4884096334ab93d22969cdf19ec9c49a469d1d755b2ce6c",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/NuJyVd1hPj1539359070515/a0806e2e84bd76162783f27b2f8588033fa281daa1f82a9de9e7e9a6fe3fff4f855c2a88bd2d830fc4884096334ab93d22969cdf19ec9c49a469d1d755b2ce6c",
+          "location_identifier": "NuJyVd1hPj1539359070515",
+          "image_identifier": "a0806e2e84bd76162783f27b2f8588033fa281daa1f82a9de9e7e9a6fe3fff4f855c2a88bd2d830fc4884096334ab93d22969cdf19ec9c49a469d1d755b2ce6c",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5G201061",
+        "sensor_identifier": "Flower power B120",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000dd001500ffffffffa000f502b5058a05cc002402",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power B120",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-12T15:43:04Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_B120",
+      "plant_ids": [
+        2518
+      ],
+      "main_plant_id": 2518,
+      "plant_assigned_datetime_utc": "2018-10-12T15:43:04Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "dSoNq5Q9q31539358917510",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "006cc2047316db45c070ef50d49051fcb47ff561264d2e064bd0811a791c47dccf12cb707c396fb0691fd5b2f26cd7ae8f96ebf2b053fafa145fc5bf7c992059",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/dSoNq5Q9q31539358917510/006cc2047316db45c070ef50d49051fcb47ff561264d2e064bd0811a791c47dccf12cb707c396fb0691fd5b2f26cd7ae8f96ebf2b053fafa145fc5bf7c992059",
+          "location_identifier": "dSoNq5Q9q31539358917510",
+          "image_identifier": "006cc2047316db45c070ef50d49051fcb47ff561264d2e064bd0811a791c47dccf12cb707c396fb0691fd5b2f26cd7ae8f96ebf2b053fafa145fc5bf7c992059",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5I202774",
+        "sensor_identifier": "Flower power 4DD0",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ed001700ffffffff9400eb0263056805dd00ec01",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power 4DD0",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-02T14:10:31Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_4DDO_kt",
+      "plant_ids": [
+        492
+      ],
+      "main_plant_id": 492,
+      "plant_assigned_datetime_utc": "2018-10-02T14:10:31Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": true,
+      "location_identifier": "xVSKyqnIDy1538489204954",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "0e65e92605a5791c1926f12d753de6fa493b690ce15ff5e2e0f85ed9172bdccfd263555f120a391382cca78b6d3ce40e24f2e7f4577a8c1732bd079ec68744b4",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/xVSKyqnIDy1538489204954/0e65e92605a5791c1926f12d753de6fa493b690ce15ff5e2e0f85ed9172bdccfd263555f120a391382cca78b6d3ce40e24f2e7f4577a8c1732bd079ec68744b4",
+          "location_identifier": "xVSKyqnIDy1538489204954",
+          "image_identifier": "0e65e92605a5791c1926f12d753de6fa493b690ce15ff5e2e0f85ed9172bdccfd263555f120a391382cca78b6d3ce40e24f2e7f4577a8c1732bd079ec68744b4",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J210319",
+        "sensor_identifier": "Flower power EA1B",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000f8001800ffffffff9a00f3025b058005d5007102",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power EA1B",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-01T08:27:00Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_EA1B_erdo",
+      "plant_ids": [
+        1256
+      ],
+      "main_plant_id": 1256,
+      "plant_assigned_datetime_utc": "2018-10-01T08:27:00Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "dmDAgyGdzI1538382342296",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "9840c5d05219207b09be01e522c2c89f1b72f4ca221375b1c269493ccadd9f9c006d9af8ddf8d912db1c23c693a321ea253d17e981bf65e7054a95ee5c474e56",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/dmDAgyGdzI1538382342296/9840c5d05219207b09be01e522c2c89f1b72f4ca221375b1c269493ccadd9f9c006d9af8ddf8d912db1c23c693a321ea253d17e981bf65e7054a95ee5c474e56",
+          "location_identifier": "dmDAgyGdzI1538382342296",
+          "image_identifier": "9840c5d05219207b09be01e522c2c89f1b72f4ca221375b1c269493ccadd9f9c006d9af8ddf8d912db1c23c693a321ea253d17e981bf65e7054a95ee5c474e56",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    },
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040307AD5I203947",
+        "sensor_identifier": "Flower power C794",
+        "color": 7,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000ed001800ffffffff8f00f60263057e05dc00e601",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power C794",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-10-01T08:23:09Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_GE_C794_erdo1",
+      "plant_ids": [
+        1256
+      ],
+      "main_plant_id": 1256,
+      "plant_assigned_datetime_utc": "2018-10-01T08:23:09Z",
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": false,
+      "location_identifier": "aPNPMrFjHR1538381910684",
+      "longitude": 0,
+      "latitude": 0,
+      "avatar_url": "4b5d6b551c282b30adff823cba149507ecffae60a4a346536e3530a226b8e774bac4e130217c1f2f2d8d79215898ee4d30f604f6e8fec56c10d66b521ce29624",
+      "pictures": [
+        {
+          "url": "https://s3.amazonaws.com/dev-user-images/119127/aPNPMrFjHR1538381910684/4b5d6b551c282b30adff823cba149507ecffae60a4a346536e3530a226b8e774bac4e130217c1f2f2d8d79215898ee4d30f604f6e8fec56c10d66b521ce29624",
+          "location_identifier": "aPNPMrFjHR1538381910684",
+          "image_identifier": "4b5d6b551c282b30adff823cba149507ecffae60a4a346536e3530a226b8e774bac4e130217c1f2f2d8d79215898ee4d30f604f6e8fec56c10d66b521ce29624",
+          "expires": "2219-02-05T18:04:54+00:00"
+        }
+      ]
+    }
+  ],
+  "user_config_version": 149,
+  "garden_status_version": 327,
+  "errors": [],
+  "server_identifier": "2.1.18 April 6th 2017"
+}

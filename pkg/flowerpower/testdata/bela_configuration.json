@@ -1,0 +1,39 @@
+{
+  "locations": [
+    {
+      "sensor": {
+        "firmware_version": "2016-09-14_hawaii-2.0.3_hardware-config-MP",
+        "sensor_serial": "PI040297AD5J211055",
+        "sensor_identifier": "Flower power E7F0",
+        "color": 4,
+        "hardware_revision": "2013-07-26_hawaiiProduction-1.2_protoDV-bootloader",
+        "calibration_data": "0000fc001800ffffffff9500e30257059505de003c02",
+        "sensor_type": "flower-power",
+        "nickname": "Flower power E7F0",
+        "system_id": null,
+        "assignment_datetime_utc": "2018-11-06T06:19:49Z",
+        "autowatering_cfg": {
+          "mode": "off"
+        }
+      },
+      "plant_nickname": "MIS_BELA_E7F0",
+      "plant_ids": [],
+      "main_plant_id": null,
+      "plant_assigned_datetime_utc": null,
+      "ignored_alerts": {
+        "watering": false
+      },
+      "in_pot": null,
+      "is_indoor": true,
+      "location_identifier": "lIqc7Bmzvu1542380643633",
+      "longitude": 22.6417561101839,
+      "latitude": 48.2110720262177,
+      "avatar_url": "",
+      "pictures": []
+    }
+  ],
+  "user_config_version": 42,
+  "garden_status_version": 89,
+  "errors": [],
+  "server_identifier": "2.1.18 April 6th 2017"
+}
