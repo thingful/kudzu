@@ -1,8 +1,7 @@
 package commands
 
 import (
-	"fmt"
-	"os"
+	"log"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -32,7 +31,6 @@ func init() {
 // Execute is the main entry point for our cobra commands
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 }
