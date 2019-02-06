@@ -19,8 +19,8 @@ type Error interface {
 // HTTPError is our concrete implementation of the Error interface we return
 // from handlers
 type HTTPError struct {
-	Code int   `json:"Name"`
-	Err  error `json:"Message"`
+	Code int
+	Err  error
 }
 
 // Error returns the message
@@ -31,6 +31,19 @@ func (he *HTTPError) Error() string {
 // Status returns the status code associated with the error response.
 func (he *HTTPError) Status() int {
 	return he.Code
+}
+
+// MarshalJSON is our implementation of the json marshaller interface as we want
+// to output the error message rather than the default error serialization which
+// seems to be an empty json object.
+func (he *HTTPError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct {
+		Code    int    `json:"Name"`
+		Message string `json:"Message"`
+	}{
+		Code:    he.Code,
+		Message: he.Err.Error(),
+	})
 }
 
 // Env is used to pass in our database and indexer environment to handlers
