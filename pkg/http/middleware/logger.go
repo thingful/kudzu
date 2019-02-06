@@ -1,16 +1,12 @@
 package middleware
 
 import (
-	"context"
 	"net/http"
 	"time"
 
 	kitlog "github.com/go-kit/kit/log"
-	"github.com/thingful/kuzu/pkg/logger"
-)
 
-const (
-	loggerKey = contextKey("logger")
+	"github.com/thingful/kuzu/pkg/logger"
 )
 
 // loggingResponseWriter is a struct that allows us to capture the status code
@@ -46,11 +42,11 @@ func (l *LoggingMiddleware) Handler(next http.Handler) http.Handler {
 		lrw := newLoggingResponseWriter(w)
 
 		requestID := RequestIDFromContext(r.Context())
-		logger := kitlog.With(l.logger, "requestID", requestID)
+		log := kitlog.With(l.logger, "requestID", requestID)
 
 		if l.verbose {
 			defer func(begin time.Time) {
-				logger.Log(
+				log.Log(
 					"method", r.Method,
 					"path", r.URL.Path,
 					"remoteAddr", r.RemoteAddr,
@@ -60,7 +56,7 @@ func (l *LoggingMiddleware) Handler(next http.Handler) http.Handler {
 			}(time.Now())
 		}
 
-		ctx := context.WithValue(r.Context(), loggerKey, logger)
+		ctx := logger.ToContext(r.Context(), log) //context.WithValue(r.Context(), loggerKey, logger)
 		next.ServeHTTP(lrw, r.WithContext(ctx))
 	}
 
@@ -73,15 +69,4 @@ func NewLoggingMiddleware(logger kitlog.Logger, verbose bool) *LoggingMiddleware
 		logger:  logger,
 		verbose: verbose,
 	}
-}
-
-// LoggerFromContext returns a logger from the context. We attempt to get a
-// properly initialized logger from the context, but if not we return a valid
-// but unitialized logger.
-func LoggerFromContext(ctx context.Context) kitlog.Logger {
-	if logger, ok := ctx.Value(loggerKey).(kitlog.Logger); ok {
-		return logger
-	}
-
-	return logger.NewLogger()
 }
