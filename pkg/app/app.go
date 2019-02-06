@@ -5,20 +5,30 @@ import (
 	"os/signal"
 	"sync"
 
-	"github.com/thingful/kuzu/pkg/postgres"
-
 	kitlog "github.com/go-kit/kit/log"
 
+	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/http"
 	"github.com/thingful/kuzu/pkg/logger"
+	"github.com/thingful/kuzu/pkg/postgres"
 )
+
+// Config is our top level config struct used to carry all configuration from
+// cobra commands into our application code.
+type Config struct {
+	Addr          string
+	DatabaseURL   string
+	ClientTimeout int
+}
 
 // NewApp returns a new App instance with components configured but not yet
 // started.
-func NewApp(addr string, connStr string) *App {
+func NewApp(config *Config) *App {
 	logger := logger.NewLogger()
 
-	db := postgres.NewDB(connStr, logger)
+	db := postgres.NewDB(config.DatabaseURL, logger)
+
+	client := client.NewClient(config.ClientTimeout, logger)
 
 	quitChan := make(chan struct{})
 	errChan := make(chan error)
@@ -26,16 +36,19 @@ func NewApp(addr string, connStr string) *App {
 
 	h := http.NewHTTP(&http.Config{
 		DB:        db,
-		Addr:      addr,
+		Client:    client,
+		Addr:      config.Addr,
 		QuitChan:  quitChan,
 		ErrChan:   errChan,
 		WaitGroup: &wg,
 	}, logger)
 
 	return &App{
-		logger:   kitlog.With(logger, "module", "app"),
-		http:     h,
-		db:       db,
+		logger: kitlog.With(logger, "module", "app"),
+		http:   h,
+		db:     db,
+		client: client,
+
 		quitChan: quitChan,
 		errChan:  errChan,
 		wg:       &wg,
@@ -49,6 +62,7 @@ type App struct {
 	logger kitlog.Logger
 	db     *postgres.DB
 	http   *http.HTTP
+	client *client.Client
 
 	quitChan chan struct{}
 	errChan  chan error
@@ -59,8 +73,6 @@ type App struct {
 // goroutines and hook up some channels by which we can communicate with these
 // tasks.
 func (a *App) Start() error {
-	a.logger.Log("msg", "starting app")
-
 	err := a.db.Start()
 	if err != nil {
 		return err
@@ -73,6 +85,8 @@ func (a *App) Start() error {
 		a.wg.Add(1)
 		a.http.Start()
 	}()
+
+	a.logger.Log("msg", "starting app")
 
 	select {
 	case <-stopChan:

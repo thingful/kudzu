@@ -1,4 +1,4 @@
-package http
+package client
 
 import (
 	"fmt"
@@ -21,11 +21,16 @@ type Client struct {
 
 // NewClient returns a new client instance initialized with a user agent string
 // and timeout
-func NewClient(timeout time.Duration, logger kitlog.Logger) *Client {
+func NewClient(timeout int, logger kitlog.Logger) *Client {
 	logger = kitlog.With(logger, "module", "client")
 
+	logger.Log(
+		"msg", "configuring http client",
+		"timeout", timeout,
+	)
+
 	c := &http.Client{
-		Timeout: timeout,
+		Timeout: time.Duration(timeout) * time.Second,
 	}
 
 	return &Client{

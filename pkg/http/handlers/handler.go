@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/http/middleware"
 	"github.com/thingful/kuzu/pkg/postgres"
 )
@@ -15,26 +16,27 @@ type Error interface {
 	Status() int
 }
 
-// StatusError is our concrete implementation of the Error interface we return
+// HTTPError is our concrete implementation of the Error interface we return
 // from handlers
-type StatusError struct {
-	Code int    `json:"Name"`
-	Msg  string `json:"Message"`
+type HTTPError struct {
+	Code int   `json:"Name"`
+	Err  error `json:"Message"`
 }
 
 // Error returns the message
-func (se *StatusError) Error() string {
-	return se.Msg
+func (he *HTTPError) Error() string {
+	return he.Err.Error()
 }
 
 // Status returns the status code associated with the error response.
-func (se *StatusError) Status() int {
-	return se.Code
+func (he *HTTPError) Status() int {
+	return he.Code
 }
 
-// Env is used to pass in our database and indexer to handlers
+// Env is used to pass in our database and indexer environment to handlers
 type Env struct {
-	db *postgres.DB
+	db     *postgres.DB
+	client *client.Client
 }
 
 // Handler is a custom handler type that provides some error handling niceties.

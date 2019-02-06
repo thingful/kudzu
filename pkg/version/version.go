@@ -9,9 +9,9 @@ const (
 	unknown = "UNKNOWN"
 )
 
-// BinaryName is an exported string exposing the name of the binary. Should be
+// BinaryName is an exported string exposing the name of the binary. May be
 // set during build.
-var BinaryName = unknown
+var BinaryName = "kuzu"
 
 // Version is an exported version string which should be substituted with a
 // real value during build.

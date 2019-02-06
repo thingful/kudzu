@@ -6,12 +6,13 @@ import (
 	"sync"
 	"time"
 
+	kitlog "github.com/go-kit/kit/log"
+	goji "goji.io"
+
+	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/http/handlers"
 	"github.com/thingful/kuzu/pkg/http/middleware"
 	"github.com/thingful/kuzu/pkg/postgres"
-	goji "goji.io"
-
-	kitlog "github.com/go-kit/kit/log"
 )
 
 const (
@@ -32,6 +33,7 @@ type HTTP struct {
 type Config struct {
 	Addr      string
 	DB        *postgres.DB
+	Client    *client.Client
 	QuitChan  <-chan struct{}
 	ErrChan   chan<- error
 	WaitGroup *sync.WaitGroup
@@ -49,7 +51,7 @@ func NewHTTP(config *Config, logger kitlog.Logger) *HTTP {
 	}
 
 	logger.Log(
-		"msg", "configuring http service",
+		"msg", "configuring http server",
 		"addr", config.Addr,
 		"readTimeout", Timeout,
 		"writeTimeout", 2*Timeout,
@@ -66,12 +68,13 @@ func NewHTTP(config *Config, logger kitlog.Logger) *HTTP {
 // be started elsewhere. Note we do return an error from the function, rather as
 // we start in a separate goroutine we use a channel to report back any errors.
 func (h *HTTP) Start() {
-	h.logger.Log("msg", "starting http service")
+	h.logger.Log("msg", "starting http server")
 
 	mux := goji.NewMux()
 	handlers.RegisterHealthCheck(mux, h.DB)
-	handlers.RegisterUserHandlers(mux, h.DB)
+	handlers.RegisterUserHandlers(mux, h.DB, h.Client)
 
+	// add middleware
 	mux.Use(middleware.RequestIDMiddleware)
 
 	loggingMiddleware := middleware.NewLoggingMiddleware(h.logger, true)
