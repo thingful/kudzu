@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/thingful/kuzu/pkg/client"
-	"github.com/thingful/kuzu/pkg/http/middleware"
+	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 )
 
@@ -66,8 +66,8 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		case Error:
 			// log some extra stuff if this is a non-client error
 			if e.Status() == http.StatusInternalServerError {
-				logger := middleware.LoggerFromContext(r.Context())
-				logger.Log("msg", "internal server error", "error", e.Error())
+				log := logger.FromContext(r.Context())
+				log.Log("msg", "internal server error", "error", e.Error())
 			}
 
 			// now marshal to JSON
@@ -80,8 +80,8 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(e.Status())
 			w.Write(b)
 		default:
-			logger := middleware.LoggerFromContext(r.Context())
-			logger.Log("msg", "internal server error", "error", err.Error())
+			log := logger.FromContext(r.Context())
+			log.Log("msg", "internal server error", "error", err.Error())
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		}
 	}
