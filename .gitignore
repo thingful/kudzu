@@ -5,3 +5,4 @@
 /.dockerfile-*
 /.docker-compose.yml
 /.coverage
+STATUS
