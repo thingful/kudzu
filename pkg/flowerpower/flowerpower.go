@@ -9,11 +9,17 @@ import (
 )
 
 const (
+	// ProfileURL is parrot's user profile URL
+	ProfileURL = "https://api-flower-power-pot.parrot.com/user/v4/profile"
+
 	// ConfigurationURL is parrot's configuration info URL
 	ConfigurationURL = "https://api-flower-power-pot.parrot.com/garden/v2/configuration"
 
-	// StatusURL is parrot's status URL
+	// StatusURL is parrot's status URL for a users sensors
 	StatusURL = "https://api-flower-power-pot.parrot.com/garden/v1/status"
+
+	// DataURL is parrot's URL from which we can retrieve data keyed by sensor serial number
+	DataURL = "https://api-flower-power-pot.parrot.com/sensor_data/v6/sample/location/"
 )
 
 // configuration is a type used when parsing the output from the app
@@ -32,6 +38,16 @@ type status struct {
 type statusLocation struct {
 	FirstSampleUTC time.Time `json:"first_sample_utc"`
 	LastSampleUTC  time.Time `json:"last_sample_utc"`
+}
+
+// UserExists returns true if the user identified by the given access token
+// exists, and false if no user profile can be loaded.
+func UserExists(client *client.Client, accessToken string) bool {
+	_, err := client.Get(ProfileURL, accessToken)
+	if err != nil {
+		return false
+	}
+	return true
 }
 
 // SensorCount attempts to return a count of the number of sensors that a user
