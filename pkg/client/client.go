@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"time"
 
 	kitlog "github.com/go-kit/kit/log"
@@ -42,8 +43,8 @@ func NewClient(timeout int, logger kitlog.Logger) *Client {
 
 // Get attempts to fetch the given URL, setting the correct authorization and
 // user agent header
-func (c *Client) Get(url, accessToken string) ([]byte, error) {
-	req, err := http.NewRequest(http.MethodGet, url, nil)
+func (c *Client) Get(requestURL, accessToken string) ([]byte, error) {
+	req, err := http.NewRequest(http.MethodGet, requestURL, nil)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create http request object")
 	}
@@ -53,13 +54,24 @@ func (c *Client) Get(url, accessToken string) ([]byte, error) {
 
 	resp, err := c.client.Do(req)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to execute request")
+		if err.(*url.Error).Timeout() {
+			return nil, TimeoutError
+		}
+
+		return nil, UnexpectedError
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		c.logger.Log("msg", "unexpected response code", "code", resp.StatusCode)
-		return nil, errors.New("Unexpected status code")
+		switch resp.StatusCode {
+		case http.StatusUnauthorized:
+			return nil, UnauthorizedError
+		case http.StatusNotFound:
+			return nil, NotFoundError
+		default:
+			return nil, fmt.Errorf("Unexpected response: %s", resp.Status)
+		}
 	}
 
 	return ioutil.ReadAll(resp.Body)
