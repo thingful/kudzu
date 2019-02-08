@@ -121,7 +121,7 @@ func GetLocations(client *client.Client, accessToken string) ([]Location, error)
 		if isValid(&l) {
 			// find the corresponding configuration location
 			cl := findConfigurationLocation(l.LocationID, configurationLocations.Locations)
-			if cl != nil {
+			if cl != nil && cl.Sensor.SerialNum != "" {
 				// create a new Location and append to slice
 				location := Location{
 					LocationID:     l.LocationID,
@@ -183,9 +183,12 @@ func findConfigurationLocation(locationID string, locations []configurationLocat
 
 // isValid checks the validity of the location/sensor. We class a
 // location/sensor as valid if it has a non-zero first and last sample
-// timestamp, and they must not equal each other.
+// timestamp, and they must not equal each other, and the serial number and
+// location are non empty strings.
 func isValid(location *statusLocation) bool {
-	if location.FirstSampleUTC.IsZero() || location.LastSampleUTC.IsZero() || location.FirstSampleUTC.Equal(location.LastSampleUTC) {
+	if location.FirstSampleUTC.IsZero() ||
+		location.LastSampleUTC.IsZero() ||
+		location.FirstSampleUTC.Equal(location.LastSampleUTC) {
 		return false
 	}
 	return true

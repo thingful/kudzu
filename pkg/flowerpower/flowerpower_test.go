@@ -113,7 +113,7 @@ func TestGetLocations(t *testing.T) {
 
 	locations, err := flowerpower.GetLocations(cl, "foo")
 	assert.Nil(t, err)
-	assert.Len(t, locations, 36)
+	assert.Len(t, locations, 35)
 
 	assert.NotEqual(t, "", locations[0].SerialNum)
 
