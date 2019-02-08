@@ -33,6 +33,7 @@ services:
       - "5432"
     volumes:
       - postgres_vol:/var/lib/postgresql/data
+      - ARG_PWD/docker/postgres/psqlrc:/usr/local/etc/postgresql/psqlrc
     environment:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=kuzu
