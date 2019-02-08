@@ -1,9 +1,12 @@
 package flowerpower_test
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"testing"
+	"time"
 
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/stretchr/testify/assert"
@@ -80,6 +83,9 @@ func TestSensorCount(t *testing.T) {
 	statusBytes, err := ioutil.ReadFile("testdata/barnabas_status.json")
 	assert.Nil(t, err)
 
+	configurationBytes, err := ioutil.ReadFile("testdata/barnabas_configuration.json")
+	assert.Nil(t, err)
+
 	simular.RegisterStubRequests(
 		simular.NewStubRequest(
 			"GET",
@@ -91,11 +97,21 @@ func TestSensorCount(t *testing.T) {
 				},
 			),
 		),
+		simular.NewStubRequest(
+			"GET",
+			flowerpower.ConfigurationURL,
+			simular.NewBytesResponder(200, configurationBytes),
+			simular.WithHeader(
+				&http.Header{
+					"Authorization": []string{"Bearer foo"},
+				},
+			),
+		),
 	)
 
-	count, err := flowerpower.SensorCount(cl, "foo")
+	locations, err := flowerpower.GetLocations(cl, "foo")
 	assert.Nil(t, err)
-	assert.Equal(t, 36, count)
+	assert.Len(t, locations, 36)
 
 	err = simular.AllStubsCalled()
 	assert.Nil(t, err)
@@ -121,7 +137,7 @@ func TestSensorCount404(t *testing.T) {
 		),
 	)
 
-	_, err := flowerpower.SensorCount(cl, "foo")
+	_, err := flowerpower.GetLocations(cl, "foo")
 	assert.NotNil(t, err)
 
 	err = simular.AllStubsCalled()
@@ -148,8 +164,53 @@ func TestSensorCountInvalidResponse(t *testing.T) {
 		),
 	)
 
-	_, err := flowerpower.SensorCount(cl, "foo")
+	_, err := flowerpower.GetLocations(cl, "foo")
 	assert.NotNil(t, err)
+
+	err = simular.AllStubsCalled()
+	assert.Nil(t, err)
+}
+
+func TestGetReadingsOK(t *testing.T) {
+	logger := kitlog.NewNopLogger()
+	cl := client.NewClient(1, logger)
+
+	simular.Activate()
+	defer simular.DeactivateAndReset()
+
+	dataBytes, err := ioutil.ReadFile("testdata/barnabas_data.json")
+	assert.Nil(t, err)
+
+	locationID := "Gu80jTmwyq1539530459586"
+	fromTS := "2018-11-09T15:43:00Z"
+	toTS := "2018-11-09T16:30:00Z"
+
+	locationURL, _ := url.Parse(fmt.Sprintf(flowerpower.DataURL, locationID))
+	q := locationURL.Query()
+	q.Set("from_datetime_utc", fromTS)
+	q.Set("to_datetime_utc", toTS)
+	locationURL.RawQuery = q.Encode()
+
+	simular.RegisterStubRequests(
+		simular.NewStubRequest(
+			"GET",
+			locationURL.String(),
+			simular.NewBytesResponder(200, dataBytes),
+			simular.WithHeader(
+				&http.Header{
+					"Authorization": []string{"Bearer foo"},
+				},
+			),
+		),
+	)
+
+	from, _ := time.Parse(time.RFC3339, fromTS)
+	to, _ := time.Parse(time.RFC3339, toTS)
+
+	readings, err := flowerpower.GetReadings(cl, "foo", locationID, from, to)
+	assert.Nil(t, err)
+
+	assert.Len(t, readings, 3)
 
 	err = simular.AllStubsCalled()
 	assert.Nil(t, err)
