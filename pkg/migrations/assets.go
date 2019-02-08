@@ -14,6 +14,8 @@
 // sql/20190207233037_thing_timestamp_types.up.sql (315B)
 // sql/20190208003119_remove_thing_not_nullable.down.sql (336B)
 // sql/20190208003119_remove_thing_not_nullable.up.sql (129B)
+// sql/20190208010946_add_parrot_id_column_to_user.down.sql (42B)
+// sql/20190208010946_add_parrot_id_column_to_user.up.sql (53B)
 
 package migrations
 
@@ -362,6 +364,46 @@ func _20190208003119_remove_thing_not_nullableUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __20190208010946_add_parrot_id_column_to_userDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\x2d\x4e\x2d\x2a\xe6\x52\x50\x70\x09\xf2\x0f\x50\x70\xf6\xf7\x09\xf5\xf5\x53\x28\x48\x2c\x2a\xca\x2f\x89\xcf\x4c\xb1\x06\x04\x00\x00\xff\xff\x58\xa7\x24\x6e\x2a\x00\x00\x00")
+
+func _20190208010946_add_parrot_id_column_to_userDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190208010946_add_parrot_id_column_to_userDownSql,
+		"20190208010946_add_parrot_id_column_to_user.down.sql",
+	)
+}
+
+func _20190208010946_add_parrot_id_column_to_userDownSql() (*asset, error) {
+	bytes, err := _20190208010946_add_parrot_id_column_to_userDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190208010946_add_parrot_id_column_to_user.down.sql", size: 42, mode: os.FileMode(0644), modTime: time.Unix(1549588436, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x29, 0x8c, 0x56, 0x86, 0x26, 0x76, 0xac, 0xb7, 0x82, 0x52, 0x94, 0x5d, 0x67, 0x6d, 0xe3, 0xd4, 0x4b, 0xf7, 0xb1, 0x37, 0x5b, 0x89, 0xf1, 0x30, 0xfd, 0xb2, 0xed, 0x94, 0x70, 0xbc, 0xee, 0xdc}}
+	return a, nil
+}
+
+var __20190208010946_add_parrot_id_column_to_userUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\x2d\x4e\x2d\x2a\xe6\x52\x50\x70\x74\x71\x51\x70\xf6\xf7\x09\xf5\xf5\x53\x28\x48\x2c\x2a\xca\x2f\x89\xcf\x4c\x51\x08\x71\x8d\x08\x51\x08\xf5\xf3\x0c\x0c\x75\xb5\x06\x04\x00\x00\xff\xff\x25\x16\x42\x94\x35\x00\x00\x00")
+
+func _20190208010946_add_parrot_id_column_to_userUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190208010946_add_parrot_id_column_to_userUpSql,
+		"20190208010946_add_parrot_id_column_to_user.up.sql",
+	)
+}
+
+func _20190208010946_add_parrot_id_column_to_userUpSql() (*asset, error) {
+	bytes, err := _20190208010946_add_parrot_id_column_to_userUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190208010946_add_parrot_id_column_to_user.up.sql", size: 53, mode: os.FileMode(0644), modTime: time.Unix(1549588419, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x78, 0x2f, 0xd0, 0x12, 0xac, 0xe4, 0xa7, 0x9f, 0xf0, 0xea, 0xfd, 0xcd, 0x3, 0x4, 0xbf, 0xdc, 0x3d, 0x9e, 0x39, 0x9b, 0xe3, 0xe4, 0xf8, 0x7a, 0xfb, 0xba, 0xf2, 0xad, 0x63, 0x95, 0x72, 0xd9}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -480,6 +522,10 @@ var _bindata = map[string]func() (*asset, error){
 	"20190208003119_remove_thing_not_nullable.down.sql": _20190208003119_remove_thing_not_nullableDownSql,
 
 	"20190208003119_remove_thing_not_nullable.up.sql": _20190208003119_remove_thing_not_nullableUpSql,
+
+	"20190208010946_add_parrot_id_column_to_user.down.sql": _20190208010946_add_parrot_id_column_to_userDownSql,
+
+	"20190208010946_add_parrot_id_column_to_user.up.sql": _20190208010946_add_parrot_id_column_to_userUpSql,
 }
 
 // AssetDir returns the file names below a certain
@@ -537,6 +583,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"20190207233037_thing_timestamp_types.up.sql":               &bintree{_20190207233037_thing_timestamp_typesUpSql, map[string]*bintree{}},
 	"20190208003119_remove_thing_not_nullable.down.sql":         &bintree{_20190208003119_remove_thing_not_nullableDownSql, map[string]*bintree{}},
 	"20190208003119_remove_thing_not_nullable.up.sql":           &bintree{_20190208003119_remove_thing_not_nullableUpSql, map[string]*bintree{}},
+	"20190208010946_add_parrot_id_column_to_user.down.sql":      &bintree{_20190208010946_add_parrot_id_column_to_userDownSql, map[string]*bintree{}},
+	"20190208010946_add_parrot_id_column_to_user.up.sql":        &bintree{_20190208010946_add_parrot_id_column_to_userUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
