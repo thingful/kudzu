@@ -20,12 +20,12 @@ var flowerCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		client := client.NewClient(5, logger.NewLogger())
-		count, err := flowerpower.SensorCount(client, args[0])
+		locations, err := flowerpower.GetLocations(client, args[0])
 		if err != nil {
 			return err
 		}
 
-		fmt.Printf("User has %v sensors\n", count)
+		fmt.Printf("User has %v sensors\n", len(locations))
 
 		return nil
 	},
