@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 
+	"github.com/lib/pq"
 	"github.com/pkg/errors"
 
 	"github.com/thingful/kuzu/pkg/logger"
@@ -36,14 +37,6 @@ func (d *DB) SaveUser(ctx context.Context, user *User) (int64, error) {
 	VALUES ((SELECT id FROM new_user), :auth_provider, :access_token, :refresh_token)
 	RETURNING (SELECT id FROM new_user)`
 
-	//mapArgs := map[string]interface{}{
-	//	"uid":           user.UID,
-	//	"auth_provider": user.Provider,
-	//	"access_token":  user.AccessToken,
-	//	"refresh_token": user.RefreshToken,
-	//	"parrot_id":     user.ParrotID,
-	//}
-
 	sql, args, err := d.DB.BindNamed(sql, user)
 	if err != nil {
 		return 0, errors.Wrap(err, "failed to bind named parameters into query")
@@ -59,6 +52,11 @@ func (d *DB) SaveUser(ctx context.Context, user *User) (int64, error) {
 	err = tx.Get(&userID, sql, args...)
 	if err != nil {
 		tx.Rollback()
+		if pqerr, ok := err.(*pq.Error); ok {
+			if pqerr.Code == ConstraintError || pqerr.Code == UniqueViolationError {
+				return 0, errors.Wrap(ClientError, "failed to insert user")
+			}
+		}
 		return 0, errors.Wrap(err, "failed to insert user")
 	}
 
