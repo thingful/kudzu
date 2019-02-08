@@ -2,20 +2,20 @@
 // sources:
 // sql/20190204153441_flatten_migrations.down.sql (272B)
 // sql/20190204153441_flatten_migrations.up.sql (2.279kB)
-// sql/20190207173608_add_unique_serial_to_things.down.sql (120B)
-// sql/20190207173608_add_unique_serial_to_things.up.sql (138B)
+// sql/20190207173608_add_unique_serial_to_things.down.sql (59B)
+// sql/20190207173608_add_unique_serial_to_things.up.sql (58B)
 // sql/20190207230101_thing_uid_nullable.down.sql (51B)
 // sql/20190207230101_thing_uid_nullable.up.sql (52B)
 // sql/20190207231420_add_location_identifier_to_things.down.sql (53B)
-// sql/20190207231420_add_location_identifier_to_things.up.sql (204B)
-// sql/20190207232520_thing_composite_unique.down.sql (73B)
-// sql/20190207232520_thing_composite_unique.up.sql (114B)
+// sql/20190207231420_add_location_identifier_to_things.up.sql (211B)
 // sql/20190207233037_thing_timestamp_types.down.sql (327B)
 // sql/20190207233037_thing_timestamp_types.up.sql (315B)
 // sql/20190208003119_remove_thing_not_nullable.down.sql (336B)
 // sql/20190208003119_remove_thing_not_nullable.up.sql (129B)
 // sql/20190208010946_add_parrot_id_column_to_user.down.sql (42B)
 // sql/20190208010946_add_parrot_id_column_to_user.up.sql (53B)
+// sql/20190208140801_prevent_empty_location_id_serial.down.sql (99B)
+// sql/20190208140801_prevent_empty_location_id_serial.up.sql (156B)
 
 package migrations
 
@@ -124,7 +124,7 @@ func _20190204153441_flatten_migrationsUpSql() (*asset, error) {
 	return a, nil
 }
 
-var __20190207173608_add_unique_serial_to_thingsDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\x56\x70\x09\xf2\x0f\x50\x70\xf6\xf7\x0b\x0e\x09\x72\xf4\xf4\x0b\xe1\x52\x80\x4a\xc4\x17\xa7\x16\x65\x26\xe6\xc4\xe7\x95\xe6\xc6\x67\xa7\x56\x5a\x73\x71\x61\x6a\xe6\x52\x50\x80\x08\x3a\xfb\xfb\x84\xfa\xfa\x29\x20\xb4\x40\x8c\xf5\xf3\x0f\x51\xf0\x0b\xf5\xf1\xb1\x06\x04\x00\x00\xff\xff\xb9\x77\x2c\x1c\x78\x00\x00\x00")
+var __20190207173608_add_unique_serial_to_thingsDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x80\x08\x3a\xfb\xfb\x84\xfa\xfa\x29\x14\xa7\x16\x65\x26\xe6\xc4\xe7\x95\xe6\x2a\xb8\x04\xf9\x07\x28\xf8\xf9\x87\x28\xf8\x85\xfa\xf8\x58\x03\x02\x00\x00\xff\xff\x8e\x3f\x8a\x95\x3b\x00\x00\x00")
 
 func _20190207173608_add_unique_serial_to_thingsDownSqlBytes() ([]byte, error) {
 	return bindataRead(
@@ -139,12 +139,12 @@ func _20190207173608_add_unique_serial_to_thingsDownSql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "20190207173608_add_unique_serial_to_things.down.sql", size: 120, mode: os.FileMode(0644), modTime: time.Unix(1549561267, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x87, 0x4e, 0x70, 0x52, 0x40, 0x3e, 0x9a, 0x88, 0xf3, 0x96, 0x35, 0xdf, 0xae, 0xaa, 0x4a, 0xed, 0xd3, 0x34, 0x15, 0x82, 0x7e, 0xd5, 0x1a, 0x62, 0x1a, 0x9, 0xc4, 0xbd, 0x40, 0xe0, 0xbf, 0x68}}
+	info := bindataFileInfo{name: "20190207173608_add_unique_serial_to_things.down.sql", size: 59, mode: os.FileMode(0644), modTime: time.Unix(1549634330, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xf1, 0xf6, 0x9f, 0x92, 0x3a, 0x85, 0xcb, 0x11, 0x28, 0xb0, 0x3a, 0xd6, 0x28, 0x55, 0xea, 0xf0, 0x3d, 0x28, 0xb7, 0xd5, 0xe2, 0xd6, 0xb3, 0xe7, 0xae, 0xdd, 0x76, 0x9c, 0xc1, 0x34, 0x24, 0xe8}}
 	return a, nil
 }
 
-var __20190207173608_add_unique_serial_to_thingsUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x80\x08\x3a\xfb\xfb\x84\xfa\xfa\x29\x14\xa7\x16\x65\x26\xe6\xc4\xe7\x95\xe6\x2a\x04\xbb\x86\x28\xf8\xf9\x87\x28\xf8\x85\xfa\xf8\x58\x73\x71\x61\xea\x55\x70\x74\x71\x51\x70\xf6\xf7\x0b\x0e\x09\x72\xf4\xf4\x0b\xe1\x52\x80\x8a\xc7\x23\x0c\x89\xcf\x4e\xad\x54\x08\xf5\xf3\x0c\x0c\x75\x55\xd0\x40\x08\x6b\x5a\x03\x02\x00\x00\xff\xff\x5f\x99\x6b\x01\x8a\x00\x00\x00")
+var __20190207173608_add_unique_serial_to_thingsUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x80\x08\x3a\xfb\xfb\x84\xfa\xfa\x29\x14\xa7\x16\x65\x26\xe6\xc4\xe7\x95\xe6\x2a\x04\xbb\x86\x28\xf8\xf9\x87\x28\xf8\x85\xfa\xf8\x58\x03\x02\x00\x00\xff\xff\xaa\xa6\x98\x21\x3a\x00\x00\x00")
 
 func _20190207173608_add_unique_serial_to_thingsUpSqlBytes() ([]byte, error) {
 	return bindataRead(
@@ -159,8 +159,8 @@ func _20190207173608_add_unique_serial_to_thingsUpSql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "20190207173608_add_unique_serial_to_things.up.sql", size: 138, mode: os.FileMode(0644), modTime: time.Unix(1549561253, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xbf, 0x98, 0x9, 0x59, 0xc1, 0x8c, 0x9b, 0x6d, 0x66, 0x18, 0x69, 0x65, 0x1e, 0x28, 0x6d, 0xe8, 0x2a, 0x9d, 0x42, 0x3b, 0xdf, 0xf3, 0xab, 0x64, 0x8, 0x4b, 0xb8, 0xfa, 0x9, 0x96, 0xf7, 0x7f}}
+	info := bindataFileInfo{name: "20190207173608_add_unique_serial_to_things.up.sql", size: 58, mode: os.FileMode(0644), modTime: time.Unix(1549634321, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xd, 0x47, 0xfa, 0x88, 0x8a, 0x39, 0xac, 0x80, 0x25, 0x28, 0x7f, 0x70, 0xec, 0xd, 0xd4, 0x9, 0x1, 0x4e, 0xe9, 0x73, 0x5b, 0x76, 0xc6, 0x17, 0x24, 0x4, 0xdf, 0x7f, 0x85, 0xe, 0xf6, 0x3d}}
 	return a, nil
 }
 
@@ -224,7 +224,7 @@ func _20190207231420_add_location_identifier_to_thingsDownSql() (*asset, error) 
 	return a, nil
 }
 
-var __20190207231420_add_location_identifier_to_thingsUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x70\x74\x71\x51\x70\xf6\xf7\x09\xf5\xf5\x53\xc8\xc9\x4f\x4e\x2c\xc9\xcc\xcf\x8b\xcf\x4c\x49\xcd\x2b\xc9\x4c\xcb\x4c\x2d\x52\x08\x71\x8d\x08\xb1\xe6\xe2\x0a\x0d\x70\x71\x0c\x41\xd2\x15\xec\x1a\x82\x55\xb9\xad\x42\x71\x41\x4e\x66\x49\x7c\x41\x62\x51\x89\x46\x51\x6a\x71\x7e\x69\x51\x72\x6a\x7c\x69\x51\x8e\x8e\x82\xba\xbe\xba\x8e\x82\x85\xa6\x35\x17\x17\x76\x77\x80\x05\xf1\xb8\x04\x64\xa5\x9f\x7f\x88\x82\x5f\xa8\x8f\x8f\x35\x17\x20\x00\x00\xff\xff\x55\x30\x13\x5a\xcc\x00\x00\x00")
+var __20190207231420_add_location_identifier_to_thingsUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x70\x74\x71\x51\x70\xf6\xf7\x09\xf5\xf5\x53\xc8\xc9\x4f\x4e\x2c\xc9\xcc\xcf\x8b\xcf\x4c\x49\xcd\x2b\xc9\x4c\xcb\x4c\x2d\x52\x08\x71\x8d\x08\x51\x08\xf5\xf3\x0c\x0c\x75\xb5\xe6\xe2\x0a\x0d\x70\x71\x0c\x41\xd2\x1c\xec\x1a\x82\x55\x97\xad\x42\x71\x41\x4e\x66\x49\x7c\x41\x62\x51\x89\x46\x51\x6a\x71\x7e\x69\x51\x72\x6a\x7c\x69\x51\x8e\x8e\x82\xba\xbe\xba\x8e\x82\x85\xa6\x35\x17\x17\x76\xe7\x80\x05\xf1\x38\x08\x64\xa5\x9f\x7f\x88\x82\x5f\xa8\x8f\x8f\x35\x17\x20\x00\x00\xff\xff\x3d\x3c\xc4\x7b\xd3\x00\x00\x00")
 
 func _20190207231420_add_location_identifier_to_thingsUpSqlBytes() ([]byte, error) {
 	return bindataRead(
@@ -239,48 +239,8 @@ func _20190207231420_add_location_identifier_to_thingsUpSql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "20190207231420_add_location_identifier_to_things.up.sql", size: 204, mode: os.FileMode(0644), modTime: time.Unix(1549581729, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x33, 0xe4, 0x85, 0x1d, 0x48, 0x87, 0x93, 0x91, 0xbc, 0xe1, 0x82, 0x75, 0x34, 0x47, 0xed, 0xf5, 0x2e, 0xea, 0x33, 0xca, 0x5d, 0x4b, 0xe7, 0xb2, 0x87, 0x51, 0x40, 0xa9, 0x97, 0x8c, 0xd8, 0xd9}}
-	return a, nil
-}
-
-var __20190207232520_thing_composite_uniqueDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x70\x09\xf2\x0f\x50\x70\xf6\xf7\x0b\x0e\x09\x72\xf4\xf4\x0b\x51\xc8\xc9\x4f\x4e\x2c\xc9\xcc\xcf\x8b\xcf\x4c\x49\xcd\x2b\xc9\x4c\xcb\x4c\x2d\x8a\x2f\x4e\x2d\xca\x4c\xcc\x89\xcf\x2b\xcd\x8d\xcf\x4e\xad\xb4\xe6\x02\x04\x00\x00\xff\xff\x7c\x6e\xca\xde\x49\x00\x00\x00")
-
-func _20190207232520_thing_composite_uniqueDownSqlBytes() ([]byte, error) {
-	return bindataRead(
-		__20190207232520_thing_composite_uniqueDownSql,
-		"20190207232520_thing_composite_unique.down.sql",
-	)
-}
-
-func _20190207232520_thing_composite_uniqueDownSql() (*asset, error) {
-	bytes, err := _20190207232520_thing_composite_uniqueDownSqlBytes()
-	if err != nil {
-		return nil, err
-	}
-
-	info := bindataFileInfo{name: "20190207232520_thing_composite_unique.down.sql", size: 73, mode: os.FileMode(0644), modTime: time.Unix(1549582045, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x33, 0x97, 0x43, 0x37, 0x87, 0xa9, 0xc9, 0x49, 0xb7, 0xf8, 0xc6, 0x7c, 0x8a, 0x1f, 0x0, 0xc6, 0x32, 0xa6, 0x77, 0x67, 0x46, 0xa4, 0xcd, 0xc2, 0xfa, 0xc0, 0x9a, 0x7b, 0xb4, 0xab, 0x6c, 0x8}}
-	return a, nil
-}
-
-var __20190207232520_thing_composite_uniqueUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x70\x74\x71\x51\x70\xf6\xf7\x0b\x0e\x09\x72\xf4\xf4\x0b\x51\xc8\xc9\x4f\x4e\x2c\xc9\xcc\xcf\x8b\xcf\x4c\x49\xcd\x2b\xc9\x4c\xcb\x4c\x2d\x8a\x2f\x4e\x2d\xca\x4c\xcc\x89\xcf\x2b\xcd\x8d\xcf\x4e\xad\xe4\x52\x50\x08\xf5\xf3\x0c\x0c\x75\x55\xd0\xc0\xa2\x58\x47\x01\xa1\x5a\xd3\x1a\x10\x00\x00\xff\xff\x05\xed\x52\xc0\x72\x00\x00\x00")
-
-func _20190207232520_thing_composite_uniqueUpSqlBytes() ([]byte, error) {
-	return bindataRead(
-		__20190207232520_thing_composite_uniqueUpSql,
-		"20190207232520_thing_composite_unique.up.sql",
-	)
-}
-
-func _20190207232520_thing_composite_uniqueUpSql() (*asset, error) {
-	bytes, err := _20190207232520_thing_composite_uniqueUpSqlBytes()
-	if err != nil {
-		return nil, err
-	}
-
-	info := bindataFileInfo{name: "20190207232520_thing_composite_unique.up.sql", size: 114, mode: os.FileMode(0644), modTime: time.Unix(1549582016, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x40, 0x14, 0x4d, 0xcd, 0x27, 0xa0, 0xf6, 0x7d, 0xa4, 0x16, 0x28, 0xb9, 0xb7, 0xc2, 0x76, 0xe2, 0xb8, 0xc6, 0xd0, 0xa9, 0x38, 0x5c, 0xb2, 0x25, 0x9b, 0xab, 0xac, 0x7b, 0x85, 0x8c, 0x7, 0xcd}}
+	info := bindataFileInfo{name: "20190207231420_add_location_identifier_to_things.up.sql", size: 211, mode: os.FileMode(0644), modTime: time.Unix(1549634456, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x75, 0x48, 0xd6, 0x15, 0xd, 0xd7, 0xda, 0x44, 0xd8, 0xd3, 0xa3, 0x48, 0x10, 0x33, 0xec, 0x89, 0x18, 0x20, 0x3f, 0xe0, 0x72, 0x14, 0xef, 0xf3, 0x43, 0x61, 0x8e, 0x58, 0xa9, 0xa4, 0xb9, 0xe5}}
 	return a, nil
 }
 
@@ -404,6 +364,46 @@ func _20190208010946_add_parrot_id_column_to_userUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __20190208140801_prevent_empty_location_id_serialDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x70\x09\xf2\x0f\x50\x70\xf6\xf7\x0b\x0e\x09\x72\xf4\xf4\x0b\x51\xc8\xc9\x4f\x4e\x2c\xc9\xcc\xcf\x8b\xcf\x4c\x49\xcd\x2b\xc9\x4c\xcb\x4c\x2d\x8a\x4f\xce\x48\x4d\xce\xd6\xc1\xa2\xb8\x38\xb5\x28\x33\x31\x27\x3e\xaf\x34\x17\xa2\xc6\x1a\x10\x00\x00\xff\xff\x28\x03\xd3\x41\x63\x00\x00\x00")
+
+func _20190208140801_prevent_empty_location_id_serialDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190208140801_prevent_empty_location_id_serialDownSql,
+		"20190208140801_prevent_empty_location_id_serial.down.sql",
+	)
+}
+
+func _20190208140801_prevent_empty_location_id_serialDownSql() (*asset, error) {
+	bytes, err := _20190208140801_prevent_empty_location_id_serialDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190208140801_prevent_empty_location_id_serial.down.sql", size: 99, mode: os.FileMode(0644), modTime: time.Unix(1549635070, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x56, 0x6c, 0x55, 0xe3, 0xcf, 0x7f, 0x2d, 0x7a, 0x61, 0x84, 0x7d, 0xe7, 0x58, 0xa3, 0xed, 0x7, 0xc0, 0xa8, 0xa3, 0xcb, 0xe0, 0x96, 0x5a, 0xb2, 0x9e, 0x0, 0xd0, 0x12, 0xeb, 0x96, 0xda, 0xe9}}
+	return a, nil
+}
+
+var __20190208140801_prevent_empty_location_id_serialUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x70\x74\x71\x51\x70\xf6\xf7\x0b\x0e\x09\x72\xf4\xf4\x0b\x51\xc8\xc9\x4f\x4e\x2c\xc9\xcc\xcf\x8b\xcf\x4c\x49\xcd\x2b\xc9\x4c\xcb\x4c\x2d\x8a\x4f\xce\x48\x4d\xce\x56\x70\xf6\x70\x75\xf6\x56\xd0\xc0\xa2\x40\xc1\xc6\x4e\x41\x5d\x5d\x53\x07\xd3\xb4\xe2\xd4\xa2\xcc\xc4\x9c\xf8\xbc\xd2\x5c\x54\x43\x10\xe2\x50\xbd\xd6\x80\x00\x00\x00\xff\xff\x4c\xa1\xc6\x83\x9c\x00\x00\x00")
+
+func _20190208140801_prevent_empty_location_id_serialUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190208140801_prevent_empty_location_id_serialUpSql,
+		"20190208140801_prevent_empty_location_id_serial.up.sql",
+	)
+}
+
+func _20190208140801_prevent_empty_location_id_serialUpSql() (*asset, error) {
+	bytes, err := _20190208140801_prevent_empty_location_id_serialUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190208140801_prevent_empty_location_id_serial.up.sql", size: 156, mode: os.FileMode(0644), modTime: time.Unix(1549635044, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x83, 0x2d, 0x57, 0x4f, 0x47, 0xac, 0x9a, 0x4d, 0x88, 0x15, 0x21, 0x1e, 0x62, 0xa0, 0x37, 0xb, 0x53, 0xa9, 0xd3, 0xad, 0x99, 0x26, 0x71, 0x56, 0x71, 0x66, 0x89, 0xed, 0x17, 0xba, 0x9e, 0xb9}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -511,10 +511,6 @@ var _bindata = map[string]func() (*asset, error){
 
 	"20190207231420_add_location_identifier_to_things.up.sql": _20190207231420_add_location_identifier_to_thingsUpSql,
 
-	"20190207232520_thing_composite_unique.down.sql": _20190207232520_thing_composite_uniqueDownSql,
-
-	"20190207232520_thing_composite_unique.up.sql": _20190207232520_thing_composite_uniqueUpSql,
-
 	"20190207233037_thing_timestamp_types.down.sql": _20190207233037_thing_timestamp_typesDownSql,
 
 	"20190207233037_thing_timestamp_types.up.sql": _20190207233037_thing_timestamp_typesUpSql,
@@ -526,6 +522,10 @@ var _bindata = map[string]func() (*asset, error){
 	"20190208010946_add_parrot_id_column_to_user.down.sql": _20190208010946_add_parrot_id_column_to_userDownSql,
 
 	"20190208010946_add_parrot_id_column_to_user.up.sql": _20190208010946_add_parrot_id_column_to_userUpSql,
+
+	"20190208140801_prevent_empty_location_id_serial.down.sql": _20190208140801_prevent_empty_location_id_serialDownSql,
+
+	"20190208140801_prevent_empty_location_id_serial.up.sql": _20190208140801_prevent_empty_location_id_serialUpSql,
 }
 
 // AssetDir returns the file names below a certain
@@ -577,14 +577,14 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"20190207230101_thing_uid_nullable.up.sql":                  &bintree{_20190207230101_thing_uid_nullableUpSql, map[string]*bintree{}},
 	"20190207231420_add_location_identifier_to_things.down.sql": &bintree{_20190207231420_add_location_identifier_to_thingsDownSql, map[string]*bintree{}},
 	"20190207231420_add_location_identifier_to_things.up.sql":   &bintree{_20190207231420_add_location_identifier_to_thingsUpSql, map[string]*bintree{}},
-	"20190207232520_thing_composite_unique.down.sql":            &bintree{_20190207232520_thing_composite_uniqueDownSql, map[string]*bintree{}},
-	"20190207232520_thing_composite_unique.up.sql":              &bintree{_20190207232520_thing_composite_uniqueUpSql, map[string]*bintree{}},
 	"20190207233037_thing_timestamp_types.down.sql":             &bintree{_20190207233037_thing_timestamp_typesDownSql, map[string]*bintree{}},
 	"20190207233037_thing_timestamp_types.up.sql":               &bintree{_20190207233037_thing_timestamp_typesUpSql, map[string]*bintree{}},
 	"20190208003119_remove_thing_not_nullable.down.sql":         &bintree{_20190208003119_remove_thing_not_nullableDownSql, map[string]*bintree{}},
 	"20190208003119_remove_thing_not_nullable.up.sql":           &bintree{_20190208003119_remove_thing_not_nullableUpSql, map[string]*bintree{}},
 	"20190208010946_add_parrot_id_column_to_user.down.sql":      &bintree{_20190208010946_add_parrot_id_column_to_userDownSql, map[string]*bintree{}},
 	"20190208010946_add_parrot_id_column_to_user.up.sql":        &bintree{_20190208010946_add_parrot_id_column_to_userUpSql, map[string]*bintree{}},
+	"20190208140801_prevent_empty_location_id_serial.down.sql":  &bintree{_20190208140801_prevent_empty_location_id_serialDownSql, map[string]*bintree{}},
+	"20190208140801_prevent_empty_location_id_serial.up.sql":    &bintree{_20190208140801_prevent_empty_location_id_serialUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
