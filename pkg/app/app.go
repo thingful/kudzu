@@ -9,6 +9,7 @@ import (
 
 	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/http"
+	"github.com/thingful/kuzu/pkg/indexer"
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 )
@@ -19,6 +20,7 @@ type Config struct {
 	Addr          string
 	DatabaseURL   string
 	ClientTimeout int
+	Verbose       bool
 }
 
 // NewApp returns a new App instance with components configured but not yet
@@ -26,7 +28,7 @@ type Config struct {
 func NewApp(config *Config) *App {
 	logger := logger.NewLogger()
 
-	db := postgres.NewDB(config.DatabaseURL, logger)
+	db := postgres.NewDB(config.DatabaseURL, logger, config.Verbose)
 
 	client := client.NewClient(config.ClientTimeout, logger)
 
@@ -43,11 +45,20 @@ func NewApp(config *Config) *App {
 		WaitGroup: &wg,
 	}, logger)
 
+	i := indexer.NewIndexer(&indexer.Config{
+		DB:        db,
+		Client:    client,
+		QuitChan:  quitChan,
+		ErrChan:   errChan,
+		WaitGroup: &wg,
+	}, logger)
+
 	return &App{
-		logger: kitlog.With(logger, "module", "app"),
-		http:   h,
-		db:     db,
-		client: client,
+		logger:  kitlog.With(logger, "module", "app"),
+		http:    h,
+		db:      db,
+		client:  client,
+		indexer: i,
 
 		quitChan: quitChan,
 		errChan:  errChan,
@@ -59,10 +70,11 @@ func NewApp(config *Config) *App {
 // components and is responsible for starting/stopping and managing
 // communication between these elements.
 type App struct {
-	logger kitlog.Logger
-	db     *postgres.DB
-	http   *http.HTTP
-	client *client.Client
+	logger  kitlog.Logger
+	db      *postgres.DB
+	http    *http.HTTP
+	client  *client.Client
+	indexer *indexer.Indexer
 
 	quitChan chan struct{}
 	errChan  chan error
@@ -84,6 +96,11 @@ func (a *App) Start() error {
 	go func() {
 		a.wg.Add(1)
 		a.http.Start()
+	}()
+
+	go func() {
+		a.wg.Add(1)
+		a.indexer.Start()
 	}()
 
 	a.logger.Log("msg", "starting app")
