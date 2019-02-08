@@ -16,7 +16,7 @@ import (
 	"github.com/thingful/kuzu/pkg/flowerpower"
 )
 
-func TestUserExists(t *testing.T) {
+func TestGetUser(t *testing.T) {
 	logger := kitlog.NewNopLogger()
 	cl := client.NewClient(1, logger)
 
@@ -39,14 +39,16 @@ func TestUserExists(t *testing.T) {
 		),
 	)
 
-	exists := flowerpower.UserExists(cl, "foo")
-	assert.True(t, exists)
+	user, err := flowerpower.GetUser(cl, "foo")
+	assert.Nil(t, err)
+	assert.NotNil(t, user)
+	assert.Equal(t, "kovacs1barnabas1@gmail.com", user.ParrotID)
 
 	err = simular.AllStubsCalled()
 	assert.Nil(t, err)
 }
 
-func TestUserExistsWhenInvalidToken(t *testing.T) {
+func TestGetUserWhenInvalidToken(t *testing.T) {
 	logger := kitlog.NewNopLogger()
 	cl := client.NewClient(1, logger)
 
@@ -66,14 +68,14 @@ func TestUserExistsWhenInvalidToken(t *testing.T) {
 		),
 	)
 
-	exists := flowerpower.UserExists(cl, "foo")
-	assert.False(t, exists)
+	_, err := flowerpower.GetUser(cl, "foo")
+	assert.NotNil(t, err)
 
-	err := simular.AllStubsCalled()
+	err = simular.AllStubsCalled()
 	assert.Nil(t, err)
 }
 
-func TestSensorCount(t *testing.T) {
+func TestGetLocations(t *testing.T) {
 	logger := kitlog.NewNopLogger()
 	cl := client.NewClient(1, logger)
 
@@ -113,11 +115,13 @@ func TestSensorCount(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Len(t, locations, 36)
 
+	assert.NotEqual(t, "", locations[0].SerialNum)
+
 	err = simular.AllStubsCalled()
 	assert.Nil(t, err)
 }
 
-func TestSensorCount404(t *testing.T) {
+func TestGetLocations404(t *testing.T) {
 	logger := kitlog.NewNopLogger()
 	cl := client.NewClient(1, logger)
 
@@ -144,7 +148,7 @@ func TestSensorCount404(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestSensorCountInvalidResponse(t *testing.T) {
+func TestGetLocationsInvalidResponse(t *testing.T) {
 	logger := kitlog.NewNopLogger()
 	cl := client.NewClient(1, logger)
 

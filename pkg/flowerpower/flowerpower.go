@@ -52,17 +52,37 @@ type configurationLocation struct {
 
 // configurationSensor captures the serial number in the response from parrot
 type configurationSensor struct {
-	SerialNum string `json:"serial_num"`
+	SerialNum string `json:"sensor_serial"`
 }
 
-// UserExists returns true if the user identified by the given access token
-// exists, and false if no user profile can be loaded.
-func UserExists(client *client.Client, accessToken string) bool {
-	_, err := client.Get(ProfileURL, accessToken)
+// userData is a type used when parsing the user profile response
+type userData struct {
+	Profile userProfile `json:"user_profile"`
+}
+
+// userProfile contains the one field we parse from the user profile data
+type userProfile struct {
+	Email string `json:"email"`
+}
+
+// GetUser attempts to read the Parrot user from their API. Returns an error if
+// we cannot read the user.
+func GetUser(client *client.Client, accessToken string) (*User, error) {
+	profileBytes, err := client.Get(ProfileURL, accessToken)
 	if err != nil {
-		return false
+		return nil, errors.Wrap(err, "failed to retrieve user profile data")
 	}
-	return true
+
+	var u userData
+
+	err = json.Unmarshal(profileBytes, &u)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to unmarshal user profile data")
+	}
+
+	return &User{
+		ParrotID: u.Profile.Email,
+	}, nil
 }
 
 // GetLocations attempts to return a slice containing all the locations owned by
