@@ -31,28 +31,60 @@ type newUserRequest struct {
 
 // newUserHandler is the handler function for the new user registration operations
 func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
-
 	userData, err := parseNewUserRequest(r)
 	if err != nil {
 		return err
 	}
 
-	sensorCount, err := flowerpower.SensorCount(env.client, userData.Info.AccessToken)
+	// get user profile from parrot
+	parrotUser, err := flowerpower.GetUser(env.client, userData.Info.AccessToken)
 	if err != nil {
 		return &HTTPError{
 			Code: http.StatusBadGateway,
-			Err:  errors.Wrap(err, "failed to count sensors from flowerpower api"),
+			Err:  errors.New("failed to read profile information from flowerpower API"),
 		}
 	}
 
 	// save the user with identity
-	//err = env.db.SaveUser(r.Context(), userData.Info.UID, userData.Info.AccessToken, userData.Info.RefreshToken, userData.Info.Provider)
-	//if err != nil {
-	//	return &HTTPError{
-	//		Code: http.StatusInternalServerError,
-	//		Err:  errors.Wrap(err, "failed to save user"),
-	//	}
-	//}
+	userID, err := env.db.SaveUser(r.Context(), &postgres.User{
+		UID:          userData.Info.UID,
+		ParrotID:     parrotUser.ParrotID,
+		AccessToken:  userData.Info.AccessToken,
+		RefreshToken: userData.Info.RefreshToken,
+		Provider:     userData.Info.Provider,
+	})
+	if err != nil {
+		switch errors.Cause(err) {
+		case postgres.ClientError:
+			return &HTTPError{
+				Code: http.StatusUnprocessableEntity,
+				Err:  err,
+			}
+		default:
+			return &HTTPError{
+				Code: http.StatusInternalServerError,
+				Err:  err,
+			}
+		}
+	}
+
+	// get locations from parrot
+	locations, err := flowerpower.GetLocations(env.client, userData.Info.AccessToken)
+	if err != nil {
+		return &HTTPError{
+			Code: http.StatusBadGateway,
+			Err:  errors.Wrap(err, "failed to read locations from flowerpower API"),
+		}
+	}
+
+	// now save the locations to the DB where they will be scheduled to be fetched
+	err = env.db.SaveLocations(r.Context(), userID, locations)
+	if err != nil {
+		return &HTTPError{
+			Code: http.StatusInternalServerError,
+			Err:  err,
+		}
+	}
 
 	// build response
 	b, err := json.Marshal(struct {
@@ -60,9 +92,8 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 		TotalThings int    `json:"TotalThings"`
 	}{
 		UserUID:     userData.Info.UID,
-		TotalThings: sensorCount,
+		TotalThings: len(locations),
 	})
-
 	if err != nil {
 		return &HTTPError{
 			Code: http.StatusInternalServerError,
@@ -73,8 +104,6 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusAccepted)
 	w.Write(b)
-
-	// spawn process to index all sensors for the new user
 
 	return nil
 }
