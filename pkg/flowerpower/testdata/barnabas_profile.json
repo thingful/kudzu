@@ -1,0 +1,28 @@
+{
+  "user_profile": {
+    "email": "kovacs1barnabas1@gmail.com",
+    "use_liter": true,
+    "device_brand": "samsung (samsung)",
+    "device_model": "SM-A320FL (a3y17lte)",
+    "device_os": null,
+    "app_version": null,
+    "use_ftc": false,
+    "use_mol": false,
+    "use_lux": true,
+    "newsletter_optin": false,
+    "use_fahrenheit": false,
+    "use_feet_inches": false,
+    "pictures_public": true,
+    "utc_timezone": "Europe/Budapest",
+    "language_iso639": "hu",
+    "scientist": false,
+    "ip_address_on_create": "37.76.99.131",
+    "last_updated_ip_address": "37.76.81.233",
+    "notification_curfew_start": "21:00:00",
+    "notification_curfew_end": "08:00:00"
+  },
+  "user_config_version": 150,
+  "garden_status_version": 332,
+  "errors": [],
+  "server_identifier": "2.1.18 April 6th 2017"
+}

@@ -1,0 +1,40 @@
+{
+  "samples": [
+    {
+      "capture_datetime_utc": "2018-11-09T15:48:21Z",
+      "light": 0.1,
+      "fertilizer_level": 0.89,
+      "air_temperature_celsius": 8.69,
+      "soil_moisture_percent": 18.41,
+      "battery_percent": 82,
+      "water_tank_level_percent": 0,
+      "calibrated_soil_moisture_percent": 23.85
+    },
+    {
+      "capture_datetime_utc": "2018-11-09T16:03:21Z",
+      "light": 0.1,
+      "fertilizer_level": 0.89,
+      "air_temperature_celsius": 9.06,
+      "soil_moisture_percent": 18.02,
+      "battery_percent": 83,
+      "water_tank_level_percent": 0,
+      "calibrated_soil_moisture_percent": 23.39
+    },
+    {
+      "capture_datetime_utc": "2018-11-09T16:18:21Z",
+      "light": 0.1,
+      "fertilizer_level": 0.89,
+      "air_temperature_celsius": 8.75,
+      "soil_moisture_percent": 18.15,
+      "battery_percent": 82,
+      "water_tank_level_percent": 0,
+      "calibrated_soil_moisture_percent": 23.54
+    }
+  ],
+  "watering_events": [],
+  "first_not_definitive_value_datetime_utc": "2018-12-14T15:03:21Z",
+  "user_config_version": 150,
+  "garden_status_version": 332,
+  "errors": [],
+  "server_identifier": "2.1.18 April 6th 2017"
+}

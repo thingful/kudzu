@@ -1,0 +1,28 @@
+{
+  "user_profile": {
+    "email": "angelika.xaver@geo.tuwien.ac.at",
+    "use_liter": true,
+    "device_brand": "LENOVO (Lenovo)",
+    "device_model": "Lenovo TB3-X70F (TB3-X70F)",
+    "device_os": null,
+    "app_version": null,
+    "use_ftc": false,
+    "use_mol": true,
+    "use_lux": false,
+    "newsletter_optin": false,
+    "use_fahrenheit": false,
+    "use_feet_inches": false,
+    "pictures_public": false,
+    "utc_timezone": "Europe/Amsterdam",
+    "language_iso639": "en",
+    "scientist": false,
+    "ip_address_on_create": "178.115.131.231",
+    "last_updated_ip_address": "94.65.100.11",
+    "notification_curfew_start": "16:00:00",
+    "notification_curfew_end": "15:00:00"
+  },
+  "user_config_version": 937,
+  "garden_status_version": 7955,
+  "errors": [],
+  "server_identifier": "2.1.18 April 6th 2017"
+}
