@@ -2,45 +2,65 @@ package postgres
 
 import (
 	"context"
-	"time"
 
 	"github.com/pkg/errors"
 
-	"github.com/thingful/kuzu/pkg/http/middleware"
+	"github.com/thingful/kuzu/pkg/logger"
 )
 
 type User struct {
-	ID        int64     `db:"id" json:"-"`
-	UID       string    `db:"uid" json:"Uid"`
-	CreatedAt time.Time `db:"created_at" json:"-"`
+	ID           int64  `db:"id"`
+	UID          string `db:"uid"`
+	ParrotID     string `db:"parrot_id"`
+	AccessToken  string `db:"access_token"`
+	RefreshToken string `db:"refresh_token"`
+	Provider     string `db:"auth_provider"`
 }
 
-// SaveUser attempts to save a user into the database
-func (d *DB) SaveUser(ctx context.Context, uid string) error {
-	logger := middleware.LoggerFromContext(ctx)
+// SaveUser attempts to save a user into the database along with an associated
+// identity. The concept of separate identities was originally intended to
+// support multiple providers, but currently we only read from parrot.
+func (d *DB) SaveUser(ctx context.Context, user *User) (int64, error) {
+	log := logger.FromContext(ctx)
 
-	logger.Log("msg", "saving user")
-
-	sql := `INSERT INTO users (uid) VALUES (:uid)`
-	mapArgs := map[string]interface{}{
-		"uid": uid,
+	if d.verbose {
+		log.Log("msg", "saving user", "uid", user.UID, "parrotID", user.ParrotID)
 	}
 
-	sql, args, err := d.DB.BindNamed(sql, mapArgs)
+	sql := `WITH new_user AS (
+		INSERT INTO users (uid, parrot_id)
+		VALUES (:uid, :parrot_id)
+		RETURNING id
+	)
+	INSERT INTO identities (owner_id, auth_provider, access_token, refresh_token)
+	VALUES ((SELECT id FROM new_user), :auth_provider, :access_token, :refresh_token)
+	RETURNING (SELECT id FROM new_user)`
+
+	//mapArgs := map[string]interface{}{
+	//	"uid":           user.UID,
+	//	"auth_provider": user.Provider,
+	//	"access_token":  user.AccessToken,
+	//	"refresh_token": user.RefreshToken,
+	//	"parrot_id":     user.ParrotID,
+	//}
+
+	sql, args, err := d.DB.BindNamed(sql, user)
 	if err != nil {
-		return errors.Wrap(err, "failed to bind named parameters into query")
+		return 0, errors.Wrap(err, "failed to bind named parameters into query")
 	}
 
 	tx, err := d.DB.Beginx()
 	if err != nil {
-		return errors.Wrap(err, "failed to open transaction")
+		return 0, errors.Wrap(err, "failed to open transaction")
 	}
 
-	_, err = tx.Exec(sql, args...)
+	var userID int64
+
+	err = tx.Get(&userID, sql, args...)
 	if err != nil {
 		tx.Rollback()
-		return errors.Wrap(err, "failed to insert user")
+		return 0, errors.Wrap(err, "failed to insert user")
 	}
 
-	return tx.Commit()
+	return userID, tx.Commit()
 }

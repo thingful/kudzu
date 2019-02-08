@@ -18,10 +18,11 @@ type DB struct {
 
 	logger  kitlog.Logger
 	connStr string
+	verbose bool
 }
 
 // NewDB returns a new DB instance which is not yet connected to the database
-func NewDB(connStr string, logger kitlog.Logger) *DB {
+func NewDB(connStr string, logger kitlog.Logger, verbose bool) *DB {
 	logger = kitlog.With(logger, "module", "postgres")
 
 	logger.Log("msg", "configuring postgres service")
@@ -29,6 +30,7 @@ func NewDB(connStr string, logger kitlog.Logger) *DB {
 	return &DB{
 		connStr: connStr,
 		logger:  logger,
+		verbose: verbose,
 	}
 }
 
@@ -52,4 +54,20 @@ func (d *DB) Stop() error {
 	d.logger.Log("msg", "stopping postgres service")
 
 	return d.DB.Close()
+}
+
+// Truncate is a helper function for cleaning the database to help with tests
+func Truncate(db *sqlx.DB) error {
+	sql := `
+	TRUNCATE things CASCADE;
+	TRUNCATE users CASCADE;
+	TRUNCATE applications CASCADE;
+	`
+
+	_, err := db.Exec(sql)
+	if err != nil {
+		return errors.Wrap(err, "failed to truncate tables")
+	}
+
+	return nil
 }
