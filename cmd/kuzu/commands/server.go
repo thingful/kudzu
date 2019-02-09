@@ -16,11 +16,13 @@ func init() {
 	serverCmd.Flags().StringP("database-url", "d", "", "Connection string for a PostgreSQL instance")
 	serverCmd.Flags().Int("client-timeout", 10, "HTTP client timeout in seconds")
 	serverCmd.Flags().BoolP("verbose", "v", false, "Boolean flag to enable verbose logging")
+	serverCmd.Flags().Int("delay", 10, "Minimum delay time in seconds for indexer task")
 
 	viper.BindPFlag("addr", serverCmd.Flags().Lookup("addr"))
 	viper.BindPFlag("database-url", serverCmd.Flags().Lookup("database-url"))
 	viper.BindPFlag("client-timeout", serverCmd.Flags().Lookup("client-timeout"))
 	viper.BindPFlag("verbose", serverCmd.Flags().Lookup("verbose"))
+	viper.BindPFlag("delay", serverCmd.Flags().Lookup("delay"))
 }
 
 var serverCmd = &cobra.Command{
@@ -45,11 +47,17 @@ var serverCmd = &cobra.Command{
 
 		verbose := viper.GetBool("verbose")
 
+		delay := viper.GetInt("delay")
+		if delay == 0 {
+			return errors.New("Must provide a non-zero delay value")
+		}
+
 		a := app.NewApp(&app.Config{
 			Addr:          addr,
 			DatabaseURL:   databaseURL,
 			ClientTimeout: clientTimeout,
 			Verbose:       verbose,
+			Delay:         delay,
 		})
 
 		return a.Start()

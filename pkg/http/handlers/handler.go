@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/thingful/kuzu/pkg/client"
+	"github.com/thingful/kuzu/pkg/indexer"
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 )
@@ -48,8 +49,9 @@ func (he *HTTPError) MarshalJSON() ([]byte, error) {
 
 // Env is used to pass in our database and indexer environment to handlers
 type Env struct {
-	db     *postgres.DB
-	client *client.Client
+	db      *postgres.DB
+	client  *client.Client
+	indexer *indexer.Indexer
 }
 
 // Handler is a custom handler type that provides some error handling niceties.

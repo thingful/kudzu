@@ -12,6 +12,7 @@ import (
 	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/http/handlers"
 	"github.com/thingful/kuzu/pkg/http/middleware"
+	"github.com/thingful/kuzu/pkg/indexer"
 	"github.com/thingful/kuzu/pkg/postgres"
 )
 
@@ -33,6 +34,7 @@ type HTTP struct {
 type Config struct {
 	Addr      string
 	DB        *postgres.DB
+	Indexer   *indexer.Indexer
 	Client    *client.Client
 	QuitChan  <-chan struct{}
 	ErrChan   chan<- error
@@ -72,7 +74,7 @@ func (h *HTTP) Start() {
 
 	mux := goji.NewMux()
 	handlers.RegisterHealthCheck(mux, h.DB)
-	handlers.RegisterUserHandlers(mux, h.DB, h.Client)
+	handlers.RegisterUserHandlers(mux, h.DB, h.Client, h.Indexer)
 
 	// add middleware
 	mux.Use(middleware.RequestIDMiddleware)

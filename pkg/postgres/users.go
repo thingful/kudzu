@@ -21,7 +21,7 @@ type User struct {
 // SaveUser attempts to save a user into the database along with an associated
 // identity. The concept of separate identities was originally intended to
 // support multiple providers, but currently we only read from parrot.
-func (d *DB) SaveUser(ctx context.Context, user *User) (int64, error) {
+func (d *DB) SaveUser(ctx context.Context, user *User) error {
 	log := logger.FromContext(ctx)
 
 	if d.verbose {
@@ -34,31 +34,28 @@ func (d *DB) SaveUser(ctx context.Context, user *User) (int64, error) {
 		RETURNING id
 	)
 	INSERT INTO identities (owner_id, auth_provider, access_token, refresh_token)
-	VALUES ((SELECT id FROM new_user), :auth_provider, :access_token, :refresh_token)
-	RETURNING (SELECT id FROM new_user)`
+	VALUES ((SELECT id FROM new_user), :auth_provider, :access_token, :refresh_token)`
 
 	sql, args, err := d.DB.BindNamed(sql, user)
 	if err != nil {
-		return 0, errors.Wrap(err, "failed to bind named parameters into query")
+		return errors.Wrap(err, "failed to bind named parameters into query")
 	}
 
 	tx, err := d.DB.Beginx()
 	if err != nil {
-		return 0, errors.Wrap(err, "failed to open transaction")
+		return errors.Wrap(err, "failed to open transaction")
 	}
 
-	var userID int64
-
-	err = tx.Get(&userID, sql, args...)
+	_, err = tx.Exec(sql, args...)
 	if err != nil {
 		tx.Rollback()
 		if pqerr, ok := err.(*pq.Error); ok {
 			if pqerr.Code == ConstraintError || pqerr.Code == UniqueViolationError {
-				return 0, errors.Wrap(ClientError, "failed to insert user")
+				return errors.Wrap(ClientError, "failed to insert user")
 			}
 		}
-		return 0, errors.Wrap(err, "failed to insert user")
+		return errors.Wrap(err, "failed to insert user")
 	}
 
-	return userID, tx.Commit()
+	return tx.Commit()
 }

@@ -11,12 +11,14 @@ import (
 
 	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/flowerpower"
+	"github.com/thingful/kuzu/pkg/indexer"
+	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 )
 
 // RegisterUserHandlers registers our user related handlers into the mux
-func RegisterUserHandlers(mux *goji.Mux, db *postgres.DB, cl *client.Client) {
-	mux.Handle(pat.Post("/user/new"), Handler{env: &Env{db: db, client: cl}, handler: newUserHandler})
+func RegisterUserHandlers(mux *goji.Mux, db *postgres.DB, cl *client.Client, in *indexer.Indexer) {
+	mux.Handle(pat.Post("/user/new"), Handler{env: &Env{db: db, client: cl, indexer: in}, handler: newUserHandler})
 }
 
 // newUserRequest is a local type used for parsing incoming requests
@@ -31,6 +33,9 @@ type newUserRequest struct {
 
 // newUserHandler is the handler function for the new user registration operations
 func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
+	log := logger.FromContext(r.Context())
+
+	// parse the incoming request
 	userData, err := parseNewUserRequest(r)
 	if err != nil {
 		return err
@@ -45,8 +50,8 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 		}
 	}
 
-	// save the user with identity
-	userID, err := env.db.SaveUser(r.Context(), &postgres.User{
+	// save the user with identity to postgres
+	err = env.db.SaveUser(r.Context(), &postgres.User{
 		UID:          userData.Info.UID,
 		ParrotID:     parrotUser.ParrotID,
 		AccessToken:  userData.Info.AccessToken,
@@ -77,15 +82,6 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 		}
 	}
 
-	// now save the locations to the DB where they will be scheduled to be fetched
-	err = env.db.SaveLocations(r.Context(), userID, locations)
-	if err != nil {
-		return &HTTPError{
-			Code: http.StatusInternalServerError,
-			Err:  err,
-		}
-	}
-
 	// build response
 	b, err := json.Marshal(struct {
 		UserUID     string `json:"User"`
@@ -100,6 +96,14 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 			Err:  errors.Wrap(err, "failed to marshal response JSON"),
 		}
 	}
+
+	// spawn goroutine to index all things for the user
+	go func() {
+		err := env.indexer.IndexLocations(userData.Info.AccessToken)
+		if err != nil {
+			log.Log("msg", "error indexing locations", "err", err)
+		}
+	}()
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusAccepted)

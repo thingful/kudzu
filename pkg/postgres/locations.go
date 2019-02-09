@@ -8,6 +8,8 @@ import (
 	"github.com/thingful/kuzu/pkg/logger"
 )
 
+type Location struct{}
+
 // SaveLocations saves a slice of flowerpower Locations which the indexer will
 // in the background churn through to index. This function is typically called
 // when we first create a new user record so at this point all we know are the
@@ -15,7 +17,9 @@ import (
 func (d *DB) SaveLocations(ctx context.Context, ownerID int64, locations []flowerpower.Location) error {
 	log := logger.FromContext(ctx)
 
-	log.Log("msg", "saving locations")
+	if d.verbose {
+		log.Log("msg", "saving locations", "num", len(locations))
+	}
 
 	baseSQL := `INSERT INTO things (
 		owner_id, nickname, location_identifier, serial_num, long, lat, first_sample, last_sample

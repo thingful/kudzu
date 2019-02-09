@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"sync"
+	"time"
 
 	kitlog "github.com/go-kit/kit/log"
 
@@ -21,6 +22,7 @@ type Config struct {
 	DatabaseURL   string
 	ClientTimeout int
 	Verbose       bool
+	Delay         int
 }
 
 // NewApp returns a new App instance with components configured but not yet
@@ -36,6 +38,15 @@ func NewApp(config *Config) *App {
 	errChan := make(chan error)
 	var wg sync.WaitGroup
 
+	i := indexer.NewIndexer(&indexer.Config{
+		DB:        db,
+		Client:    client,
+		QuitChan:  quitChan,
+		ErrChan:   errChan,
+		WaitGroup: &wg,
+		Delay:     time.Duration(config.Delay) * time.Second,
+	}, logger)
+
 	h := http.NewHTTP(&http.Config{
 		DB:        db,
 		Client:    client,
@@ -43,14 +54,7 @@ func NewApp(config *Config) *App {
 		QuitChan:  quitChan,
 		ErrChan:   errChan,
 		WaitGroup: &wg,
-	}, logger)
-
-	i := indexer.NewIndexer(&indexer.Config{
-		DB:        db,
-		Client:    client,
-		QuitChan:  quitChan,
-		ErrChan:   errChan,
-		WaitGroup: &wg,
+		Indexer:   i,
 	}, logger)
 
 	return &App{
