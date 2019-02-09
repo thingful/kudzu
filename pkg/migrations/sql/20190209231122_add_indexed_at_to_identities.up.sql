@@ -1,0 +1,2 @@
+ALTER TABLE identities
+  ADD COLUMN indexed_at TIMESTAMP WITH TIME ZONE;

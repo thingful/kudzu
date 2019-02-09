@@ -16,6 +16,8 @@
 // sql/20190208010946_add_parrot_id_column_to_user.up.sql (53B)
 // sql/20190208140801_prevent_empty_location_id_serial.down.sql (99B)
 // sql/20190208140801_prevent_empty_location_id_serial.up.sql (156B)
+// sql/20190209231122_add_indexed_at_to_identities.down.sql (48B)
+// sql/20190209231122_add_indexed_at_to_identities.up.sql (72B)
 
 package migrations
 
@@ -404,6 +406,46 @@ func _20190208140801_prevent_empty_location_id_serialUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __20190209231122_add_indexed_at_to_identitiesDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\xc8\x4c\x49\xcd\x2b\xc9\x2c\xc9\x4c\x2d\xe6\x52\x50\x70\x09\xf2\x0f\x50\x70\xf6\xf7\x09\xf5\xf5\x53\xc8\xcc\x4b\x49\xad\x48\x4d\x89\x4f\x2c\xb1\x06\x04\x00\x00\xff\xff\x9e\x6a\x33\xa0\x30\x00\x00\x00")
+
+func _20190209231122_add_indexed_at_to_identitiesDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190209231122_add_indexed_at_to_identitiesDownSql,
+		"20190209231122_add_indexed_at_to_identities.down.sql",
+	)
+}
+
+func _20190209231122_add_indexed_at_to_identitiesDownSql() (*asset, error) {
+	bytes, err := _20190209231122_add_indexed_at_to_identitiesDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190209231122_add_indexed_at_to_identities.down.sql", size: 48, mode: os.FileMode(0644), modTime: time.Unix(1549753964, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x8e, 0x99, 0xbc, 0xad, 0xcb, 0xee, 0x86, 0xb2, 0xa6, 0xaf, 0x9d, 0xeb, 0x84, 0xc3, 0xf2, 0x31, 0xf4, 0xd8, 0x64, 0x29, 0x69, 0xfd, 0x38, 0xb5, 0x3d, 0x41, 0x79, 0x14, 0x93, 0xcf, 0x8a, 0x37}}
+	return a, nil
+}
+
+var __20190209231122_add_indexed_at_to_identitiesUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\xc8\x4c\x49\xcd\x2b\xc9\x2c\xc9\x4c\x2d\xe6\x52\x50\x70\x74\x71\x51\x70\xf6\xf7\x09\xf5\xf5\x53\xc8\xcc\x4b\x49\xad\x48\x4d\x89\x4f\x2c\x51\x08\xf1\xf4\x75\x0d\x0e\x71\xf4\x0d\x50\x08\xf7\x0c\xf1\x00\x73\x15\xa2\xfc\xfd\x5c\xad\x01\x01\x00\x00\xff\xff\x67\xa2\xaa\x74\x48\x00\x00\x00")
+
+func _20190209231122_add_indexed_at_to_identitiesUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190209231122_add_indexed_at_to_identitiesUpSql,
+		"20190209231122_add_indexed_at_to_identities.up.sql",
+	)
+}
+
+func _20190209231122_add_indexed_at_to_identitiesUpSql() (*asset, error) {
+	bytes, err := _20190209231122_add_indexed_at_to_identitiesUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190209231122_add_indexed_at_to_identities.up.sql", size: 72, mode: os.FileMode(0644), modTime: time.Unix(1549753943, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xa5, 0x4d, 0x84, 0x87, 0xd6, 0xf2, 0xbd, 0x83, 0xa3, 0x88, 0x29, 0x94, 0x42, 0xb6, 0x83, 0x8d, 0x9, 0xc5, 0xa8, 0x96, 0x1a, 0x17, 0xb7, 0x5b, 0x81, 0xc, 0x55, 0x41, 0xed, 0xc8, 0xe1, 0x82}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -526,6 +568,10 @@ var _bindata = map[string]func() (*asset, error){
 	"20190208140801_prevent_empty_location_id_serial.down.sql": _20190208140801_prevent_empty_location_id_serialDownSql,
 
 	"20190208140801_prevent_empty_location_id_serial.up.sql": _20190208140801_prevent_empty_location_id_serialUpSql,
+
+	"20190209231122_add_indexed_at_to_identities.down.sql": _20190209231122_add_indexed_at_to_identitiesDownSql,
+
+	"20190209231122_add_indexed_at_to_identities.up.sql": _20190209231122_add_indexed_at_to_identitiesUpSql,
 }
 
 // AssetDir returns the file names below a certain
@@ -585,6 +631,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"20190208010946_add_parrot_id_column_to_user.up.sql":        &bintree{_20190208010946_add_parrot_id_column_to_userUpSql, map[string]*bintree{}},
 	"20190208140801_prevent_empty_location_id_serial.down.sql":  &bintree{_20190208140801_prevent_empty_location_id_serialDownSql, map[string]*bintree{}},
 	"20190208140801_prevent_empty_location_id_serial.up.sql":    &bintree{_20190208140801_prevent_empty_location_id_serialUpSql, map[string]*bintree{}},
+	"20190209231122_add_indexed_at_to_identities.down.sql":      &bintree{_20190209231122_add_indexed_at_to_identitiesDownSql, map[string]*bintree{}},
+	"20190209231122_add_indexed_at_to_identities.up.sql":        &bintree{_20190209231122_add_indexed_at_to_identitiesUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
