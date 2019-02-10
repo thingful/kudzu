@@ -1,12 +1,15 @@
 package indexer
 
 import (
+	"context"
 	"sync"
 	"time"
 
 	kitlog "github.com/go-kit/kit/log"
+	"github.com/google/uuid"
 
 	"github.com/thingful/kuzu/pkg/client"
+	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 	"github.com/thingful/kuzu/pkg/thingful"
 )
@@ -60,14 +63,30 @@ func (i *Indexer) Start() {
 	}
 }
 
+// Index is called repeatedly - attempts to get an identity for indexing, and we
+// then index all of that user's unindexed stuff.
 func (i *Indexer) Index() {
-	// missing
-	err := i.IndexLocations("foo")
+	uid := uuid.New().String()
+
+	log := kitlog.With(i.logger, "uid", uid)
+
+	accessToken, err := i.DB.NextAccessToken(logger.ToContext(context.Background(), log))
+	if err != nil {
+		log.Log("msg", "error getting next identiyt", "err", err)
+	}
+
+	if accessToken == "" {
+		return
+	}
+
+	err = i.IndexLocations(accessToken)
 	if err != nil {
 		i.logger.Log("msg", "error indexing locations", "err", err)
 	}
 }
 
+// IndexLocations is the entry point to our fetching and parsing logic - indexes
+// all unindexed data for a user and publishes to Thingful
 func (i *Indexer) IndexLocations(accessToken string) error {
 	i.logger.Log("msg", "indexing locations", "accessToken", accessToken)
 
