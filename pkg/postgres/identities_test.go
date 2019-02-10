@@ -83,4 +83,8 @@ func (s *IdentitiesSuite) TestNextAccessToken() {
 	accessToken, err = s.db.NextAccessToken(ctx)
 	assert.Nil(s.T(), err)
 	assert.Equal(s.T(), "", accessToken)
+
+	accessToken, err = s.db.NextAccessToken(ctx)
+	assert.Nil(s.T(), err)
+	assert.Equal(s.T(), "", accessToken)
 }

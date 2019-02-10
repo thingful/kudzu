@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/pkg/errors"
 	"github.com/thingful/kuzu/pkg/logger"
@@ -18,7 +19,7 @@ func (d *DB) NextAccessToken(ctx context.Context) (string, error) {
 		log.Log("msg", "retrieving next access token")
 	}
 
-	sql := `WITH next_identity AS (
+	query := `WITH next_identity AS (
 		SELECT id FROM identities
 		WHERE indexed_at IS NULL OR indexed_at < NOW() - interval '24 hours'
 		ORDER BY indexed_at DESC NULLS FIRST
@@ -34,10 +35,12 @@ func (d *DB) NextAccessToken(ctx context.Context) (string, error) {
 
 	var accessToken string
 
-	err = tx.Get(&accessToken, sql)
+	err = tx.Get(&accessToken, query)
 	if err != nil {
-		tx.Rollback()
-		return "", errors.Wrap(err, "failed to execute update query")
+		if err != sql.ErrNoRows {
+			tx.Rollback()
+			return "", errors.Wrap(err, "failed to execute update query")
+		}
 	}
 
 	return accessToken, tx.Commit()
