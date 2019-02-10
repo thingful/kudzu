@@ -17,14 +17,16 @@ import (
 	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/flowerpower"
 	"github.com/thingful/kuzu/pkg/http/handlers"
+	"github.com/thingful/kuzu/pkg/indexer"
 	"github.com/thingful/kuzu/pkg/postgres"
 )
 
 type UsersSuite struct {
 	suite.Suite
-	db     *postgres.DB
-	logger kitlog.Logger
-	client *client.Client
+	db      *postgres.DB
+	logger  kitlog.Logger
+	client  *client.Client
+	indexer *indexer.Indexer
 }
 
 func (s *UsersSuite) SetupTest() {
@@ -46,6 +48,11 @@ func (s *UsersSuite) SetupTest() {
 	s.logger = logger
 	s.db = postgres.NewDB(connStr, logger, true)
 	s.client = client.NewClient(1, logger)
+	s.indexer = indexer.NewIndexer(
+		&indexer.Config{
+			DB:     s.db,
+			Client: s.client,
+		}, logger)
 
 	err = s.db.Start()
 	if err != nil {
@@ -114,7 +121,7 @@ func (s *UsersSuite) TestCreateUser() {
 
 	// create mux and register the handler we want to test
 	mux := goji.NewMux()
-	handlers.RegisterUserHandlers(mux, s.db, s.client)
+	handlers.RegisterUserHandlers(mux, s.db, s.client, s.indexer)
 
 	recorder := httptest.NewRecorder()
 
@@ -168,7 +175,7 @@ func (s *UsersSuite) TestCreateUserWhenAlreadyRegistered() {
 
 	// create mux and register the handler we want to test
 	mux := goji.NewMux()
-	handlers.RegisterUserHandlers(mux, s.db, s.client)
+	handlers.RegisterUserHandlers(mux, s.db, s.client, s.indexer)
 
 	recorder := httptest.NewRecorder()
 
