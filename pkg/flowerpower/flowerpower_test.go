@@ -42,7 +42,7 @@ func TestGetUser(t *testing.T) {
 	user, err := flowerpower.GetUser(cl, "foo")
 	assert.Nil(t, err)
 	assert.NotNil(t, user)
-	assert.Equal(t, "kovacs1barnabas1@gmail.com", user.ParrotID)
+	assert.Equal(t, "barnabas@example.com", user.ParrotID)
 
 	err = simular.AllStubsCalled()
 	assert.Nil(t, err)
