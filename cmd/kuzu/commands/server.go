@@ -17,12 +17,16 @@ func init() {
 	serverCmd.Flags().Int("client-timeout", 10, "HTTP client timeout in seconds")
 	serverCmd.Flags().BoolP("verbose", "v", false, "Boolean flag to enable verbose logging")
 	serverCmd.Flags().Int("delay", 10, "Minimum delay time in seconds for indexer task")
+	serverCmd.Flags().String("thingful-url", "https://api.thingful.net", "The server URL at which the Thingful API is available")
+	serverCmd.Flags().String("thingful-key", "", "A valid Thingful API key")
 
 	viper.BindPFlag("addr", serverCmd.Flags().Lookup("addr"))
 	viper.BindPFlag("database-url", serverCmd.Flags().Lookup("database-url"))
 	viper.BindPFlag("client-timeout", serverCmd.Flags().Lookup("client-timeout"))
 	viper.BindPFlag("verbose", serverCmd.Flags().Lookup("verbose"))
 	viper.BindPFlag("delay", serverCmd.Flags().Lookup("delay"))
+	viper.BindPFlag("thingful-url", serverCmd.Flags().Lookup("thingful-url"))
+	viper.BindPFlag("thingful-key", serverCmd.Flags().Lookup("thingful-key"))
 }
 
 var serverCmd = &cobra.Command{
@@ -52,12 +56,24 @@ var serverCmd = &cobra.Command{
 			return errors.New("Must provide a non-zero delay value")
 		}
 
+		thingfulURL := viper.GetString("thingful-url")
+		if thingfulURL == "" {
+			return errors.New("Must specify the Thingful API URL")
+		}
+
+		thingfulKey := viper.GetString("thingful-key")
+		if thingfulKey == "" {
+			return errors.New("Must specify the Thingful API key")
+		}
+
 		a := app.NewApp(&app.Config{
 			Addr:          addr,
 			DatabaseURL:   databaseURL,
 			ClientTimeout: clientTimeout,
 			Verbose:       verbose,
 			Delay:         delay,
+			ThingfulURL:   thingfulURL,
+			ThingfulKey:   thingfulKey,
 		})
 
 		return a.Start()
