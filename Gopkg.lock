@@ -96,6 +96,14 @@
   revision = "06d8eeb3ce171b5617a3f8ef24451df26ca971ef"
 
 [[projects]]
+  digest = "1:a4b04b5314d49a67ad022fa7693453ee2b823ab99314f52fa3930ed31085dfef"
+  name = "github.com/guregu/null"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "80515d440932108546bcade467bb7d6968e812e2"
+  version = "v3.4.0"
+
+[[projects]]
   digest = "1:c0d19ab64b32ce9fe5cf4ddceba78d5bc9807f0016db6b1183599da3dcc24d10"
   name = "github.com/hashicorp/hcl"
   packages = [
@@ -401,6 +409,7 @@
     "github.com/golang-migrate/migrate/database/postgres",
     "github.com/golang-migrate/migrate/source/go_bindata",
     "github.com/google/uuid",
+    "github.com/guregu/null",
     "github.com/heptiolabs/healthcheck",
     "github.com/jmoiron/sqlx",
     "github.com/lib/pq",
