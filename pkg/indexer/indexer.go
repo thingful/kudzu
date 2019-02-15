@@ -81,22 +81,26 @@ func (i *Indexer) Start() {
 // Index is called repeatedly - attempts to get an identity for indexing, and we
 // then index all of that user's unindexed stuff.
 func (i *Indexer) Index() {
+	// create index event uuid, and wrap this id into a logger we pass down via
+	// context
 	uid := uuid.New().String()
-
 	log := kitlog.With(i.logger, "uid", uid)
-
 	ctx := logger.ToContext(context.Background(), log)
 
+	// next identity to index
 	identity, err := i.DB.NextIdentity(ctx)
 	if err != nil {
 		log.Log("msg", "error getting next identity", "err", err)
 	}
 
 	if identity == nil {
-		log.Log("msg", "no pending identity found")
+		if i.Verbose {
+			log.Log("msg", "no pending identity found")
+		}
 		return
 	}
 
+	// now index all locations for the identity
 	err = i.IndexLocations(ctx, identity)
 	if err != nil {
 		i.logger.Log("msg", "error indexing locations", "err", err)
@@ -115,12 +119,14 @@ func (i *Indexer) IndexLocations(ctx context.Context, identity *postgres.Identit
 		log.Log("msg", "indexing locations", "ownerID", identity.OwnerID)
 	}
 
-	// get the locations from parrot
+	// get the locations from parrot (makes multiple API requests)
 	locations, err := flowerpower.GetLocations(ctx, i.Client, identity.AccessToken)
 	if err != nil {
+		log.Log("msg", "failed to get locations for indexing", "ownerID", identity.OwnerID)
 		return errors.Wrap(err, "failed to get locations for indexing")
 	}
 
+	// now let's range over our retrieved locations
 	for _, l := range locations {
 		thing, err := i.DB.GetThing(ctx, l.LocationID)
 		if err != nil {
@@ -180,7 +186,7 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 	}
 
 	thing.UID = null.StringFrom(thingfulUID)
-	thing.LastUploadedUTC = null.TimeFrom(getLastUploadedUTC(readings))
+	thing.LastUploadedUTC = null.TimeFrom(toUTC)
 
 	// save the thing and channels
 	err = i.DB.CreateThing(ctx, thing)
@@ -190,6 +196,9 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 	}
 
 	for {
+		// we sleep to avoid hammering Parrot too hard
+		time.Sleep(i.Delay)
+
 		if !hasMoreReadingsToIndex(ctx, thing) {
 			break
 		}
@@ -197,25 +206,30 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 		fromUTC = thing.LastUploadedUTC.Time
 		toUTC = fromUTC.AddDate(0, 0, 10)
 
+		// get next readings from flowerpower
 		readings, err = flowerpower.GetReadings(ctx, i.Client, identity.AccessToken, l.LocationID, fromUTC, toUTC)
 		if err != nil {
 			log.Log("msg", "failed to get next readings", "err", err, "fromUTC", fromUTC, "toUTC", toUTC)
 			return errors.Wrap(err, "failed to get slice of readings from Parrot")
 		}
+
+		// send to Thingful
 		err = i.thingful.UpdateThing(ctx, thing, readings)
 		if err != nil {
 			log.Log("msg", "failed to push observations to Thingful", "err", err, "fromUTC", fromUTC, "toUTC", toUTC)
 			return errors.Wrap(err, "failed to get slice of readings from Parrot")
 		}
 
+		now = time.Now()
+		thing.IndexedAt = null.TimeFrom(now)
+		thing.UpdatedAt = null.TimeFrom(now)
 		thing.LastUploadedUTC = null.TimeFrom(toUTC)
 
 		// update the last uploaded timestamp and any related channels
 		err = i.DB.UpdateThing(ctx, thing)
 		if err != nil {
-
+			return errors.Wrap(err, "failed to update thing")
 		}
-		time.Sleep(i.Delay)
 	}
 
 	return nil
@@ -231,11 +245,12 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 	return nil
 }
 
-func getLastUploadedUTC(readings []flowerpower.Reading) time.Time {
-	reading := readings[len(readings)-1]
-	return reading.Timestamp
-}
-
+// hasMoreReadingsToIndex simply checks the value of the last uploaded sample
+// and compares it to the last sample sent by parrot. If the last uploaded is
+// before the last value, then return true, else return false
 func hasMoreReadingsToIndex(ctx context.Context, thing *postgres.Thing) bool {
+	if thing.LastUploadedUTC.Time.Before(thing.LastSampleUTC.Time) {
+		return true
+	}
 	return false
 }
