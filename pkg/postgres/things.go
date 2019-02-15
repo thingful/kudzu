@@ -161,7 +161,33 @@ func (d *DB) UpdateThing(ctx context.Context, thing *Thing) error {
 		)
 	}
 
-	return nil
+	sql := `UPDATE things SET
+		nickname = :nickname,
+		first_sample = :first_sample,
+		last_sample = :last_sample,
+		updated_at = :updated_at,
+		indexed_at = :indexed_at,
+		last_uploaded_sample = :last_uploaded_sample
+	WHERE location_identifier = :location_identifier`
+
+	tx, err := d.DB.Beginx()
+	if err != nil {
+		return errors.Wrap(err, "failed to begin transaction")
+	}
+
+	sql, args, err := tx.BindNamed(sql, thing)
+	if err != nil {
+		tx.Rollback()
+		return errors.Wrap(err, "failed to bind named query")
+	}
+
+	_, err = tx.Exec(sql, args...)
+	if err != nil {
+		tx.Rollback()
+		return errors.Wrap(err, "failed to update thing")
+	}
+
+	return tx.Commit()
 }
 
 // UpdateGeolocation takes as input a Thing with UID, long and lat, and updates
