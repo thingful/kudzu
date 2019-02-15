@@ -93,7 +93,7 @@ func (i *Indexer) Index() {
 		log.Log("msg", "error getting next identity", "err", err)
 	}
 
-	if identity == nil {
+	if identity.AccessToken == "" {
 		if i.Verbose {
 			log.Log("msg", "no pending identity found")
 		}
