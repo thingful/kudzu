@@ -2,13 +2,18 @@ package indexer
 
 import (
 	"context"
+	"database/sql"
 	"sync"
 	"time"
 
+	"github.com/guregu/null"
+
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/google/uuid"
+	"github.com/pkg/errors"
 
 	"github.com/thingful/kuzu/pkg/client"
+	"github.com/thingful/kuzu/pkg/flowerpower"
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 	"github.com/thingful/kuzu/pkg/thingful"
@@ -16,19 +21,22 @@ import (
 
 // Config is another state holder we pass in to the indexer to configure it.
 type Config struct {
-	DB        *postgres.DB
-	Client    *client.Client
-	QuitChan  <-chan struct{}
-	ErrChan   chan<- error
-	WaitGroup *sync.WaitGroup
-	Delay     time.Duration
+	DB          *postgres.DB
+	Client      *client.Client
+	QuitChan    <-chan struct{}
+	ErrChan     chan<- error
+	WaitGroup   *sync.WaitGroup
+	Delay       time.Duration
+	ThingfulURL string
+	ThingfulKey string
+	Verbose     bool
 }
 
 // Indexer is a struct that controls the scheduled work where we pull data from
 // Parrot and write it to Thingful.
 type Indexer struct {
 	*Config
-	Thingful *thingful.Thingful
+	thingful *thingful.Thingful
 	logger   kitlog.Logger
 }
 
@@ -36,11 +44,18 @@ type Indexer struct {
 func NewIndexer(config *Config, logger kitlog.Logger) *Indexer {
 	logger = kitlog.With(logger, "module", "indexer")
 
-	logger.Log("msg", "configuring indexer", "delay", config.Delay)
+	logger.Log(
+		"msg", "configuring indexer",
+		"delay", config.Delay,
+		"thingfulURL", config.ThingfulURL,
+	)
+
+	th := thingful.NewClient(config.Client, config.ThingfulURL, config.ThingfulKey)
 
 	return &Indexer{
-		Config: config,
-		logger: logger,
+		Config:   config,
+		thingful: th,
+		logger:   logger,
 	}
 }
 
@@ -70,16 +85,19 @@ func (i *Indexer) Index() {
 
 	log := kitlog.With(i.logger, "uid", uid)
 
-	accessToken, err := i.DB.NextAccessToken(logger.ToContext(context.Background(), log))
+	ctx := logger.ToContext(context.Background(), log)
+
+	identity, err := i.DB.NextIdentity(ctx)
 	if err != nil {
-		log.Log("msg", "error getting next identiyt", "err", err)
+		log.Log("msg", "error getting next identity", "err", err)
 	}
 
-	if accessToken == "" {
+	if identity == nil {
+		log.Log("msg", "no pending identity found")
 		return
 	}
 
-	err = i.IndexLocations(accessToken)
+	err = i.IndexLocations(ctx, identity)
 	if err != nil {
 		i.logger.Log("msg", "error indexing locations", "err", err)
 	}
@@ -87,59 +105,137 @@ func (i *Indexer) Index() {
 
 // IndexLocations is the entry point to our fetching and parsing logic - indexes
 // all unindexed data for a user and publishes to Thingful
-func (i *Indexer) IndexLocations(accessToken string) error {
-	i.logger.Log("msg", "indexing locations", "accessToken", accessToken)
+func (i *Indexer) IndexLocations(ctx context.Context, identity *postgres.Identity) error {
+	// this seems cumbersome as we could pass the logger in directly here, however
+	// this function also called from the user create handler, which will have a
+	// differently scoped logger
+	log := logger.FromContext(ctx)
+
+	if i.Verbose {
+		log.Log("msg", "indexing locations", "ownerID", identity.OwnerID)
+	}
+
+	// get the locations from parrot
+	locations, err := flowerpower.GetLocations(ctx, i.Client, identity.AccessToken)
+	if err != nil {
+		return errors.Wrap(err, "failed to get locations for indexing")
+	}
+
+	for _, l := range locations {
+		thing, err := i.DB.GetThing(ctx, l.LocationID)
+		if err != nil {
+			if errors.Cause(err) == sql.ErrNoRows {
+				// launch new thing flow
+				err = i.indexNewLocation(ctx, identity, &l)
+				if err != nil {
+					log.Log("msg", "error indexing location", "locationID", l.LocationID, "err", err)
+				}
+				continue
+			}
+			return err
+		}
+		// launch update thing flow
+		err = i.indexExistingLocation(ctx, identity, &l, thing)
+		if err != nil {
+			log.Log("msg", "error indexing existing location", "locationID", l.LocationID, "err", err)
+		}
+	}
 
 	return nil
 }
 
-// Index is the function called recursively to do some task, we start it off when
-// the process starts, once it has finished doing a task, it sleeps and then
-// calls itself again.
-//func (i *Indexer) Index() {
-//	i.logger.Log("msg", "indexing a resource")
-//	ctx := logger.ToContext(context.Background(), i.logger)
-//
-//	// get a location that has never been published to Thingful, then send a create request to create it
-//	newLocation, err := i.DB.GetNewLocation(ctx)
-//	if err != nil {
-//		i.logger.Log("msg", "error getting new location", "err", err)
-//		return
-//	}
-//
-//	// we have a location that has never been published to Thingful, so we need to
-//	// create a new Thingful resource for this location
-//	if newLocation != nil {
-//		thing, err := i.Thingful.CreateThing(ctx, newLocation)
-//		if err != nil {
-//			i.logger.Log("msg", "error publishing new thing to Thingful", "err", err)
-//			return
-//		}
-//
-//		err = i.DB.SetLocationUID(ctx, thing.UID)
-//		if err != nil {
-//			i.logger.Log("msg", "error updating new location", "err", err)
-//		}
-//
-//		return
-//	}
-//
-//	existingLocation, err := i.DB.GetIndexableLocation(ctx)
-//	if err != nil {
-//		i.logger.Log("msg", "error getting indexable location", "err", err)
-//		return
-//	}
-//
-//	if existingLocation != nil {
-//		err = i.indexLocation(ctx, existingLocation)
-//		if err != nil {
-//			i.logger.Log("msg", "error indexing location", "err", err)
-//		}
-//	}
-//
-//	return
-//}
-//
-//func (i *Indexer) indexLocation(ctx context.Context, location *postgres.Location) error {
-//	return nil
-//}
+func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Identity, l *flowerpower.Location) error {
+	log := logger.FromContext(ctx)
+
+	now := time.Now()
+
+	thing := &postgres.Thing{
+		OwnerID:        identity.OwnerID,
+		Provider:       null.StringFrom("parrot"),
+		SerialNum:      l.SerialNum,
+		Longitude:      l.Longitude,
+		Latitude:       l.Latitude,
+		FirstSampleUTC: null.TimeFrom(l.FirstSampleUTC),
+		LastSampleUTC:  null.TimeFrom(l.LastSampleUTC),
+		CreatedAt:      null.TimeFrom(now),
+		UpdatedAt:      null.TimeFrom(now),
+		IndexedAt:      null.TimeFrom(now),
+		Nickname:       null.StringFrom(l.Nickname),
+		LocationID:     l.LocationID,
+	}
+
+	fromUTC := thing.FirstSampleUTC.Time
+	toUTC := fromUTC.AddDate(0, 0, 10)
+
+	// get the first slice of readings for the location
+	readings, err := flowerpower.GetReadings(ctx, i.Client, identity.AccessToken, l.LocationID, fromUTC, toUTC)
+	if err != nil {
+		return errors.Wrap(err, "failed to get first chunk of readings from flowerpower")
+	}
+
+	thingfulUID, err := i.thingful.CreateThing(ctx, thing, readings)
+	if err != nil {
+		log.Log("msg", "failed to create thing", "err", err)
+		return errors.Wrap(err, "failed to create new thing")
+	}
+
+	thing.UID = null.StringFrom(thingfulUID)
+	thing.LastUploadedUTC = null.TimeFrom(getLastUploadedUTC(readings))
+
+	// save the thing and channels
+	err = i.DB.CreateThing(ctx, thing)
+	if err != nil {
+		log.Log("msg", "failed to insert thing", "err", err)
+		return errors.Wrap(err, "failed to insert thing record into DB")
+	}
+
+	for {
+		if !hasMoreReadingsToIndex(ctx, thing) {
+			break
+		}
+
+		fromUTC = thing.LastUploadedUTC.Time
+		toUTC = fromUTC.AddDate(0, 0, 10)
+
+		readings, err = flowerpower.GetReadings(ctx, i.Client, identity.AccessToken, l.LocationID, fromUTC, toUTC)
+		if err != nil {
+			log.Log("msg", "failed to get next readings", "err", err, "fromUTC", fromUTC, "toUTC", toUTC)
+			return errors.Wrap(err, "failed to get slice of readings from Parrot")
+		}
+		err = i.thingful.UpdateThing(ctx, thing, readings)
+		if err != nil {
+			log.Log("msg", "failed to push observations to Thingful", "err", err, "fromUTC", fromUTC, "toUTC", toUTC)
+			return errors.Wrap(err, "failed to get slice of readings from Parrot")
+		}
+
+		thing.LastUploadedUTC = null.TimeFrom(toUTC)
+
+		// update the last uploaded timestamp and any related channels
+		err = i.DB.UpdateThing(ctx, thing)
+		if err != nil {
+
+		}
+		time.Sleep(i.Delay)
+	}
+
+	return nil
+}
+
+func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.Identity, l *flowerpower.Location, t *postgres.Thing) error {
+	for {
+		if !hasMoreReadingsToIndex(ctx, t) {
+			break
+		}
+	}
+
+	return nil
+}
+
+func getLastUploadedUTC(readings []flowerpower.Reading) time.Time {
+	reading := readings[len(readings)-1]
+	return reading.Timestamp
+}
+
+func hasMoreReadingsToIndex(ctx context.Context, thing *postgres.Thing) bool {
+	return false
+}
