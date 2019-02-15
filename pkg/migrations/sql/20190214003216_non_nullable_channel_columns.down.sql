@@ -1,0 +1,3 @@
+ALTER TABLE channels
+  ALTER COLUMN thing_uid DROP NOT NULL,
+  ALTER COLUMN data_source_id DROP NOT NULL;

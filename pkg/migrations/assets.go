@@ -18,6 +18,8 @@
 // sql/20190208140801_prevent_empty_location_id_serial.up.sql (156B)
 // sql/20190209231122_add_indexed_at_to_identities.down.sql (48B)
 // sql/20190209231122_add_indexed_at_to_identities.up.sql (72B)
+// sql/20190214003216_non_nullable_channel_columns.down.sql (105B)
+// sql/20190214003216_non_nullable_channel_columns.up.sql (103B)
 
 package migrations
 
@@ -446,6 +448,46 @@ func _20190209231122_add_indexed_at_to_identitiesUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __20190214003216_non_nullable_channel_columnsDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x48\xce\x48\xcc\xcb\x4b\xcd\x29\xe6\x52\x50\x80\x08\x3b\xfb\xfb\x84\xfa\xfa\x29\x94\x64\x64\xe6\xa5\xc7\x97\x66\xa6\x28\xb8\x04\xf9\x07\x28\xf8\xf9\x87\x28\xf8\x85\xfa\xf8\xe8\xa0\xab\x4b\x49\x2c\x49\x8c\x2f\xce\x2f\x2d\x4a\x4e\x8d\x47\x57\x6c\x0d\x08\x00\x00\xff\xff\x07\xd9\x44\xa4\x69\x00\x00\x00")
+
+func _20190214003216_non_nullable_channel_columnsDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190214003216_non_nullable_channel_columnsDownSql,
+		"20190214003216_non_nullable_channel_columns.down.sql",
+	)
+}
+
+func _20190214003216_non_nullable_channel_columnsDownSql() (*asset, error) {
+	bytes, err := _20190214003216_non_nullable_channel_columnsDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190214003216_non_nullable_channel_columns.down.sql", size: 105, mode: os.FileMode(0644), modTime: time.Unix(1550104424, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xd9, 0x3a, 0x26, 0x42, 0x89, 0x3e, 0xa3, 0x81, 0x67, 0x89, 0x95, 0x31, 0xc3, 0x8d, 0x87, 0x50, 0x17, 0xd, 0x6, 0xd5, 0xa5, 0xad, 0x58, 0x65, 0x68, 0xc7, 0xb5, 0x66, 0xe, 0xee, 0x16, 0x59}}
+	return a, nil
+}
+
+var __20190214003216_non_nullable_channel_columnsUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x48\xce\x48\xcc\xcb\x4b\xcd\x29\xe6\x52\x50\x80\x08\x3b\xfb\xfb\x84\xfa\xfa\x29\x94\x64\x64\xe6\xa5\xc7\x97\x66\xa6\x28\x04\xbb\x86\x28\xf8\xf9\x87\x28\xf8\x85\xfa\xf8\xe8\xa0\x2b\x4b\x49\x2c\x49\x8c\x2f\xce\x2f\x2d\x4a\x4e\x8d\x47\x53\x6b\x0d\x08\x00\x00\xff\xff\x16\x3d\xcb\x91\x67\x00\x00\x00")
+
+func _20190214003216_non_nullable_channel_columnsUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190214003216_non_nullable_channel_columnsUpSql,
+		"20190214003216_non_nullable_channel_columns.up.sql",
+	)
+}
+
+func _20190214003216_non_nullable_channel_columnsUpSql() (*asset, error) {
+	bytes, err := _20190214003216_non_nullable_channel_columnsUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190214003216_non_nullable_channel_columns.up.sql", size: 103, mode: os.FileMode(0644), modTime: time.Unix(1550104432, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xdb, 0xe8, 0xb5, 0x12, 0xa7, 0xe0, 0xeb, 0x65, 0x76, 0xef, 0x17, 0x86, 0x85, 0x30, 0x53, 0x5a, 0x79, 0xdc, 0xc9, 0x91, 0x1e, 0x73, 0xb0, 0x7d, 0x0, 0x12, 0xdb, 0x16, 0x49, 0x18, 0xcc, 0xc9}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -572,6 +614,10 @@ var _bindata = map[string]func() (*asset, error){
 	"20190209231122_add_indexed_at_to_identities.down.sql": _20190209231122_add_indexed_at_to_identitiesDownSql,
 
 	"20190209231122_add_indexed_at_to_identities.up.sql": _20190209231122_add_indexed_at_to_identitiesUpSql,
+
+	"20190214003216_non_nullable_channel_columns.down.sql": _20190214003216_non_nullable_channel_columnsDownSql,
+
+	"20190214003216_non_nullable_channel_columns.up.sql": _20190214003216_non_nullable_channel_columnsUpSql,
 }
 
 // AssetDir returns the file names below a certain
@@ -633,6 +679,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"20190208140801_prevent_empty_location_id_serial.up.sql":    &bintree{_20190208140801_prevent_empty_location_id_serialUpSql, map[string]*bintree{}},
 	"20190209231122_add_indexed_at_to_identities.down.sql":      &bintree{_20190209231122_add_indexed_at_to_identitiesDownSql, map[string]*bintree{}},
 	"20190209231122_add_indexed_at_to_identities.up.sql":        &bintree{_20190209231122_add_indexed_at_to_identitiesUpSql, map[string]*bintree{}},
+	"20190214003216_non_nullable_channel_columns.down.sql":      &bintree{_20190214003216_non_nullable_channel_columnsDownSql, map[string]*bintree{}},
+	"20190214003216_non_nullable_channel_columns.up.sql":        &bintree{_20190214003216_non_nullable_channel_columnsUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
