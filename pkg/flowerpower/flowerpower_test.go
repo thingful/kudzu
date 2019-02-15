@@ -1,6 +1,7 @@
 package flowerpower_test
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -14,11 +15,11 @@ import (
 
 	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/flowerpower"
+	"github.com/thingful/kuzu/pkg/logger"
 )
 
 func TestGetUser(t *testing.T) {
-	logger := kitlog.NewNopLogger()
-	cl := client.NewClient(1, logger)
+	cl := client.NewClient(1, false)
 
 	simular.Activate()
 	defer simular.DeactivateAndReset()
@@ -39,7 +40,7 @@ func TestGetUser(t *testing.T) {
 		),
 	)
 
-	user, err := flowerpower.GetUser(cl, "foo")
+	user, err := flowerpower.GetUser(context.Background(), cl, "foo")
 	assert.Nil(t, err)
 	assert.NotNil(t, user)
 	assert.Equal(t, "barnabas@example.com", user.ParrotID)
@@ -49,8 +50,10 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestGetUserWhenInvalidToken(t *testing.T) {
-	logger := kitlog.NewNopLogger()
-	cl := client.NewClient(1, logger)
+	log := kitlog.NewNopLogger()
+	ctx := logger.ToContext(context.Background(), log)
+
+	cl := client.NewClient(1, false)
 
 	simular.Activate()
 	defer simular.DeactivateAndReset()
@@ -68,7 +71,7 @@ func TestGetUserWhenInvalidToken(t *testing.T) {
 		),
 	)
 
-	_, err := flowerpower.GetUser(cl, "foo")
+	_, err := flowerpower.GetUser(ctx, cl, "foo")
 	assert.NotNil(t, err)
 
 	err = simular.AllStubsCalled()
@@ -76,8 +79,10 @@ func TestGetUserWhenInvalidToken(t *testing.T) {
 }
 
 func TestGetLocations(t *testing.T) {
-	logger := kitlog.NewNopLogger()
-	cl := client.NewClient(1, logger)
+	log := kitlog.NewNopLogger()
+	ctx := logger.ToContext(context.Background(), log)
+
+	cl := client.NewClient(1, false)
 
 	simular.Activate()
 	defer simular.DeactivateAndReset()
@@ -111,7 +116,7 @@ func TestGetLocations(t *testing.T) {
 		),
 	)
 
-	locations, err := flowerpower.GetLocations(cl, "foo")
+	locations, err := flowerpower.GetLocations(ctx, cl, "foo")
 	assert.Nil(t, err)
 	assert.Len(t, locations, 35)
 
@@ -122,8 +127,9 @@ func TestGetLocations(t *testing.T) {
 }
 
 func TestGetLocations404(t *testing.T) {
-	logger := kitlog.NewNopLogger()
-	cl := client.NewClient(1, logger)
+	log := kitlog.NewNopLogger()
+	ctx := logger.ToContext(context.Background(), log)
+	cl := client.NewClient(1, false)
 
 	simular.Activate()
 	defer simular.DeactivateAndReset()
@@ -141,7 +147,7 @@ func TestGetLocations404(t *testing.T) {
 		),
 	)
 
-	_, err := flowerpower.GetLocations(cl, "foo")
+	_, err := flowerpower.GetLocations(ctx, cl, "foo")
 	assert.NotNil(t, err)
 
 	err = simular.AllStubsCalled()
@@ -149,8 +155,10 @@ func TestGetLocations404(t *testing.T) {
 }
 
 func TestGetLocationsInvalidResponse(t *testing.T) {
-	logger := kitlog.NewNopLogger()
-	cl := client.NewClient(1, logger)
+	log := kitlog.NewNopLogger()
+	ctx := logger.ToContext(context.Background(), log)
+
+	cl := client.NewClient(1, true)
 
 	simular.Activate()
 	defer simular.DeactivateAndReset()
@@ -168,7 +176,7 @@ func TestGetLocationsInvalidResponse(t *testing.T) {
 		),
 	)
 
-	_, err := flowerpower.GetLocations(cl, "foo")
+	_, err := flowerpower.GetLocations(ctx, cl, "foo")
 	assert.NotNil(t, err)
 
 	err = simular.AllStubsCalled()
@@ -176,8 +184,10 @@ func TestGetLocationsInvalidResponse(t *testing.T) {
 }
 
 func TestGetReadingsOK(t *testing.T) {
-	logger := kitlog.NewNopLogger()
-	cl := client.NewClient(1, logger)
+	log := kitlog.NewNopLogger()
+	ctx := logger.ToContext(context.Background(), log)
+
+	cl := client.NewClient(1, true)
 
 	simular.Activate()
 	defer simular.DeactivateAndReset()
@@ -211,7 +221,7 @@ func TestGetReadingsOK(t *testing.T) {
 	from, _ := time.Parse(time.RFC3339, fromTS)
 	to, _ := time.Parse(time.RFC3339, toTS)
 
-	readings, err := flowerpower.GetReadings(cl, "foo", locationID, from, to)
+	readings, err := flowerpower.GetReadings(ctx, cl, "foo", locationID, from, to)
 	assert.Nil(t, err)
 
 	assert.Len(t, readings, 3)

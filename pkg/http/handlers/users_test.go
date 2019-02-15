@@ -2,6 +2,7 @@ package handlers_test
 
 import (
 	"bytes"
+	"context"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -18,6 +19,7 @@ import (
 	"github.com/thingful/kuzu/pkg/flowerpower"
 	"github.com/thingful/kuzu/pkg/http/handlers"
 	"github.com/thingful/kuzu/pkg/indexer"
+	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 )
 
@@ -46,8 +48,8 @@ func (s *UsersSuite) SetupTest() {
 	}
 
 	s.logger = logger
-	s.db = postgres.NewDB(connStr, logger, true)
-	s.client = client.NewClient(1, logger)
+	s.db = postgres.NewDB(connStr, true)
+	s.client = client.NewClient(1, true)
 	s.indexer = indexer.NewIndexer(
 		&indexer.Config{
 			DB:     s.db,
@@ -73,6 +75,8 @@ func (s *UsersSuite) TearDownTest() {
 }
 
 func (s *UsersSuite) TestCreateUser() {
+	ctx := logger.ToContext(context.Background(), s.logger)
+
 	// register simular http mocks
 	profileBytes, err := ioutil.ReadFile("../../flowerpower/testdata/barnabas_profile.json")
 	assert.Nil(s.T(), err)
@@ -138,6 +142,7 @@ func (s *UsersSuite) TestCreateUser() {
 	expected := `{"User": "barnabas","TotalThings": 35}`
 
 	req, err := http.NewRequest(http.MethodPost, "/user/new", bytes.NewReader(input))
+	req = req.WithContext(ctx)
 	assert.Nil(s.T(), err)
 
 	mux.ServeHTTP(recorder, req)
@@ -149,6 +154,8 @@ func (s *UsersSuite) TestCreateUser() {
 }
 
 func (s *UsersSuite) TestCreateUserWhenAlreadyRegistered() {
+	ctx := logger.ToContext(context.Background(), s.logger)
+
 	// register simular http mocks
 	profileBytes, err := ioutil.ReadFile("../../flowerpower/testdata/barnabas_profile.json")
 	assert.Nil(s.T(), err)
@@ -193,6 +200,7 @@ func (s *UsersSuite) TestCreateUserWhenAlreadyRegistered() {
 
 	req, err := http.NewRequest(http.MethodPost, "/user/new", bytes.NewReader(input))
 	assert.Nil(s.T(), err)
+	req = req.WithContext(ctx)
 
 	mux.ServeHTTP(recorder, req)
 	assert.Equal(s.T(), http.StatusUnprocessableEntity, recorder.Code)

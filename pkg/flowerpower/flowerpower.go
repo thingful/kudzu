@@ -1,6 +1,7 @@
 package flowerpower
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/url"
@@ -67,8 +68,8 @@ type userProfile struct {
 
 // GetUser attempts to read the Parrot user from their API. Returns an error if
 // we cannot read the user.
-func GetUser(client *client.Client, accessToken string) (*User, error) {
-	profileBytes, err := client.Get(ProfileURL, accessToken)
+func GetUser(ctx context.Context, client *client.Client, accessToken string) (*User, error) {
+	profileBytes, err := client.Get(ctx, ProfileURL, accessToken)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to retrieve user profile data")
 	}
@@ -89,8 +90,8 @@ func GetUser(client *client.Client, accessToken string) (*User, error) {
 // the user identified by the given access token. Will return an error if the
 // given credential is not valid. Does not return any sensor values, these must
 // be retrieved separately.
-func GetLocations(client *client.Client, accessToken string) ([]Location, error) {
-	statusBytes, err := client.Get(StatusURL, accessToken)
+func GetLocations(ctx context.Context, client *client.Client, accessToken string) ([]Location, error) {
+	statusBytes, err := client.Get(ctx, StatusURL, accessToken)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to retrieve status data")
 	}
@@ -102,7 +103,7 @@ func GetLocations(client *client.Client, accessToken string) ([]Location, error)
 		return nil, errors.Wrap(err, "failed to unmarshal status json")
 	}
 
-	configurationBytes, err := client.Get(ConfigurationURL, accessToken)
+	configurationBytes, err := client.Get(ctx, ConfigurationURL, accessToken)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to retrieve configuration data")
 	}
@@ -144,7 +145,7 @@ func GetLocations(client *client.Client, accessToken string) ([]Location, error)
 // GetReadings reads a slice of sensor readings from flower power for a given
 // location, between the specified start and end times. Returns either a slice
 // of values or an error.
-func GetReadings(client *client.Client, accessToken, locationID string, from, to time.Time) ([]Reading, error) {
+func GetReadings(ctx context.Context, client *client.Client, accessToken, locationID string, from, to time.Time) ([]Reading, error) {
 	locationURL, err := url.Parse(fmt.Sprintf(DataURL, locationID))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse location url")
@@ -155,7 +156,7 @@ func GetReadings(client *client.Client, accessToken, locationID string, from, to
 
 	locationURL.RawQuery = q.Encode()
 
-	b, err := client.Get(locationURL.String(), accessToken)
+	b, err := client.Get(ctx, locationURL.String(), accessToken)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to fetch sensor data")
 	}

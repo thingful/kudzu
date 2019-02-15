@@ -33,7 +33,8 @@ type newUserRequest struct {
 
 // newUserHandler is the handler function for the new user registration operations
 func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
-	log := logger.FromContext(r.Context())
+	ctx := r.Context()
+	log := logger.FromContext(ctx)
 
 	// parse the incoming request
 	userData, err := parseNewUserRequest(r)
@@ -42,7 +43,7 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 
 	// get user profile from parrot
-	parrotUser, err := flowerpower.GetUser(env.client, userData.Info.AccessToken)
+	parrotUser, err := flowerpower.GetUser(ctx, env.client, userData.Info.AccessToken)
 	if err != nil {
 		return &HTTPError{
 			Code: http.StatusBadGateway,
@@ -51,7 +52,7 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 
 	// save the user with identity to postgres
-	err = env.db.SaveUser(r.Context(), &postgres.User{
+	userID, err := env.db.SaveUser(ctx, &postgres.User{
 		UID:          userData.Info.UID,
 		ParrotID:     parrotUser.ParrotID,
 		AccessToken:  userData.Info.AccessToken,
@@ -74,7 +75,7 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 
 	// get locations from parrot
-	locations, err := flowerpower.GetLocations(env.client, userData.Info.AccessToken)
+	locations, err := flowerpower.GetLocations(ctx, env.client, userData.Info.AccessToken)
 	if err != nil {
 		return &HTTPError{
 			Code: http.StatusBadGateway,
@@ -99,7 +100,12 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 
 	// spawn goroutine to index all things for the user
 	go func() {
-		err := env.indexer.IndexLocations(userData.Info.AccessToken)
+		identity := &postgres.Identity{
+			OwnerID:     userID,
+			AccessToken: userData.Info.AccessToken,
+		}
+
+		err := env.indexer.IndexLocations(ctx, identity)
 		if err != nil {
 			log.Log("msg", "error indexing locations", "err", err)
 		}

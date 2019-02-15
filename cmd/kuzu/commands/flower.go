@@ -1,13 +1,13 @@
 package commands
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/spf13/cobra"
 
 	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/flowerpower"
-	"github.com/thingful/kuzu/pkg/logger"
 )
 
 func init() {
@@ -19,8 +19,8 @@ var flowerCmd = &cobra.Command{
 	Short: "Interrogate flowerpower for given identities",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client := client.NewClient(5, logger.NewLogger())
-		locations, err := flowerpower.GetLocations(client, args[0])
+		client := client.NewClient(5, true)
+		locations, err := flowerpower.GetLocations(context.Background(), client, args[0])
 		if err != nil {
 			return err
 		}

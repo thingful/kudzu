@@ -23,6 +23,8 @@ type Config struct {
 	ClientTimeout int
 	Verbose       bool
 	Delay         int
+	ThingfulURL   string
+	ThingfulKey   string
 }
 
 // NewApp returns a new App instance with components configured but not yet
@@ -30,26 +32,29 @@ type Config struct {
 func NewApp(config *Config) *App {
 	logger := logger.NewLogger()
 
-	db := postgres.NewDB(config.DatabaseURL, logger, config.Verbose)
+	db := postgres.NewDB(config.DatabaseURL, config.Verbose)
 
-	client := client.NewClient(config.ClientTimeout, logger)
+	cl := client.NewClient(config.ClientTimeout, config.Verbose)
 
 	quitChan := make(chan struct{})
 	errChan := make(chan error)
 	var wg sync.WaitGroup
 
 	i := indexer.NewIndexer(&indexer.Config{
-		DB:        db,
-		Client:    client,
-		QuitChan:  quitChan,
-		ErrChan:   errChan,
-		WaitGroup: &wg,
-		Delay:     time.Duration(config.Delay) * time.Second,
+		DB:          db,
+		Client:      cl,
+		QuitChan:    quitChan,
+		ErrChan:     errChan,
+		WaitGroup:   &wg,
+		Delay:       time.Duration(config.Delay) * time.Second,
+		ThingfulURL: config.ThingfulURL,
+		ThingfulKey: config.ThingfulKey,
+		Verbose:     config.Verbose,
 	}, logger)
 
 	h := http.NewHTTP(&http.Config{
 		DB:        db,
-		Client:    client,
+		Client:    cl,
 		Addr:      config.Addr,
 		QuitChan:  quitChan,
 		ErrChan:   errChan,
@@ -61,7 +66,6 @@ func NewApp(config *Config) *App {
 		logger:  kitlog.With(logger, "module", "app"),
 		http:    h,
 		db:      db,
-		client:  client,
 		indexer: i,
 
 		quitChan: quitChan,
@@ -77,7 +81,6 @@ type App struct {
 	logger  kitlog.Logger
 	db      *postgres.DB
 	http    *http.HTTP
-	client  *client.Client
 	indexer *indexer.Indexer
 
 	quitChan chan struct{}

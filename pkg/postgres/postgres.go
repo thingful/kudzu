@@ -16,20 +16,14 @@ func Open(connStr string) (*sqlx.DB, error) {
 type DB struct {
 	DB *sqlx.DB
 
-	logger  kitlog.Logger
 	connStr string
 	verbose bool
 }
 
 // NewDB returns a new DB instance which is not yet connected to the database
-func NewDB(connStr string, logger kitlog.Logger, verbose bool) *DB {
-	logger = kitlog.With(logger, "module", "postgres")
-
-	logger.Log("msg", "configuring postgres service")
-
+func NewDB(connStr string, verbose bool) *DB {
 	return &DB{
 		connStr: connStr,
-		logger:  logger,
 		verbose: verbose,
 	}
 }
@@ -37,8 +31,6 @@ func NewDB(connStr string, logger kitlog.Logger, verbose bool) *DB {
 // Start attempts to connect to the configured database, running up migrations
 // and returning any error.
 func (d *DB) Start() error {
-	d.logger.Log("msg", "starting postgres service")
-
 	db, err := Open(d.connStr)
 	if err != nil {
 		return errors.Wrap(err, "failed to open db connection")
@@ -46,13 +38,13 @@ func (d *DB) Start() error {
 
 	d.DB = db
 
-	return MigrateUp(d.DB.DB, d.logger)
+	log := kitlog.NewNopLogger()
+
+	return MigrateUp(d.DB.DB, log)
 }
 
 // Stop stops the postgres connection pool
 func (d *DB) Stop() error {
-	d.logger.Log("msg", "stopping postgres service")
-
 	return d.DB.Close()
 }
 

@@ -35,7 +35,7 @@ func (s *UsersSuite) SetupTest() {
 		s.T().Fatalf("Failed to close db connection: %v", err)
 	}
 
-	s.db = postgres.NewDB(connStr, logger, true)
+	s.db = postgres.NewDB(connStr, true)
 	s.logger = logger
 
 	err = s.db.Start()
@@ -59,7 +59,7 @@ func (s *UsersSuite) TearDownTest() {
 func (s *UsersSuite) TestSaveUser() {
 	ctx := logger.ToContext(context.Background(), s.logger)
 
-	err := s.db.SaveUser(ctx, &postgres.User{
+	userID, err := s.db.SaveUser(ctx, &postgres.User{
 		UID:          "abc123",
 		ParrotID:     "foo@example.com",
 		AccessToken:  "access",
@@ -68,23 +68,23 @@ func (s *UsersSuite) TestSaveUser() {
 	})
 
 	assert.Nil(s.T(), err)
-	//assert.NotEqual(s.T(), int64(0), userID)
+	assert.NotEqual(s.T(), int64(0), userID)
 
-	//// ugly check we wrote the data ok
-	//sql := `SELECT u.id, u.uid, u.parrot_id, i.access_token, i.refresh_token
-	//FROM users u
-	//JOIN identities i ON i.owner_id = u.id
-	//WHERE u.id = $1`
+	// ugly check we wrote the data ok
+	sql := `SELECT u.id, u.uid, u.parrot_id, i.access_token, i.refresh_token
+	FROM users u
+	JOIN identities i ON i.owner_id = u.id
+	WHERE u.id = $1`
 
-	//var u postgres.User
+	var u postgres.User
 
-	//err = s.db.DB.Get(&u, sql, userID)
-	//assert.Nil(s.T(), err)
+	err = s.db.DB.Get(&u, sql, userID)
+	assert.Nil(s.T(), err)
 
-	//assert.Equal(s.T(), "abc123", u.UID)
-	//assert.Equal(s.T(), "foo@example.com", u.ParrotID)
-	//assert.Equal(s.T(), "access", u.AccessToken)
-	//assert.Equal(s.T(), "refresh", u.RefreshToken)
+	assert.Equal(s.T(), "abc123", u.UID)
+	assert.Equal(s.T(), "foo@example.com", u.ParrotID)
+	assert.Equal(s.T(), "access", u.AccessToken)
+	assert.Equal(s.T(), "refresh", u.RefreshToken)
 }
 
 func TestUsersSuite(t *testing.T) {

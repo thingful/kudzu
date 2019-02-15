@@ -32,7 +32,7 @@ func (s *LocationsSuite) SetupTest() {
 		s.T().Fatalf("Failed to close db connection: %v", err)
 	}
 
-	s.db = postgres.NewDB(connStr, logger, true)
+	s.db = postgres.NewDB(connStr, true)
 	s.logger = logger
 
 	err = s.db.Start()

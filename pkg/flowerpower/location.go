@@ -2,7 +2,8 @@ package flowerpower
 
 import "time"
 
-// Location is a type
+// Location is a type used to export sensor configuration as read from the
+// Parrot API.
 type Location struct {
 	Nickname       string
 	LocationID     string
