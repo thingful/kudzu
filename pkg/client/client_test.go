@@ -1,6 +1,7 @@
 package client_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -10,19 +11,17 @@ import (
 	"github.com/thingful/simular"
 
 	"github.com/thingful/kuzu/pkg/client"
+	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/version"
 )
 
 func TestClient(t *testing.T) {
-	logger := kitlog.NewNopLogger()
-
-	cl := client.NewClient(1, logger)
+	cl := client.NewClient(1, false)
 	assert.NotNil(t, cl)
 }
 
 func TestGet(t *testing.T) {
-	logger := kitlog.NewNopLogger()
-	cl := client.NewClient(1, logger)
+	cl := client.NewClient(1, false)
 
 	simular.Activate()
 	defer simular.DeactivateAndReset()
@@ -41,7 +40,7 @@ func TestGet(t *testing.T) {
 		),
 	)
 
-	b, err := cl.Get("http://example.com", "foo")
+	b, err := cl.Get(context.Background(), "http://example.com", "foo")
 	assert.Nil(t, err)
 	assert.Equal(t, "ok", string(b))
 
@@ -50,8 +49,7 @@ func TestGet(t *testing.T) {
 }
 
 func TestGetNotFoundError(t *testing.T) {
-	logger := kitlog.NewNopLogger()
-	cl := client.NewClient(1, logger)
+	cl := client.NewClient(1, false)
 
 	simular.Activate()
 	defer simular.DeactivateAndReset()
@@ -70,7 +68,9 @@ func TestGetNotFoundError(t *testing.T) {
 		),
 	)
 
-	_, err := cl.Get("http://example.com", "foo")
+	log := kitlog.NewNopLogger()
+
+	_, err := cl.Get(logger.ToContext(context.Background(), log), "http://example.com", "foo")
 	assert.NotNil(t, err)
 
 	err = simular.AllStubsCalled()

@@ -1,14 +1,15 @@
 package client
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"time"
 
-	kitlog "github.com/go-kit/kit/log"
 	"github.com/pkg/errors"
+	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/version"
 )
 
@@ -17,19 +18,12 @@ import (
 type Client struct {
 	client    *http.Client
 	userAgent string
-	logger    kitlog.Logger
+	verbose   bool
 }
 
 // NewClient returns a new client instance initialized with a user agent string
 // and timeout
-func NewClient(timeout int, logger kitlog.Logger) *Client {
-	logger = kitlog.With(logger, "module", "client")
-
-	logger.Log(
-		"msg", "configuring http client",
-		"timeout", timeout,
-	)
-
+func NewClient(timeout int, verbose bool) *Client {
 	c := &http.Client{
 		Timeout: time.Duration(timeout) * time.Second,
 	}
@@ -37,13 +31,23 @@ func NewClient(timeout int, logger kitlog.Logger) *Client {
 	return &Client{
 		client:    c,
 		userAgent: fmt.Sprintf("grow(%s)/%s", version.BinaryName, version.Version),
-		logger:    logger,
+		verbose:   verbose,
 	}
 }
 
 // Get attempts to fetch the given URL, setting the correct authorization and
 // user agent header
-func (c *Client) Get(requestURL, accessToken string) ([]byte, error) {
+// TODO: add context to pass in logger
+func (c *Client) Get(ctx context.Context, requestURL, accessToken string) ([]byte, error) {
+	log := logger.FromContext(ctx)
+
+	if c.verbose {
+		log.Log(
+			"msg", "getting url",
+			"url", requestURL,
+		)
+	}
+
 	req, err := http.NewRequest(http.MethodGet, requestURL, nil)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create http request object")
@@ -63,7 +67,7 @@ func (c *Client) Get(requestURL, accessToken string) ([]byte, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		c.logger.Log("msg", "unexpected response code", "code", resp.StatusCode)
+		log.Log("msg", "unexpected response code", "code", resp.StatusCode)
 		switch resp.StatusCode {
 		case http.StatusUnauthorized:
 			return nil, UnauthorizedError
