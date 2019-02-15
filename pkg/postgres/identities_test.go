@@ -34,7 +34,7 @@ func (s *IdentitiesSuite) SetupTest() {
 		s.T().Fatalf("Failed to close db connection: %v", err)
 	}
 
-	s.db = postgres.NewDB(connStr, logger, true)
+	s.db = postgres.NewDB(connStr, true)
 	s.logger = logger
 
 	err = s.db.Start()
@@ -72,19 +72,19 @@ func (s *IdentitiesSuite) TestNextAccessToken() {
 	_, err = s.db.DB.Exec(`INSERT INTO identities (owner_id, auth_provider, access_token, indexed_at) VALUES ($1, 'parrot', $2, NOW() - interval '1 hour')`, userID, "third")
 	assert.Nil(s.T(), err)
 
-	accessToken, err := s.db.NextAccessToken(ctx)
+	identity, err := s.db.NextIdentity(ctx)
 	assert.Nil(s.T(), err)
-	assert.Equal(s.T(), "first", accessToken)
+	assert.Equal(s.T(), "first", identity.AccessToken)
 
-	accessToken, err = s.db.NextAccessToken(ctx)
+	identity, err = s.db.NextIdentity(ctx)
 	assert.Nil(s.T(), err)
-	assert.Equal(s.T(), "second", accessToken)
+	assert.Equal(s.T(), "second", identity.AccessToken)
 
-	accessToken, err = s.db.NextAccessToken(ctx)
+	identity, err = s.db.NextIdentity(ctx)
 	assert.Nil(s.T(), err)
-	assert.Equal(s.T(), "", accessToken)
+	assert.Equal(s.T(), "", identity.AccessToken)
 
-	accessToken, err = s.db.NextAccessToken(ctx)
+	identity, err = s.db.NextIdentity(ctx)
 	assert.Nil(s.T(), err)
-	assert.Equal(s.T(), "", accessToken)
+	assert.Equal(s.T(), "", identity.AccessToken)
 }
