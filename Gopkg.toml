@@ -84,3 +84,7 @@
 [[constraint]]
   name = "github.com/guregu/null"
   version = "3.4.0"
+
+[[constraint]]
+  name = "github.com/thingful/thingfulx"
+  version = "0.2.6"

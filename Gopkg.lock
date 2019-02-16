@@ -340,6 +340,17 @@
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:3c9cf00a02b1f5bcba23701d6a7ec9b869a9acbf815f83324b2e5759732f63cb"
+  name = "github.com/thingful/thingfulx"
+  packages = [
+    ".",
+    "schema",
+  ]
+  pruneopts = "UT"
+  revision = "fcf96f5449ec111c60354c21e6ea12e4c9675337"
+  version = "0.2.6"
+
+[[projects]]
   digest = "1:6e898847e5e1a1e0068a915fc9d4476a6e3399ee3cdd1122f3dad90e49c9c3b8"
   name = "goji.io"
   packages = [
@@ -420,6 +431,7 @@
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/suite",
     "github.com/thingful/simular",
+    "github.com/thingful/thingfulx",
     "goji.io",
     "goji.io/pat",
   ]
