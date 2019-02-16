@@ -26,6 +26,9 @@ func init() {
 	viper.AutomaticEnv()
 	replacer := strings.NewReplacer("-", "_")
 	viper.SetEnvKeyReplacer(replacer)
+
+	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Boolean flag to enable verbose logging")
+	viper.BindPFlag("verbose", rootCmd.PersistentFlags().Lookup("verbose"))
 }
 
 // Execute is the main entry point for our cobra commands
