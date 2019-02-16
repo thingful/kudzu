@@ -62,3 +62,27 @@ func (d *DB) SaveUser(ctx context.Context, user *User) (int64, error) {
 
 	return userID, tx.Commit()
 }
+
+// DeleteUser attempts to delete the user identified by the supplied uid
+func (d *DB) DeleteUser(ctx context.Context, uid string) error {
+	log := logger.FromContext(ctx)
+
+	if d.verbose {
+		log.Log("msg", "deleting user", "uid", uid)
+	}
+
+	sqlQuery := `DELETE FROM users WHERE uid = $1`
+
+	tx, err := d.DB.Beginx()
+	if err != nil {
+		return errors.Wrap(err, "failed to open transaction")
+	}
+
+	_, err = tx.Exec(sqlQuery, uid)
+	if err != nil {
+		tx.Rollback()
+		return errors.Wrap(err, "faield to delete user")
+	}
+
+	return tx.Commit()
+}

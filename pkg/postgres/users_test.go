@@ -85,6 +85,19 @@ func (s *UsersSuite) TestSaveUser() {
 	assert.Equal(s.T(), "foo@example.com", u.ParrotID)
 	assert.Equal(s.T(), "access", u.AccessToken)
 	assert.Equal(s.T(), "refresh", u.RefreshToken)
+
+	err = s.db.DeleteUser(ctx, "abc123")
+	assert.Nil(s.T(), err)
+
+	err = s.db.DB.Get(&u, sql, userID)
+	assert.NotNil(s.T(), err)
+}
+
+func (s *UsersSuite) TestDeleteUnknownUser() {
+	ctx := logger.ToContext(context.Background(), s.logger)
+
+	err := s.db.DeleteUser(ctx, "abc123")
+	assert.Nil(s.T(), err)
 }
 
 func TestUsersSuite(t *testing.T) {
