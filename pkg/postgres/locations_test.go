@@ -20,37 +20,12 @@ func (s *LocationsSuite) SetupTest() {
 	logger := kitlog.NewNopLogger()
 	connStr := os.Getenv("KUZU_DATABASE_URL")
 
-	db, err := postgres.Open(connStr)
-	if err != nil {
-		s.T().Fatalf("Failed to open db connection: %v", err)
-	}
-
-	postgres.MigrateDownAll(db.DB, logger)
-
-	err = db.Close()
-	if err != nil {
-		s.T().Fatalf("Failed to close db connection: %v", err)
-	}
-
-	s.db = postgres.NewDB(connStr, true)
+	s.db = PrepareDB(s.T(), connStr, logger)
 	s.logger = logger
-
-	err = s.db.Start()
-	if err != nil {
-		s.T().Fatalf("Failed to start db service: %v", err)
-	}
 }
 
 func (s *LocationsSuite) TearDownTest() {
-	err := postgres.Truncate(s.db.DB)
-	if err != nil {
-		s.T().Fatalf("Failed to truncate tables: %v", err)
-	}
-
-	err = s.db.Stop()
-	if err != nil {
-		s.T().Fatalf("Failed to stop db service: %v", err)
-	}
+	CleanDB(s.T(), s.db)
 }
 
 //sfunc (s *LocationsSuite) TestSaveLocations() {
