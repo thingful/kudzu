@@ -50,7 +50,7 @@ func NewIndexer(config *Config, logger kitlog.Logger) *Indexer {
 		"thingfulURL", config.ThingfulURL,
 	)
 
-	th := thingful.NewClient(config.Client, config.ThingfulURL, config.ThingfulKey)
+	th := thingful.NewClient(config.Client, config.ThingfulURL, config.ThingfulKey, config.Verbose)
 
 	return &Indexer{
 		Config:   config,
@@ -173,6 +173,10 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 	fromUTC := thing.FirstSampleUTC.Time
 	toUTC := fromUTC.AddDate(0, 0, 10)
 
+	if thing.LastSampleUTC.Time.Before(toUTC) {
+		toUTC = thing.LastSampleUTC.Time
+	}
+
 	// get the first slice of readings for the location
 	readings, err := flowerpower.GetReadings(ctx, i.Client, identity.AccessToken, l.LocationID, fromUTC, toUTC)
 	if err != nil {
@@ -206,6 +210,10 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 		fromUTC = thing.LastUploadedUTC.Time
 		toUTC = fromUTC.AddDate(0, 0, 10)
 
+		if thing.LastSampleUTC.Time.Before(toUTC) {
+			toUTC = thing.LastSampleUTC.Time
+		}
+
 		// get next readings from flowerpower
 		readings, err = flowerpower.GetReadings(ctx, i.Client, identity.AccessToken, l.LocationID, fromUTC, toUTC)
 		if err != nil {
@@ -235,10 +243,53 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 	return nil
 }
 
-func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.Identity, l *flowerpower.Location, t *postgres.Thing) error {
+func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.Identity, location *flowerpower.Location, thing *postgres.Thing) error {
+	log := logger.FromContext(ctx)
+
+	// read the sample timestamp values from retrieved data
+	thing.FirstSampleUTC = null.TimeFrom(location.FirstSampleUTC)
+	thing.LastSampleUTC = null.TimeFrom(location.LastSampleUTC)
+
 	for {
-		if !hasMoreReadingsToIndex(ctx, t) {
+		// we sleep to avoid hammering Parrot too hard
+		time.Sleep(i.Delay)
+
+		if !hasMoreReadingsToIndex(ctx, thing) {
 			break
+		}
+
+		// get the next time window to fetch
+		fromUTC := thing.LastUploadedUTC.Time
+		toUTC := fromUTC.AddDate(0, 0, 10)
+
+		// check if our calculated upper bound is beyond the last sample value
+		if thing.LastSampleUTC.Time.Before(toUTC) {
+			toUTC = thing.LastSampleUTC.Time
+		}
+
+		// get next readings from flowerpower
+		readings, err := flowerpower.GetReadings(ctx, i.Client, identity.AccessToken, location.LocationID, fromUTC, toUTC)
+		if err != nil {
+			log.Log("msg", "failed to get next readings", "err", err, "fromUTC", fromUTC, "toUTC", toUTC)
+			return errors.Wrap(err, "failed to get slice of readings from Parrot")
+		}
+
+		// send to Thingful
+		err = i.thingful.UpdateThing(ctx, thing, readings)
+		if err != nil {
+			log.Log("msg", "failed to push observations to Thingful", "err", err, "fromUTC", fromUTC, "toUTC", toUTC)
+			return errors.Wrap(err, "failed to get slice of readings from Parrot")
+		}
+
+		now := time.Now()
+		thing.IndexedAt = null.TimeFrom(now)
+		thing.UpdatedAt = null.TimeFrom(now)
+		thing.LastUploadedUTC = null.TimeFrom(toUTC)
+
+		// update the last uploaded timestamp and any related channels
+		err = i.DB.UpdateThing(ctx, thing)
+		if err != nil {
+			return errors.Wrap(err, "failed to update thing")
 		}
 	}
 
