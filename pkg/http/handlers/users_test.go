@@ -210,6 +210,32 @@ func (s *UsersSuite) TestCreateUserWhenAlreadyRegistered() {
 	assert.Nil(s.T(), err)
 }
 
+func (s *UsersSuite) TestDeleteUser() {
+	ctx := logger.ToContext(context.Background(), s.logger)
+
+	sql := `INSERT INTO users (uid, parrot_id) VALUES ($1, $2)`
+	_, err := s.db.DB.Exec(sql, "barnabas", "barnabas@example.com")
+	assert.Nil(s.T(), err)
+
+	mux := goji.NewMux()
+	handlers.RegisterUserHandlers(mux, s.db, s.client, s.indexer)
+
+	recorder := httptest.NewRecorder()
+	input := []byte(`
+	{
+		"User": {
+			"Identifier": "barnabas"
+		}
+	}`)
+
+	req, err := http.NewRequest(http.MethodDelete, "/user/delete", bytes.NewReader(input))
+	assert.Nil(s.T(), err)
+
+	req = req.WithContext(ctx)
+	mux.ServeHTTP(recorder, req)
+	assert.Equal(s.T(), http.StatusNoContent, recorder.Code)
+}
+
 func TestUsersSuite(t *testing.T) {
 	suite.Run(t, new(UsersSuite))
 }

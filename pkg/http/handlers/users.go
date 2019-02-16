@@ -19,6 +19,7 @@ import (
 // RegisterUserHandlers registers our user related handlers into the mux
 func RegisterUserHandlers(mux *goji.Mux, db *postgres.DB, cl *client.Client, in *indexer.Indexer) {
 	mux.Handle(pat.Post("/user/new"), Handler{env: &Env{db: db, client: cl, indexer: in}, handler: newUserHandler})
+	mux.Handle(pat.Delete("/user/delete"), Handler{env: &Env{db: db}, handler: deleteUserHandler})
 }
 
 // newUserRequest is a local type used for parsing incoming requests
@@ -40,6 +41,13 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	userData, err := parseNewUserRequest(r)
 	if err != nil {
 		return err
+	}
+
+	if userData.Info.UID == "" || userData.Info.AccessToken == "" {
+		return &HTTPError{
+			Code: http.StatusUnprocessableEntity,
+			Err:  errors.New("User identifier and access token must be supplied"),
+		}
 	}
 
 	// get user profile from parrot
@@ -140,12 +148,46 @@ func parseNewUserRequest(r *http.Request) (*newUserRequest, error) {
 		}
 	}
 
-	if data.Info.UID == "" || data.Info.AccessToken == "" {
-		return nil, &HTTPError{
+	return &data, nil
+}
+
+func deleteUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
+	ctx := r.Context()
+	log := logger.FromContext(ctx)
+
+	userData, err := parseNewUserRequest(r)
+	if err != nil {
+		return err
+	}
+
+	if userData.Info.UID == "" {
+		return &HTTPError{
 			Code: http.StatusUnprocessableEntity,
-			Err:  errors.New("User identifier and access token must be supplied"),
+			Err:  errors.New("User identifier must be supplied"),
 		}
 	}
 
-	return &data, nil
+	err = env.db.DeleteUser(ctx, userData.Info.UID)
+	if err != nil {
+		log.Log(
+			"msg", "error deleting user",
+			"error", err,
+		)
+		switch errors.Cause(err) {
+		case postgres.ClientError:
+			return &HTTPError{
+				Code: http.StatusNotFound,
+				Err:  errors.New("Unable to delete the specified user"),
+			}
+		default:
+			return &HTTPError{
+				Code: http.StatusInternalServerError,
+				Err:  err,
+			}
+		}
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+
+	return nil
 }
