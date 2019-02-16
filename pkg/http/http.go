@@ -82,6 +82,9 @@ func (h *HTTP) Start() {
 	loggingMiddleware := middleware.NewLoggingMiddleware(h.logger, true)
 	mux.Use(loggingMiddleware.Handler)
 
+	authMiddleware := middleware.NewAuthMiddleware(h.DB)
+	mux.Use(authMiddleware.Handler)
+
 	h.srv.Handler = mux
 
 	go func() {
