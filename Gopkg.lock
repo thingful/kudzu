@@ -34,6 +34,14 @@
   version = "v1.1.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:97fc9e0cda8cdf339065aa818bc5ab90de24bdcf809a326cecda172cd37eef9c"
+  name = "github.com/elgris/sqrl"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "90ecf730640af15b296b0613b5d74848b3675e53"
+
+[[projects]]
   digest = "1:abeb38ade3f32a92943e5be54f55ed6d6e3b6602761d74b4aab4c9dd45c18abd"
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
@@ -415,6 +423,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/elgris/sqrl",
     "github.com/go-kit/kit/log",
     "github.com/golang-migrate/migrate",
     "github.com/golang-migrate/migrate/database/postgres",
@@ -432,6 +441,7 @@
     "github.com/stretchr/testify/suite",
     "github.com/thingful/simular",
     "github.com/thingful/thingfulx",
+    "github.com/thingful/thingfulx/schema",
     "goji.io",
     "goji.io/pat",
   ]

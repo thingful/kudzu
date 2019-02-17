@@ -88,3 +88,7 @@
 [[constraint]]
   name = "github.com/thingful/thingfulx"
   version = "0.2.6"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/elgris/sqrl"
