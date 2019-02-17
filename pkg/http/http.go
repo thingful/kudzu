@@ -77,6 +77,7 @@ func (h *HTTP) Start() {
 	handlers.RegisterUserHandlers(mux, h.DB, h.Client, h.Indexer)
 	handlers.RegisterDataSourceHandlers(mux, h.DB)
 	handlers.RegisterLocationHandlers(mux, h.DB)
+	handlers.RegisterMetadataHandlers(mux, h.DB)
 
 	// add middleware
 	mux.Use(middleware.RequestIDMiddleware)
