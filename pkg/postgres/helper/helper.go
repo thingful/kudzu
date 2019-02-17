@@ -1,9 +1,10 @@
-package postgres_test
+package helper
 
 import (
 	"testing"
 
 	kitlog "github.com/go-kit/kit/log"
+	"github.com/pkg/errors"
 
 	"github.com/thingful/kuzu/pkg/postgres"
 )
@@ -36,7 +37,7 @@ func PrepareDB(t *testing.T, connStr string, logger kitlog.Logger) *postgres.DB 
 
 // CleanDB truncates tables, and stops the given DB
 func CleanDB(t *testing.T, db *postgres.DB) {
-	err := postgres.Truncate(db.DB)
+	err := Truncate(t, db)
 	if err != nil {
 		t.Fatalf("Failed to truncate tables: %v", err)
 	}
@@ -45,4 +46,22 @@ func CleanDB(t *testing.T, db *postgres.DB) {
 	if err != nil {
 		t.Fatalf("Failed to stop db service")
 	}
+}
+
+// Truncate is a helper function for cleaning the database to help with tests
+func Truncate(t *testing.T, db *postgres.DB) error {
+	t.Helper()
+	sql := `
+	TRUNCATE data_sources CASCADE;
+	TRUNCATE things CASCADE;
+	TRUNCATE users CASCADE;
+	TRUNCATE applications CASCADE;
+	`
+
+	_, err := db.DB.Exec(sql)
+	if err != nil {
+		return errors.Wrap(err, "failed to truncate tables")
+	}
+
+	return nil
 }

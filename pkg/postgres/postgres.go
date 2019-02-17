@@ -47,20 +47,3 @@ func (d *DB) Start() error {
 func (d *DB) Stop() error {
 	return d.DB.Close()
 }
-
-// Truncate is a helper function for cleaning the database to help with tests
-func Truncate(db *sqlx.DB) error {
-	sql := `
-	TRUNCATE data_sources CASCADE;
-	TRUNCATE things CASCADE;
-	TRUNCATE users CASCADE;
-	TRUNCATE applications CASCADE;
-	`
-
-	_, err := db.Exec(sql)
-	if err != nil {
-		return errors.Wrap(err, "failed to truncate tables")
-	}
-
-	return nil
-}

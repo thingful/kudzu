@@ -11,6 +11,7 @@ import (
 
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kuzu/pkg/postgres/helper"
 )
 
 type IdentitiesSuite struct {
@@ -23,12 +24,12 @@ func (s *IdentitiesSuite) SetupTest() {
 	logger := kitlog.NewNopLogger()
 	connStr := os.Getenv("KUZU_DATABASE_URL")
 
-	s.db = PrepareDB(s.T(), connStr, logger)
+	s.db = helper.PrepareDB(s.T(), connStr, logger)
 	s.logger = logger
 }
 
 func (s *IdentitiesSuite) TearDownTest() {
-	CleanDB(s.T(), s.db)
+	helper.CleanDB(s.T(), s.db)
 }
 
 func (s *IdentitiesSuite) TestNextAccessToken() {

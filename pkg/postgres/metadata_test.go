@@ -12,6 +12,7 @@ import (
 	"github.com/stretchr/testify/suite"
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kuzu/pkg/postgres/helper"
 )
 
 type MetadataSuite struct {
@@ -24,12 +25,12 @@ func (s *MetadataSuite) SetupTest() {
 	logger := kitlog.NewNopLogger()
 	connStr := os.Getenv("KUZU_DATABASE_URL")
 
-	s.db = PrepareDB(s.T(), connStr, logger)
+	s.db = helper.PrepareDB(s.T(), connStr, logger)
 	s.logger = logger
 }
 
 func (s *MetadataSuite) TearDownTest() {
-	CleanDB(s.T(), s.db)
+	helper.CleanDB(s.T(), s.db)
 }
 
 func (s *MetadataSuite) TestGetMetadata() {

@@ -59,6 +59,28 @@ func (d *DB) GetThing(ctx context.Context, locationID string) (*Thing, error) {
 	return &thing, nil
 }
 
+func (d *DB) GetThingByUID(ctx context.Context, uid string) (*Thing, error) {
+	log := logger.FromContext(ctx)
+
+	if d.verbose {
+		log.Log(
+			"msg", "getting thing by uid",
+			"uid", uid,
+		)
+	}
+
+	sql := `SELECT * FROM things WHERE uid = $1`
+
+	var thing Thing
+
+	err := d.DB.Get(&thing, sql, uid)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to load thing from DB")
+	}
+
+	return &thing, nil
+}
+
 // CreateThing inserts new thing record, then upserts data sources before
 // inserting channels
 func (d *DB) CreateThing(ctx context.Context, thing *Thing) error {
