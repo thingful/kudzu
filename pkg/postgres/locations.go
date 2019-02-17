@@ -3,59 +3,68 @@ package postgres
 import (
 	"context"
 
+	sq "github.com/elgris/sqrl"
+	"github.com/guregu/null"
 	"github.com/pkg/errors"
-	"github.com/thingful/kuzu/pkg/flowerpower"
-	"github.com/thingful/kuzu/pkg/logger"
 )
 
-type Location struct{}
+type Location struct {
+	ID                    int64     `db:"id"`
+	UID                   string    `db:"uid"`
+	Longitude             float64   `db:"long"`
+	Latitude              float64   `db:"lat"`
+	FirstSampleUTC        null.Time `db:"first_sample"`
+	LastSampleUTC         null.Time `db:"last_sample"`
+	LastUploadedSampleUTC null.Time `db:"last_uploaded_sample"`
+	Nickname              string    `db:"nickname"`
+	LocationID            string    `db:"location_identifier"`
+	SerialNum             string    `db:"serial_num"`
+}
 
-// SaveLocations saves a slice of flowerpower Locations which the indexer will
-// in the background churn through to index. This function is typically called
-// when we first create a new user record so at this point all we know are the
-// Parrot details.
-func (d *DB) SaveLocations(ctx context.Context, ownerID int64, locations []flowerpower.Location) error {
-	log := logger.FromContext(ctx)
+// ListLocationis returns a list of locations with some optional filtering parameters applied.
+func (d *DB) ListLocations(ctx context.Context, ownerUID string, invalidLocation, staleData bool) ([]Location, error) {
+	builder := sq.Select(
+		"t.id", "t.uid", "t.long", "t.lat", "t.first_sample", "t.last_sample",
+		"t.last_uploaded_sample", "t.nickname", "t.location_identifier", "t.serial_num",
+	).
+		From("things t").
+		Join("users u ON u.id = t.owner_id").
+		OrderBy("t.uid")
 
-	if d.verbose {
-		log.Log("msg", "saving locations", "num", len(locations))
+	if ownerUID != "" {
+		builder = builder.Where(sq.Eq{"u.uid": ownerUID})
 	}
 
-	baseSQL := `INSERT INTO things (
-		owner_id, nickname, location_identifier, serial_num, long, lat, first_sample, last_sample
-	) VALUES (
-		:owner_id, :nickname, :location_identifier, :serial_num, :long, :lat, :first_sample, :last_sample
-	)`
+	if invalidLocation {
+		builder = builder.Where(sq.Eq{"t.long": 0}).Where(sq.Eq{"t.lat": 0})
+	}
 
-	tx, err := d.DB.Beginx()
+	if staleData {
+		builder = builder.Where("t.last_sample < NOW() - interval '30 days'")
+	}
+
+	sql, args, err := builder.ToSql()
 	if err != nil {
-		return errors.Wrap(err, "failed to open transaction")
+		return nil, errors.Wrap(err, "failed to build sql query")
 	}
 
-	for _, l := range locations {
-		mapArgs := map[string]interface{}{
-			"owner_id":            ownerID,
-			"nickname":            l.Nickname,
-			"location_identifier": l.LocationID,
-			"serial_num":          l.SerialNum,
-			"long":                l.Longitude,
-			"lat":                 l.Latitude,
-			"first_sample":        l.FirstSampleUTC,
-			"last_sample":         l.LastSampleUTC,
-		}
+	sql = d.DB.Rebind(sql)
 
-		sql, args, err := tx.BindNamed(baseSQL, mapArgs)
-		if err != nil {
-			tx.Rollback()
-			return errors.Wrap(err, "failed to bind query parameters")
-		}
-
-		_, err = tx.Exec(sql, args...)
-		if err != nil {
-			tx.Rollback()
-			return errors.Wrap(err, "failed to insert location")
-		}
+	rows, err := d.DB.Queryx(sql, args...)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to execute locations query")
 	}
 
-	return tx.Commit()
+	locations := []Location{}
+
+	for rows.Next() {
+		var l Location
+		err = rows.StructScan(&l)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to scan location struct")
+		}
+		locations = append(locations, l)
+	}
+
+	return locations, nil
 }
