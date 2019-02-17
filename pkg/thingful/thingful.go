@@ -207,7 +207,9 @@ func (t *Thingful) UpdateThing(ctx context.Context, th *postgres.Thing, readings
 		return errors.Wrap(err, "failed to marshal thing data")
 	}
 
-	_, err = t.client.Patch(ctx, fmt.Sprintf("%s/things/%s", t.apiBase, th.UID.String), t.apiKey, bytes.NewBuffer(b))
+	url := fmt.Sprintf("%s/things/%s", t.apiBase, th.UID.String)
+
+	_, err = t.client.Patch(ctx, url, t.apiKey, bytes.NewBuffer(b))
 	if err != nil {
 		return errors.Wrap(err, "failed to patch thing data")
 	}
