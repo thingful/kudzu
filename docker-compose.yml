@@ -17,7 +17,7 @@ services:
     working_dir: /go/src/ARG_PKG
     ports:
       - "3001:3001"
-    command: /go/bin/ARG_BIN server
+    command: /go/bin/ARG_BIN server --verbose
     depends_on:
       - postgres
     environment:
@@ -25,6 +25,7 @@ services:
       - PGPASSWORD=password
       - PGUSER=kuzu
       - KUZU_DATABASE_URL=postgres://kuzu:password@postgres:5432/kuzu_development?sslmode=disable
+    env_file: .env
 
   postgres:
     build:
