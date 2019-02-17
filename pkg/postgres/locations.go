@@ -6,6 +6,7 @@ import (
 	sq "github.com/elgris/sqrl"
 	"github.com/guregu/null"
 	"github.com/pkg/errors"
+	"github.com/thingful/kuzu/pkg/logger"
 )
 
 type Location struct {
@@ -23,6 +24,17 @@ type Location struct {
 
 // ListLocationis returns a list of locations with some optional filtering parameters applied.
 func (d *DB) ListLocations(ctx context.Context, ownerUID string, invalidLocation, staleData bool) ([]Location, error) {
+	log := logger.FromContext(ctx)
+
+	if d.verbose {
+		log.Log(
+			"msg", "listing locations",
+			"ownerUID", ownerUID,
+			"invalidLocation", invalidLocation,
+			"staleData", staleData,
+		)
+	}
+
 	builder := sq.Select(
 		"t.id", "t.uid", "t.long", "t.lat", "t.first_sample", "t.last_sample",
 		"t.last_uploaded_sample", "t.nickname", "t.location_identifier", "t.serial_num",
@@ -67,4 +79,50 @@ func (d *DB) ListLocations(ctx context.Context, ownerUID string, invalidLocation
 	}
 
 	return locations, nil
+}
+
+// UpdateGeolocation takes as input a thing UID, and a long/lat pair and then is
+// responsible for updating the DB with the new values.
+func (d *DB) UpdateGeolocation(ctx context.Context, thingUID string, longitude, latitude float64) (*Location, error) {
+	log := logger.FromContext(ctx)
+
+	if d.verbose {
+		log.Log(
+			"msg", "updating geolocation",
+			"thingUID", thingUID,
+			"longitude", longitude,
+			"latitude", latitude,
+		)
+	}
+
+	sql := `UPDATE things SET long = :long, lat = :lat WHERE uid = :uid
+		RETURNING id, uid, long, lat, first_sample, last_sample, last_uploaded_sample,
+			nickname, location_identifier, serial_num`
+
+	mapArgs := map[string]interface{}{
+		"long": longitude,
+		"lat":  latitude,
+		"uid":  thingUID,
+	}
+
+	tx, err := d.DB.Beginx()
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to begin transaction when updating geolocation")
+	}
+
+	sql, args, err := tx.BindNamed(sql, mapArgs)
+	if err != nil {
+		tx.Rollback()
+		return nil, errors.Wrap(err, "failed to bind named parameters when updating geolocation")
+	}
+
+	var loc Location
+
+	err = tx.Get(&loc, sql, args...)
+	if err != nil {
+		tx.Rollback()
+		return nil, errors.Wrap(err, "failed to execute update query to update geolocation")
+	}
+
+	return &loc, tx.Commit()
 }

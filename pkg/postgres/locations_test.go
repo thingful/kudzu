@@ -79,6 +79,36 @@ func (s *LocationsSuite) TestListLocations() {
 	assert.Len(s.T(), locations, 1)
 }
 
+func (s *LocationsSuite) TestUpdateGeolocation() {
+	var userID int64
+	userUID := "abc123"
+
+	err := s.db.DB.Get(&userID, `INSERT INTO users (uid) VALUES ($1) RETURNING id`, userUID)
+	assert.Nil(s.T(), err)
+	assert.NotEqual(s.T(), 0, userID)
+
+	// insert some things
+	_, err = s.db.DB.Exec(`
+		INSERT INTO things (uid, owner_id, serial_num, long, lat, location_identifier, last_sample)
+		VALUES ($1, $2, $3, $4, $5, $6, NOW())`, "1234", userID, "PA1", 12.2, 13.3, "LOC1",
+	)
+	assert.Nil(s.T(), err)
+
+	ctx := logger.ToContext(context.Background(), s.logger)
+
+	loc, err := s.db.UpdateGeolocation(ctx, "1234", 25, 25)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), loc)
+
+	locations, err := s.db.ListLocations(ctx, "", false, false)
+	assert.Nil(s.T(), err)
+	assert.Len(s.T(), locations, 1)
+
+	location := locations[0]
+	assert.Equal(s.T(), 25.0, location.Longitude)
+	assert.Equal(s.T(), 25.0, location.Latitude)
+}
+
 func TestLocationsSuite(t *testing.T) {
 	suite.Run(t, new(LocationsSuite))
 }
