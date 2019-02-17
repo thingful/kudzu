@@ -190,42 +190,6 @@ func (d *DB) UpdateThing(ctx context.Context, thing *Thing) error {
 	return tx.Commit()
 }
 
-// UpdateGeolocation takes as input a Thing with UID, long and lat, and updates
-// the value stored in the DB for that thing
-func (d *DB) UpdateGeolocation(ctx context.Context, thing *Thing) error {
-	log := logger.FromContext(ctx)
-
-	if d.verbose {
-		log.Log(
-			"msg", "updating geolocation",
-			"uid", thing.UID,
-			"longitude", thing.Longitude,
-			"latitude", thing.Latitude,
-		)
-	}
-
-	sql := `UPDATE things SET long = :long, lat = :lat WHERE uid = :uid`
-
-	tx, err := d.DB.Beginx()
-	if err != nil {
-		return errors.Wrap(err, "failed to open transaction when updating geolocation")
-	}
-
-	sql, args, err := tx.BindNamed(sql, thing)
-	if err != nil {
-		tx.Rollback()
-		return errors.Wrap(err, "failed to bind named transaction when updating geolocation")
-	}
-
-	_, err = tx.Exec(sql, args...)
-	if err != nil {
-		tx.Rollback()
-		return errors.Wrap(err, "failed to update geolocation")
-	}
-
-	return tx.Commit()
-}
-
 // makeChannels returns static list of channels for flowerpower devices
 func makeChannels() []Channel {
 	return []Channel{
