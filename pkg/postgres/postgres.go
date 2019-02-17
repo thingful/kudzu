@@ -51,6 +51,7 @@ func (d *DB) Stop() error {
 // Truncate is a helper function for cleaning the database to help with tests
 func Truncate(db *sqlx.DB) error {
 	sql := `
+	TRUNCATE data_sources CASCADE;
 	TRUNCATE things CASCADE;
 	TRUNCATE users CASCADE;
 	TRUNCATE applications CASCADE;
