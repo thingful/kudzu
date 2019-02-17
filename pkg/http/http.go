@@ -75,6 +75,7 @@ func (h *HTTP) Start() {
 	mux := goji.NewMux()
 	handlers.RegisterHealthCheck(mux, h.DB)
 	handlers.RegisterUserHandlers(mux, h.DB, h.Client, h.Indexer)
+	handlers.RegisterDataSourceHandlers(mux, h.DB)
 
 	// add middleware
 	mux.Use(middleware.RequestIDMiddleware)
