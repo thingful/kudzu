@@ -3,6 +3,7 @@ package postgres_test
 import (
 	"context"
 	"os"
+	"testing"
 
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/stretchr/testify/assert"
@@ -62,4 +63,8 @@ func (s *IdentitiesSuite) TestNextAccessToken() {
 	identity, err = s.db.NextIdentity(ctx)
 	assert.Nil(s.T(), err)
 	assert.Equal(s.T(), "", identity.AccessToken)
+}
+
+func TestIdentitiesSuite(t *testing.T) {
+	suite.Run(t, new(IdentitiesSuite))
 }
