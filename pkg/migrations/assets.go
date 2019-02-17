@@ -20,6 +20,8 @@
 // sql/20190209231122_add_indexed_at_to_identities.up.sql (72B)
 // sql/20190214003216_non_nullable_channel_columns.down.sql (105B)
 // sql/20190214003216_non_nullable_channel_columns.up.sql (103B)
+// sql/20190217011904_thing_uid_not_null.down.sql (52B)
+// sql/20190217011904_thing_uid_not_null.up.sql (51B)
 
 package migrations
 
@@ -488,6 +490,46 @@ func _20190214003216_non_nullable_channel_columnsUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __20190217011904_thing_uid_not_nullDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x80\x08\x3a\xfb\xfb\x84\xfa\xfa\x29\x94\x66\xa6\x28\xb8\x04\xf9\x07\x28\xf8\xf9\x87\x28\xf8\x85\xfa\xf8\x58\x03\x02\x00\x00\xff\xff\xbf\x76\xa0\xc4\x34\x00\x00\x00")
+
+func _20190217011904_thing_uid_not_nullDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190217011904_thing_uid_not_nullDownSql,
+		"20190217011904_thing_uid_not_null.down.sql",
+	)
+}
+
+func _20190217011904_thing_uid_not_nullDownSql() (*asset, error) {
+	bytes, err := _20190217011904_thing_uid_not_nullDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190217011904_thing_uid_not_null.down.sql", size: 52, mode: os.FileMode(0644), modTime: time.Unix(1550366399, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xea, 0x85, 0x8d, 0x8e, 0x48, 0xba, 0x12, 0x76, 0x14, 0xb, 0xc4, 0x52, 0x9f, 0xfd, 0x1b, 0x10, 0x82, 0xec, 0x95, 0x5, 0xfb, 0x5a, 0x60, 0xef, 0x7, 0x36, 0x6f, 0x38, 0xb, 0x72, 0xf4, 0x18}}
+	return a, nil
+}
+
+var __20190217011904_thing_uid_not_nullUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\xc9\xc8\xcc\x4b\x2f\xe6\x52\x50\x80\x08\x3a\xfb\xfb\x84\xfa\xfa\x29\x94\x66\xa6\x28\x04\xbb\x86\x28\xf8\xf9\x87\x28\xf8\x85\xfa\xf8\x58\x03\x02\x00\x00\xff\xff\x9b\xad\xd1\xd5\x33\x00\x00\x00")
+
+func _20190217011904_thing_uid_not_nullUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190217011904_thing_uid_not_nullUpSql,
+		"20190217011904_thing_uid_not_null.up.sql",
+	)
+}
+
+func _20190217011904_thing_uid_not_nullUpSql() (*asset, error) {
+	bytes, err := _20190217011904_thing_uid_not_nullUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190217011904_thing_uid_not_null.up.sql", size: 51, mode: os.FileMode(0644), modTime: time.Unix(1550366379, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x7a, 0xa2, 0x7c, 0x32, 0xa8, 0x30, 0x8f, 0x8, 0xba, 0x86, 0xeb, 0x93, 0xf2, 0xcc, 0xb, 0xa4, 0xd0, 0xf7, 0x7d, 0x2d, 0x7d, 0x2d, 0xe7, 0x65, 0x1f, 0x9b, 0x3a, 0x5d, 0x98, 0x5f, 0xed, 0x57}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -618,6 +660,10 @@ var _bindata = map[string]func() (*asset, error){
 	"20190214003216_non_nullable_channel_columns.down.sql": _20190214003216_non_nullable_channel_columnsDownSql,
 
 	"20190214003216_non_nullable_channel_columns.up.sql": _20190214003216_non_nullable_channel_columnsUpSql,
+
+	"20190217011904_thing_uid_not_null.down.sql": _20190217011904_thing_uid_not_nullDownSql,
+
+	"20190217011904_thing_uid_not_null.up.sql": _20190217011904_thing_uid_not_nullUpSql,
 }
 
 // AssetDir returns the file names below a certain
@@ -681,6 +727,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"20190209231122_add_indexed_at_to_identities.up.sql":        &bintree{_20190209231122_add_indexed_at_to_identitiesUpSql, map[string]*bintree{}},
 	"20190214003216_non_nullable_channel_columns.down.sql":      &bintree{_20190214003216_non_nullable_channel_columnsDownSql, map[string]*bintree{}},
 	"20190214003216_non_nullable_channel_columns.up.sql":        &bintree{_20190214003216_non_nullable_channel_columnsUpSql, map[string]*bintree{}},
+	"20190217011904_thing_uid_not_null.down.sql":                &bintree{_20190217011904_thing_uid_not_nullDownSql, map[string]*bintree{}},
+	"20190217011904_thing_uid_not_null.up.sql":                  &bintree{_20190217011904_thing_uid_not_nullUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
