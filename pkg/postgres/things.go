@@ -26,7 +26,6 @@ type Thing struct {
 	Nickname        null.String `db:"nickname"`
 	LastUploadedUTC null.Time   `db:"last_uploaded_sample"`
 	LocationID      string      `db:"location_identifier"`
-	Channels        []Channel
 }
 
 // Channel is used to persist channel information to the database
