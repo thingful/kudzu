@@ -18,6 +18,7 @@ func init() {
 	serverCmd.Flags().Int("delay", 10, "Minimum delay time in seconds for indexer task")
 	serverCmd.Flags().String("thingful-url", "https://api.thingful.net", "The server URL at which the Thingful API is available")
 	serverCmd.Flags().String("thingful-key", "", "A valid Thingful API key")
+	serverCmd.Flags().Int("concurrency", 3, "The number of parallel go routines to spawn when fetching from Thingful")
 
 	viper.BindPFlag("addr", serverCmd.Flags().Lookup("addr"))
 	viper.BindPFlag("database-url", serverCmd.Flags().Lookup("database-url"))
@@ -25,6 +26,7 @@ func init() {
 	viper.BindPFlag("delay", serverCmd.Flags().Lookup("delay"))
 	viper.BindPFlag("thingful-url", serverCmd.Flags().Lookup("thingful-url"))
 	viper.BindPFlag("thingful-key", serverCmd.Flags().Lookup("thingful-key"))
+	viper.BindPFlag("concurrency", serverCmd.Flags().Lookup("concurrency"))
 }
 
 var serverCmd = &cobra.Command{
@@ -72,6 +74,7 @@ var serverCmd = &cobra.Command{
 			Delay:         delay,
 			ThingfulURL:   thingfulURL,
 			ThingfulKey:   thingfulKey,
+			Concurrency:   viper.GetInt("concurrency"),
 		})
 
 		return a.Start()

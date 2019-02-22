@@ -55,6 +55,7 @@ bin/$(BIN): $(BUILD_DIRS) .compose
 			./build/build.sh \
 		"
 
+
 shell: .shell ## Open shell in containerized environment
 .shell: $(BUILD_DIRS) .compose
 	@echo "--> Launching shell in the containerized environment"
@@ -77,6 +78,18 @@ test: $(BUILD_DIRS) .compose ## Run tests in the containerized environment
 		/bin/sh -c " \
 			./build/test.sh $(SRC_DIRS) \
 		"
+
+.PHONY: test-shell
+test-shell: .test-shell ## Open shell in test containerized environment
+.test-shell: $(BUILD_DIRS) .compose
+	@echo "--> Launching shell in the containerized environment"
+	@docker-compose -f .docker-compose.yml \
+		run \
+		--rm \
+		-u "$$(id -u):$$(id -g)" \
+		-e "KUZU_DATABASE_URL=postgres://kuzu:password@postgres/kuzu_test?sslmode=disable" \
+		app \
+		/bin/sh
 
 DOTFILE_IMAGE = $(subst :,_,$(subst /,_,$(IMAGE))-$(VERSION))
 

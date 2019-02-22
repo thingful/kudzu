@@ -21,23 +21,21 @@ import (
 
 // Config is another state holder we pass in to the indexer to configure it.
 type Config struct {
-	DB          *postgres.DB
-	Client      *client.Client
-	QuitChan    <-chan struct{}
-	ErrChan     chan<- error
-	WaitGroup   *sync.WaitGroup
-	Delay       time.Duration
-	ThingfulURL string
-	ThingfulKey string
-	Verbose     bool
+	DB        *postgres.DB
+	Client    *client.Client
+	Thingful  *thingful.Thingful
+	QuitChan  <-chan struct{}
+	ErrChan   chan<- error
+	WaitGroup *sync.WaitGroup
+	Delay     time.Duration
+	Verbose   bool
 }
 
 // Indexer is a struct that controls the scheduled work where we pull data from
 // Parrot and write it to Thingful.
 type Indexer struct {
 	*Config
-	thingful *thingful.Thingful
-	logger   kitlog.Logger
+	logger kitlog.Logger
 }
 
 // NewIndexer returns a new Indexer instance ready to start work.
@@ -47,15 +45,11 @@ func NewIndexer(config *Config, logger kitlog.Logger) *Indexer {
 	logger.Log(
 		"msg", "configuring indexer",
 		"delay", config.Delay,
-		"thingfulURL", config.ThingfulURL,
 	)
 
-	th := thingful.NewClient(config.Client, config.ThingfulURL, config.ThingfulKey, config.Verbose)
-
 	return &Indexer{
-		Config:   config,
-		thingful: th,
-		logger:   logger,
+		Config: config,
+		logger: logger,
 	}
 }
 
@@ -126,10 +120,24 @@ func (i *Indexer) IndexLocations(ctx context.Context, identity *postgres.Identit
 		return errors.Wrap(err, "failed to get locations for indexing")
 	}
 
+	if i.Verbose {
+		log.Log(
+			"msg", "retrieved locations from parrot",
+			"numLocations", len(locations),
+		)
+	}
+
 	// now let's range over our retrieved locations
 	for _, l := range locations {
 		thing, err := i.DB.GetThing(ctx, l.LocationID)
 		if err != nil {
+			if i.Verbose {
+				log.Log(
+					"msg", "error getting thing from DB",
+					"err", err.Error(),
+				)
+			}
+
 			if errors.Cause(err) == sql.ErrNoRows {
 				// launch new thing flow
 				err = i.indexNewLocation(ctx, identity, &l)
@@ -183,7 +191,7 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 		return errors.Wrap(err, "failed to get first chunk of readings from flowerpower")
 	}
 
-	thingfulUID, err := i.thingful.CreateThing(ctx, thing, readings)
+	thingfulUID, err := i.Thingful.CreateThing(ctx, thing, readings)
 	if err != nil {
 		log.Log("msg", "failed to create thing", "err", err)
 		return errors.Wrap(err, "failed to create new thing")
@@ -222,7 +230,7 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 		}
 
 		// send to Thingful
-		err = i.thingful.UpdateThing(ctx, thing, readings)
+		err = i.Thingful.UpdateThing(ctx, thing, readings)
 		if err != nil {
 			log.Log("msg", "failed to push observations to Thingful", "err", err, "fromUTC", fromUTC, "toUTC", toUTC)
 			return errors.Wrap(err, "failed to get slice of readings from Parrot")
@@ -275,7 +283,7 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 		}
 
 		// send to Thingful
-		err = i.thingful.UpdateThing(ctx, thing, readings)
+		err = i.Thingful.UpdateThing(ctx, thing, readings)
 		if err != nil {
 			log.Log("msg", "failed to push observations to Thingful", "err", err, "fromUTC", fromUTC, "toUTC", toUTC)
 			return errors.Wrap(err, "failed to get slice of readings from Parrot")

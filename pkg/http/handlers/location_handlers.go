@@ -6,16 +6,18 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/guregu/null"
 	"github.com/pkg/errors"
+	"github.com/thingful/kuzu/pkg/flowerpower"
 	"github.com/thingful/kuzu/pkg/postgres"
 	goji "goji.io"
 	"goji.io/pat"
 )
 
 // RegisterLocationHandlers registers handlers for working with locations
-func RegisterLocationHandlers(mux *goji.Mux, db *postgres.DB) {
-	mux.Handle(pat.Post("/entity/locations/get"), Handler{env: &Env{db: db}, handler: listLocationsHandler})
-	mux.Handle(pat.Post("/entity/locations/update"), Handler{env: &Env{db: db}, handler: updateLocationHandler})
+func RegisterLocationHandlers(mux *goji.Mux, db *postgres.DB, th Thingful) {
+	mux.Handle(pat.Post("/api/entity/locations/get"), Handler{env: &Env{db: db}, handler: listLocationsHandler})
+	mux.Handle(pat.Post("/api/entity/locations/update"), Handler{env: &Env{db: db, thingful: th}, handler: updateLocationHandler})
 }
 
 // listLocationsRequest is used to parse incoming requests for locations
@@ -128,6 +130,20 @@ func updateLocationHandler(env *Env, w http.ResponseWriter, r *http.Request) err
 		return &HTTPError{
 			Code: http.StatusInternalServerError,
 			Err:  errors.Wrap(err, "failed to update geolocation"),
+		}
+	}
+
+	err = env.thingful.UpdateThing(ctx, &postgres.Thing{
+		UID:        null.StringFrom(loc.UID),
+		LocationID: loc.LocationID,
+		Nickname:   null.StringFrom(loc.Nickname),
+		Longitude:  loc.Longitude,
+		Latitude:   loc.Latitude,
+	}, []flowerpower.Reading{})
+	if err != nil {
+		return &HTTPError{
+			Code: http.StatusInternalServerError,
+			Err:  err,
 		}
 	}
 

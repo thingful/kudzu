@@ -13,6 +13,7 @@ import (
 	"github.com/thingful/kuzu/pkg/indexer"
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kuzu/pkg/thingful"
 )
 
 // Config is our top level config struct used to carry all configuration from
@@ -25,6 +26,7 @@ type Config struct {
 	Delay         int
 	ThingfulURL   string
 	ThingfulKey   string
+	Concurrency   int
 }
 
 // NewApp returns a new App instance with components configured but not yet
@@ -36,25 +38,27 @@ func NewApp(config *Config) *App {
 
 	cl := client.NewClient(config.ClientTimeout, config.Verbose)
 
+	th := thingful.NewClient(cl, config.ThingfulURL, config.ThingfulKey, config.Verbose, config.Concurrency)
+
 	quitChan := make(chan struct{})
 	errChan := make(chan error)
 	var wg sync.WaitGroup
 
 	i := indexer.NewIndexer(&indexer.Config{
-		DB:          db,
-		Client:      cl,
-		QuitChan:    quitChan,
-		ErrChan:     errChan,
-		WaitGroup:   &wg,
-		Delay:       time.Duration(config.Delay) * time.Second,
-		ThingfulURL: config.ThingfulURL,
-		ThingfulKey: config.ThingfulKey,
-		Verbose:     config.Verbose,
+		DB:        db,
+		Client:    cl,
+		QuitChan:  quitChan,
+		ErrChan:   errChan,
+		WaitGroup: &wg,
+		Delay:     time.Duration(config.Delay) * time.Second,
+		Thingful:  th,
+		Verbose:   config.Verbose,
 	}, logger)
 
 	h := http.NewHTTP(&http.Config{
 		DB:        db,
 		Client:    cl,
+		Thingful:  th,
 		Addr:      config.Addr,
 		QuitChan:  quitChan,
 		ErrChan:   errChan,

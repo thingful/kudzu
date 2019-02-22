@@ -21,6 +21,7 @@ import (
 	"github.com/thingful/kuzu/pkg/indexer"
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kuzu/pkg/postgres/helper"
 )
 
 type UsersSuite struct {
@@ -35,43 +36,19 @@ func (s *UsersSuite) SetupTest() {
 	logger := kitlog.NewNopLogger()
 	connStr := os.Getenv("KUZU_DATABASE_URL")
 
-	db, err := postgres.Open(connStr)
-	if err != nil {
-		s.T().Fatalf("Failed to open db connection")
-	}
-
-	postgres.MigrateDownAll(db.DB, logger)
-
-	err = db.Close()
-	if err != nil {
-		s.T().Fatalf("Failed to close db connection: %v", err)
-	}
-
 	s.logger = logger
-	s.db = postgres.NewDB(connStr, true)
+	s.db = helper.PrepareDB(s.T(), connStr, logger)
+
 	s.client = client.NewClient(1, true)
 	s.indexer = indexer.NewIndexer(
 		&indexer.Config{
 			DB:     s.db,
 			Client: s.client,
 		}, logger)
-
-	err = s.db.Start()
-	if err != nil {
-		s.T().Fatalf("Failed to start db service: %v", err)
-	}
 }
 
 func (s *UsersSuite) TearDownTest() {
-	err := postgres.Truncate(s.db.DB)
-	if err != nil {
-		s.T().Fatalf("Failed to truncate tables: %v", err)
-	}
-
-	err = s.db.Stop()
-	if err != nil {
-		s.T().Fatalf("Failed to stop db service: %v", err)
-	}
+	helper.CleanDB(s.T(), s.db)
 }
 
 func (s *UsersSuite) TestCreateUser() {
@@ -141,7 +118,7 @@ func (s *UsersSuite) TestCreateUser() {
 
 	expected := `{"User": "barnabas","TotalThings": 35}`
 
-	req, err := http.NewRequest(http.MethodPost, "/user/new", bytes.NewReader(input))
+	req, err := http.NewRequest(http.MethodPost, "/api/user/new", bytes.NewReader(input))
 	req = req.WithContext(ctx)
 	assert.Nil(s.T(), err)
 
@@ -198,7 +175,7 @@ func (s *UsersSuite) TestCreateUserWhenAlreadyRegistered() {
 
 	expected := `{"Message": "failed to insert user: client error, i.e. non-unique violation or missing required field","Name": 422}`
 
-	req, err := http.NewRequest(http.MethodPost, "/user/new", bytes.NewReader(input))
+	req, err := http.NewRequest(http.MethodPost, "/api/user/new", bytes.NewReader(input))
 	assert.Nil(s.T(), err)
 	req = req.WithContext(ctx)
 
@@ -228,7 +205,7 @@ func (s *UsersSuite) TestDeleteUser() {
 		}
 	}`)
 
-	req, err := http.NewRequest(http.MethodDelete, "/user/delete", bytes.NewReader(input))
+	req, err := http.NewRequest(http.MethodDelete, "/api/user/delete", bytes.NewReader(input))
 	assert.Nil(s.T(), err)
 
 	req = req.WithContext(ctx)

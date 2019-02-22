@@ -17,8 +17,9 @@ const (
 	nodeName = "Thingful.Connectors.GROWSensors"
 )
 
+// RegisterDataSourceHandlers registers our data source related handlers
 func RegisterDataSourceHandlers(mux *goji.Mux, db *postgres.DB) {
-	mux.Handle(pat.Post("/entity/dataSourceVariables/get"), Handler{env: &Env{db: db}, handler: datasourcesHandler})
+	mux.Handle(pat.Post("/api/entity/dataSourceVariables/get"), Handler{env: &Env{db: db}, handler: datasourcesHandler})
 }
 
 // datasource is our type used for generating datasource output

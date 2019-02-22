@@ -11,6 +11,7 @@ import (
 
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kuzu/pkg/postgres/helper"
 )
 
 func TestScopeClaimsValuer(t *testing.T) {
@@ -32,12 +33,12 @@ func (s *AppsSuite) SetupTest() {
 	logger := kitlog.NewNopLogger()
 	connStr := os.Getenv("KUZU_DATABASE_URL")
 
-	s.db = PrepareDB(s.T(), connStr, logger)
+	s.db = helper.PrepareDB(s.T(), connStr, logger)
 	s.logger = logger
 }
 
 func (s *AppsSuite) TearDownTest() {
-	CleanDB(s.T(), s.db)
+	helper.CleanDB(s.T(), s.db)
 }
 
 func (s *AppsSuite) TestCreateLoadApp() {

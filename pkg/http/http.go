@@ -14,6 +14,7 @@ import (
 	"github.com/thingful/kuzu/pkg/http/middleware"
 	"github.com/thingful/kuzu/pkg/indexer"
 	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kuzu/pkg/thingful"
 )
 
 const (
@@ -36,6 +37,7 @@ type Config struct {
 	DB        *postgres.DB
 	Indexer   *indexer.Indexer
 	Client    *client.Client
+	Thingful  *thingful.Thingful
 	QuitChan  <-chan struct{}
 	ErrChan   chan<- error
 	WaitGroup *sync.WaitGroup
@@ -76,7 +78,9 @@ func (h *HTTP) Start() {
 	handlers.RegisterHealthCheck(mux, h.DB)
 	handlers.RegisterUserHandlers(mux, h.DB, h.Client, h.Indexer)
 	handlers.RegisterDataSourceHandlers(mux, h.DB)
-	handlers.RegisterLocationHandlers(mux, h.DB)
+	handlers.RegisterLocationHandlers(mux, h.DB, h.Thingful)
+	handlers.RegisterMetadataHandlers(mux, h.DB)
+	handlers.RegisterTimeseriesHandler(mux, h.DB, h.Thingful)
 
 	// add middleware
 	mux.Use(middleware.RequestIDMiddleware)

@@ -10,19 +10,18 @@ import (
 	"github.com/guregu/null"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 	"github.com/thingful/kuzu/pkg/postgres/helper"
 )
 
-type ThingsSuite struct {
+type MetadataSuite struct {
 	suite.Suite
 	db     *postgres.DB
 	logger kitlog.Logger
 }
 
-func (s *ThingsSuite) SetupTest() {
+func (s *MetadataSuite) SetupTest() {
 	logger := kitlog.NewNopLogger()
 	connStr := os.Getenv("KUZU_DATABASE_URL")
 
@@ -30,11 +29,11 @@ func (s *ThingsSuite) SetupTest() {
 	s.logger = logger
 }
 
-func (s *ThingsSuite) TearDownTest() {
+func (s *MetadataSuite) TearDownTest() {
 	helper.CleanDB(s.T(), s.db)
 }
 
-func (s *ThingsSuite) TestRoundTrip() {
+func (s *MetadataSuite) TestGetMetadata() {
 	var userID int64
 	userUID := "abc123"
 
@@ -66,37 +65,11 @@ func (s *ThingsSuite) TestRoundTrip() {
 	err = s.db.CreateThing(ctx, thing)
 	assert.Nil(s.T(), err)
 
-	readThing, err := s.db.GetThing(ctx, "abc123")
+	metadata, err := s.db.GetMetadata(ctx)
 	assert.Nil(s.T(), err)
-
-	assert.Equal(s.T(), "PA123", readThing.SerialNum)
-
-	now = time.Now()
-
-	readThing.IndexedAt = null.TimeFrom(now)
-	readThing.LastUploadedUTC = null.TimeFrom(now)
-	readThing.Nickname = null.StringFrom("New Plant")
-	readThing.Longitude = 0
-	readThing.Latitude = 0
-
-	err = s.db.UpdateThing(ctx, readThing)
-	assert.Nil(s.T(), err)
-
-	// verify that the geolocation has not changed
-	readThing, err = s.db.GetThing(ctx, "abc123")
-	assert.Nil(s.T(), err)
-
-	assert.Equal(s.T(), 12.2, readThing.Longitude)
-	assert.Equal(s.T(), 15.4, readThing.Latitude)
+	assert.Len(s.T(), metadata, 7)
 }
 
-func (s *ThingsSuite) TestGetUnknownThing() {
-	ctx := logger.ToContext(context.Background(), s.logger)
-
-	_, err := s.db.GetThing(ctx, "foobar")
-	assert.NotNil(s.T(), err)
-}
-
-func TestThingsSuite(t *testing.T) {
-	suite.Run(t, new(ThingsSuite))
+func TestMetadataSuite(t *testing.T) {
+	suite.Run(t, new(MetadataSuite))
 }

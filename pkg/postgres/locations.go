@@ -9,6 +9,7 @@ import (
 	"github.com/thingful/kuzu/pkg/logger"
 )
 
+// Location is a type used to return location information from  the database.
 type Location struct {
 	ID                    int64     `db:"id"`
 	UID                   string    `db:"uid"`

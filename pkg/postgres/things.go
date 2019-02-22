@@ -26,7 +26,6 @@ type Thing struct {
 	Nickname        null.String `db:"nickname"`
 	LastUploadedUTC null.Time   `db:"last_uploaded_sample"`
 	LocationID      string      `db:"location_identifier"`
-	Channels        []Channel
 }
 
 // Channel is used to persist channel information to the database
@@ -53,6 +52,28 @@ func (d *DB) GetThing(ctx context.Context, locationID string) (*Thing, error) {
 	var thing Thing
 
 	err := d.DB.Get(&thing, sql, locationID)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to load thing from DB")
+	}
+
+	return &thing, nil
+}
+
+func (d *DB) GetThingByUID(ctx context.Context, uid string) (*Thing, error) {
+	log := logger.FromContext(ctx)
+
+	if d.verbose {
+		log.Log(
+			"msg", "getting thing by uid",
+			"uid", uid,
+		)
+	}
+
+	sql := `SELECT * FROM things WHERE uid = $1`
+
+	var thing Thing
+
+	err := d.DB.Get(&thing, sql, uid)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to load thing from DB")
 	}
