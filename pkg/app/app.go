@@ -1,12 +1,14 @@
 package app
 
 import (
+	"context"
 	"os"
 	"os/signal"
 	"sync"
 	"time"
 
 	kitlog "github.com/go-kit/kit/log"
+	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/http"
@@ -15,6 +17,38 @@ import (
 	"github.com/thingful/kuzu/pkg/postgres"
 	"github.com/thingful/kuzu/pkg/thingful"
 )
+
+var (
+	usersGauge = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Namespace: "grow",
+			Name:      "registered_users",
+			Help:      "A count of users partitioned by auth provider",
+		}, []string{"provider"},
+	)
+
+	thingsGauge = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Namespace: "grow",
+			Name:      "things",
+			Help:      "A count of things partitioned by provider and status",
+		}, []string{"provider", "status"},
+	)
+
+	identitiesGauge = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Namespace: "grow",
+			Name:      "identities",
+			Help:      "A count of identities partitioned by status",
+		}, []string{"status"},
+	)
+)
+
+func init() {
+	prometheus.MustRegister(usersGauge)
+	prometheus.MustRegister(thingsGauge)
+	prometheus.MustRegister(identitiesGauge)
+}
 
 // Config is our top level config struct used to carry all configuration from
 // cobra commands into our application code.
@@ -112,6 +146,90 @@ func (a *App) Start() error {
 	go func() {
 		a.wg.Add(1)
 		a.indexer.Start()
+	}()
+
+	go func() {
+		ticker := time.NewTicker(time.Second * time.Duration(60))
+
+		ctx := logger.ToContext(context.Background(), a.logger)
+
+		for range ticker.C {
+			userStats, err := a.db.CountUsers(ctx)
+			if err != nil {
+				a.logger.Log(
+					"msg", "failed to read user stats",
+					"error", err,
+				)
+				continue
+			}
+
+			for _, userStat := range userStats {
+				usersGauge.With(
+					prometheus.Labels{
+						"provider": userStat.Provider,
+					},
+				).Set(userStat.Count)
+			}
+
+			identityStat, err := a.db.GetIdentityStats(ctx)
+			if err != nil {
+				a.logger.Log(
+					"msg", "failed to read identity stats",
+					"error", err,
+				)
+				continue
+			}
+
+			identitiesGauge.With(
+				prometheus.Labels{
+					"status": "all",
+				},
+			).Set(identityStat.All)
+
+			identitiesGauge.With(
+				prometheus.Labels{
+					"status": "pending",
+				},
+			).Set(identityStat.Pending)
+
+			identitiesGauge.With(
+				prometheus.Labels{
+					"status": "stale",
+				},
+			).Set(identityStat.Stale)
+
+			thingStats, err := a.db.GetThingStats(ctx)
+			if err != nil {
+				a.logger.Log(
+					"msg", "failed to read thing stats",
+					"error", err,
+				)
+				continue
+			}
+
+			for _, thingStat := range thingStats {
+				thingsGauge.With(
+					prometheus.Labels{
+						"provider": thingStat.Provider,
+						"status":   "all",
+					},
+				).Set(thingStat.All)
+
+				thingsGauge.With(
+					prometheus.Labels{
+						"provider": thingStat.Provider,
+						"status":   "stale",
+					},
+				).Set(thingStat.Stale)
+
+				thingsGauge.With(
+					prometheus.Labels{
+						"provider": thingStat.Provider,
+						"status":   "invalid_location",
+					},
+				).Set(thingStat.InvalidLocation)
+			}
+		}
 	}()
 
 	a.logger.Log("msg", "starting app")

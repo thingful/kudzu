@@ -10,14 +10,29 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/version"
 )
 
+var (
+	durationHist = prometheus.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Namespace: "grow",
+			Name:      "client_request_duration_seconds",
+			Help:      "A histogram of the latency in seconds for requests made by the client",
+		}, []string{"code", "method", "host"},
+	)
+)
+
+func init() {
+	prometheus.MustRegister(durationHist)
+}
+
 // Client is our custom client type that ensures a timeout is used, and adds a
 // user agent header to be polite.
 type Client struct {
-	client    *http.Client
+	*http.Client
 	userAgent string
 	verbose   bool
 }
@@ -25,12 +40,15 @@ type Client struct {
 // NewClient returns a new client instance initialized with a user agent string
 // and timeout
 func NewClient(timeout int, verbose bool) *Client {
+	roundTripper := InstrumentRoundTripperDuration(durationHist, http.DefaultTransport)
+
 	c := &http.Client{
-		Timeout: time.Duration(timeout) * time.Second,
+		Timeout:   time.Duration(timeout) * time.Second,
+		Transport: roundTripper,
 	}
 
 	return &Client{
-		client:    c,
+		Client:    c,
 		userAgent: fmt.Sprintf("grow(%s)/%s", version.BinaryName, version.Version),
 		verbose:   verbose,
 	}
@@ -56,7 +74,7 @@ func (c *Client) Get(ctx context.Context, requestURL, accessToken string) ([]byt
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
 	req.Header.Set("User-Agent", c.userAgent)
 
-	resp, err := c.client.Do(req)
+	resp, err := c.Do(req)
 	if err != nil {
 		log.Log(
 			"msg", "error making request",
@@ -118,7 +136,7 @@ func (c *Client) postOrPatch(ctx context.Context, method, requestURL, accessToke
 	req.Header.Set("User-Agent", c.userAgent)
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := c.client.Do(req)
+	resp, err := c.Do(req)
 	if err != nil {
 		log.Log(
 			"msg", "error making request",

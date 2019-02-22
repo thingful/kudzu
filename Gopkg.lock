@@ -226,11 +226,12 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e0d27cb27eb8c8725eb8c0fb0bf764a51cb700b511dce317d1a004abefd86d38"
+  digest = "1:2cd09e6a31595e87e9fab1848e58202b161c595d6fdb1c4ed760f58f08f4bd86"
   name = "github.com/prometheus/client_golang"
   packages = [
     "prometheus",
     "prometheus/internal",
+    "prometheus/promhttp",
   ]
   pruneopts = "UT"
   revision = "12af604cf208d3105ced825c65231b4ecf00a8cc"
@@ -434,6 +435,7 @@
     "github.com/jmoiron/sqlx",
     "github.com/lib/pq",
     "github.com/pkg/errors",
+    "github.com/prometheus/client_golang/prometheus/promhttp",
     "github.com/serenize/snaker",
     "github.com/spf13/cobra",
     "github.com/spf13/viper",

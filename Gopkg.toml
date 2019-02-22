@@ -92,3 +92,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/elgris/sqrl"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/prometheus/client_golang"

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/guregu/null"
+	"github.com/prometheus/client_golang/prometheus"
 
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/google/uuid"
@@ -17,6 +18,16 @@ import (
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 	"github.com/thingful/kuzu/pkg/thingful"
+)
+
+var (
+	indexCount = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Namespace: "grow",
+			Name:      "indexed_identity",
+			Help:      "A counter that increments every time we index a new identity",
+		},
+	)
 )
 
 // Config is another state holder we pass in to the indexer to configure it.
@@ -86,6 +97,8 @@ func (i *Indexer) Index() {
 	if err != nil {
 		log.Log("msg", "error getting next identity", "err", err)
 	}
+
+	// TODO: increment indexCount
 
 	if identity.AccessToken == "" {
 		if i.Verbose {

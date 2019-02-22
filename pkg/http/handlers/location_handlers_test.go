@@ -110,7 +110,7 @@ func (s *LocationHandlersSuite) TestListLocations() {
 	for _, tc := range testcases {
 		s.T().Run(tc.label, func(t *testing.T) {
 			recorder := httptest.NewRecorder()
-			req, err := http.NewRequest(http.MethodPost, "/api/entity/locations/get", bytes.NewReader(tc.requestBody))
+			req, err := http.NewRequest(http.MethodPost, "/entity/locations/get", bytes.NewReader(tc.requestBody))
 			req = req.WithContext(ctx)
 			assert.Nil(t, err)
 
@@ -140,7 +140,7 @@ func (s *LocationHandlersSuite) TestUpdatelocation() {
 	assert.Nil(s.T(), err)
 
 	// setup up simular mock for the thingful update request
-	simular.Activate()
+	simular.ActivateNonDefault(s.client.Client)
 	defer simular.DeactivateAndReset()
 
 	simular.RegisterStubRequests(
@@ -170,7 +170,7 @@ func (s *LocationHandlersSuite) TestUpdatelocation() {
 		"Y": 13.2
 	}`)
 
-	req, err := http.NewRequest(http.MethodPost, "/api/entity/locations/update", bytes.NewReader(input))
+	req, err := http.NewRequest(http.MethodPost, "/entity/locations/update", bytes.NewReader(input))
 	assert.Nil(s.T(), err)
 	req = req.WithContext(ctx)
 

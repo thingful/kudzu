@@ -18,8 +18,8 @@ import (
 
 // RegisterUserHandlers registers our user related handlers into the mux
 func RegisterUserHandlers(mux *goji.Mux, db *postgres.DB, cl *client.Client, in *indexer.Indexer) {
-	mux.Handle(pat.Post("/api/user/new"), Handler{env: &Env{db: db, client: cl, indexer: in}, handler: newUserHandler})
-	mux.Handle(pat.Delete("/api/user/delete"), Handler{env: &Env{db: db}, handler: deleteUserHandler})
+	mux.Handle(pat.Post("/user/new"), Handler{env: &Env{db: db, client: cl, indexer: in}, handler: newUserHandler})
+	mux.Handle(pat.Delete("/user/delete"), Handler{env: &Env{db: db}, handler: deleteUserHandler})
 }
 
 // newUserRequest is a local type used for parsing incoming requests

@@ -52,3 +52,40 @@ func (d *DB) NextIdentity(ctx context.Context) (*Identity, error) {
 
 	return &identity, tx.Commit()
 }
+
+// IdentityStat is used for exporting identity stats from the DB
+type IdentityStat struct {
+	All     float64 `db:"all_identities"`
+	Pending float64 `db:"pending_identities"`
+	Stale   float64 `db:"stale_identities"`
+}
+
+// GetIdentityStats returns an IdentityStat instance containing some info about
+// the state of the identities table suitable for rendering in Prometheus
+func (d *DB) GetIdentityStats(ctx context.Context) (*IdentityStat, error) {
+	log := logger.FromContext(ctx)
+
+	if d.verbose {
+		log.Log("msg", "counting identities")
+	}
+
+	sql := `SELECT
+			COUNT(*) AS all_identities,
+			COUNT(pending) AS pending_identities,
+			COUNT(stale) AS stale_identities
+		FROM (
+			SELECT
+			CASE WHEN indexed_at IS NULL THEN 1 END pending,
+			CASE WHEN indexed_at < NOW() - interval '2 days' THEN 1 END stale
+			 FROM identities
+		) identities`
+
+	var stat IdentityStat
+
+	err := d.DB.Get(&stat, sql)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to read identity stats")
+	}
+
+	return &stat, nil
+}
