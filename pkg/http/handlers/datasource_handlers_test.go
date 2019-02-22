@@ -92,7 +92,7 @@ func (s *DatasourceHandlersSuite) TestGetDatasources() {
 	handlers.RegisterDataSourceHandlers(mux, s.db)
 
 	recorder := httptest.NewRecorder()
-	req, err := http.NewRequest(http.MethodPost, "/api/entity/dataSourceVariables/get", nil)
+	req, err := http.NewRequest(http.MethodPost, "/entity/dataSourceVariables/get", nil)
 	assert.Nil(s.T(), err)
 	req = req.WithContext(ctx)
 

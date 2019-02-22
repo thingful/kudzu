@@ -27,7 +27,7 @@ const (
 
 // RegisterTimeseriesHandler registers our handler that requests data from Thingful
 func RegisterTimeseriesHandler(mux *goji.Mux, db *postgres.DB, th *thingful.Thingful) {
-	mux.Handle(pat.Post("/api/timeSeries/get"), Handler{env: &Env{db: db, thingful: th}, handler: timeseriesHandler})
+	mux.Handle(pat.Post("/timeSeries/get"), Handler{env: &Env{db: db, thingful: th}, handler: timeseriesHandler})
 }
 
 type setting struct {

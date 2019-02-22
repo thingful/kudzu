@@ -8,6 +8,7 @@ import (
 
 	kitlog "github.com/go-kit/kit/log"
 	goji "goji.io"
+	"goji.io/pat"
 
 	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/http/handlers"
@@ -76,20 +77,27 @@ func (h *HTTP) Start() {
 
 	mux := goji.NewMux()
 	handlers.RegisterHealthCheck(mux, h.DB)
-	handlers.RegisterUserHandlers(mux, h.DB, h.Client, h.Indexer)
-	handlers.RegisterDataSourceHandlers(mux, h.DB)
-	handlers.RegisterLocationHandlers(mux, h.DB, h.Thingful)
-	handlers.RegisterMetadataHandlers(mux, h.DB)
-	handlers.RegisterTimeseriesHandler(mux, h.DB, h.Thingful)
+	handlers.RegisterMetricsHandler(mux)
+
+	apiMux := goji.SubMux()
+	mux.Handle(pat.New("/api/*"), apiMux)
+
+	handlers.RegisterUserHandlers(apiMux, h.DB, h.Client, h.Indexer)
+	handlers.RegisterDataSourceHandlers(apiMux, h.DB)
+	handlers.RegisterLocationHandlers(apiMux, h.DB, h.Thingful)
+	handlers.RegisterMetadataHandlers(apiMux, h.DB)
+	handlers.RegisterTimeseriesHandler(apiMux, h.DB, h.Thingful)
 
 	// add middleware
-	mux.Use(middleware.RequestIDMiddleware)
+	apiMux.Use(middleware.RequestIDMiddleware)
 
 	loggingMiddleware := middleware.NewLoggingMiddleware(h.logger, true)
-	mux.Use(loggingMiddleware.Handler)
+	apiMux.Use(loggingMiddleware.Handler)
+
+	apiMux.Use(middleware.MetricsMiddleware)
 
 	authMiddleware := middleware.NewAuthMiddleware(h.DB)
-	mux.Use(authMiddleware.Handler)
+	apiMux.Use(authMiddleware.Handler)
 
 	h.srv.Handler = mux
 
