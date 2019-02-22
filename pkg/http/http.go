@@ -80,6 +80,7 @@ func (h *HTTP) Start() {
 	handlers.RegisterDataSourceHandlers(mux, h.DB)
 	handlers.RegisterLocationHandlers(mux, h.DB, h.Thingful)
 	handlers.RegisterMetadataHandlers(mux, h.DB)
+	handlers.RegisterTimeseriesHandler(mux, h.DB, h.Thingful)
 
 	// add middleware
 	mux.Use(middleware.RequestIDMiddleware)
