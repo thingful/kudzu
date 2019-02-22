@@ -5,8 +5,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"path"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/pkg/errors"
@@ -21,19 +23,21 @@ import (
 
 // Thingful is our thingful client instance
 type Thingful struct {
-	client  *client.Client
-	apiBase string
-	apiKey  string
-	verbose bool
+	client      *client.Client
+	apiBase     string
+	apiKey      string
+	verbose     bool
+	concurrency int
 }
 
 // NewClient creates a new Thingful client instance.
-func NewClient(c *client.Client, apiBase, apiKey string, verbose bool) *Thingful {
+func NewClient(c *client.Client, apiBase, apiKey string, verbose bool, concurrency int) *Thingful {
 	return &Thingful{
-		client:  c,
-		apiBase: apiBase,
-		apiKey:  apiKey,
-		verbose: verbose,
+		client:      c,
+		apiBase:     apiBase,
+		apiKey:      apiKey,
+		verbose:     verbose,
+		concurrency: concurrency,
 	}
 }
 
@@ -381,4 +385,143 @@ func batteryChannel(obs []thingfulx.Observation) channel {
 			Observations:     obs,
 		},
 	}
+}
+
+// Thing is a single Thing response parsed from Thingful
+type Thing struct {
+	ID         string          `json:"id"`
+	Attributes ThingAttributes `json:"attributes"`
+}
+
+// ThingAttributes sis a struct we return from the GetData function, which we also
+// use to parse the returned JSON from Thingful.
+type ThingAttributes struct {
+	Title    string     `json:"title"`
+	Location Location   `json:"location"`
+	Metadata []Metadata `json:"metadata"`
+	Channels []Channel  `json:"channels"`
+}
+
+// Metadata is used to parse metadata from the response
+type Metadata struct {
+	Prop string `json:"prop"`
+	Val  string `json:"val"`
+}
+
+// Location is used to parse geolocation from the response
+type Location struct {
+	Longitude float64 `json:"long"`
+	Latitude  float64 `json:"lat"`
+}
+
+// Channel is a unique data channel for a sensor. Contains some metadata and a
+// list of observation values
+type Channel struct {
+	ID           string        `json:"id"`
+	Unit         string        `json:"unit"`
+	DataType     string        `json:"dataType"`
+	Observations []Observation `json:"observations"`
+}
+
+// Observation is an individual recording of data at a location.
+type Observation struct {
+	RecordedAt time.Time `json:"recordedAt"`
+	Value      string    `json:"value"`
+}
+
+// wrappedResponse is a simple container to handle responses sent back from
+// goroutines indexing Thingful that holds either a slice of bytes or an error
+type wrappedResponse struct {
+	Data []byte
+	Err  error
+}
+
+// GetData returns a slice of Thing instances retrieved from Thingful for the
+// given time interval. We request all channels for a thing, and then filter
+// rather inefficiently.
+func (t *Thingful) GetData(ctx context.Context, uids []string, from, to time.Time, ascending bool) ([]Thing, error) {
+	log := logger.FromContext(ctx)
+
+	var wg sync.WaitGroup
+
+	wrappedResponseChan := make(chan wrappedResponse, t.concurrency)
+
+	// build a url and spawn a goroutine to fetch the data and return down channel
+	for _, uid := range uids {
+		u := fmt.Sprintf("%s/things/%s", t.apiBase, uid)
+		parsedURL, err := url.Parse(u)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to parse url")
+		}
+
+		query := parsedURL.Query()
+		query.Set("from", from.Format(time.RFC3339))
+		query.Set("to", to.Format(time.RFC3339))
+
+		parsedURL.RawQuery = query.Encode()
+
+		wg.Add(1)
+
+		// spawn goroutine to fetch data - note we have a buffered response channel,
+		// so there is some backpressure here which I'm calling "concurrency"
+		// (incorrectly)
+		go func() {
+			defer wg.Done()
+			if t.verbose {
+				log.Log(
+					"msg", "fetching time series data from Thingful",
+					"url", parsedURL.String(),
+				)
+			}
+
+			// make the request to upstream Thingful service
+			b, err := t.client.Get(ctx, parsedURL.String(), t.apiKey)
+
+			// send any response back down our buffered channel
+			wrappedResponseChan <- wrappedResponse{
+				Data: b,
+				Err:  err,
+			}
+		}()
+	}
+
+	// wait on all wait group elements reporting they are finished, and then close
+	// the response channel
+	go func() {
+		wg.Wait()
+		close(wrappedResponseChan)
+	}()
+
+	things := []Thing{}
+
+	for wr := range wrappedResponseChan {
+		if wr.Err != nil {
+			return nil, errors.Wrap(wr.Err, "failed to receive value from channel")
+		}
+
+		thing, err := buildThing(wr.Data)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to build new thing to respond")
+		}
+
+		things = append(things, *thing)
+	}
+
+	return things, nil
+}
+
+// buildThing returns a thingful.Thing retreived from the Thingful database over
+// the network.
+func buildThing(b []byte) (*Thing, error) {
+	var thingfulResp struct {
+		Data Thing `json:"data"`
+	}
+
+	err := json.Unmarshal(b, &thingfulResp)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to unmarshal json into anonymous struct")
+	}
+
+	data := thingfulResp.Data
+	return &data, nil
 }
