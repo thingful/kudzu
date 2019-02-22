@@ -26,6 +26,7 @@ type Config struct {
 	Delay         int
 	ThingfulURL   string
 	ThingfulKey   string
+	Concurrency   int
 }
 
 // NewApp returns a new App instance with components configured but not yet
@@ -37,7 +38,7 @@ func NewApp(config *Config) *App {
 
 	cl := client.NewClient(config.ClientTimeout, config.Verbose)
 
-	th := thingful.NewClient(cl, config.ThingfulURL, config.ThingfulKey, config.Verbose)
+	th := thingful.NewClient(cl, config.ThingfulURL, config.ThingfulKey, config.Verbose, config.Concurrency)
 
 	quitChan := make(chan struct{})
 	errChan := make(chan error)
