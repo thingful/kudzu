@@ -1,12 +1,14 @@
 package app
 
 import (
+	"context"
 	"os"
 	"os/signal"
 	"sync"
 	"time"
 
 	kitlog "github.com/go-kit/kit/log"
+	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/thingful/kuzu/pkg/client"
 	"github.com/thingful/kuzu/pkg/http"
@@ -15,6 +17,20 @@ import (
 	"github.com/thingful/kuzu/pkg/postgres"
 	"github.com/thingful/kuzu/pkg/thingful"
 )
+
+var (
+	usersGauge = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Namespace: "grow",
+			Name:      "registered_users",
+			Help:      "Count of users partitioned by auth provider",
+		}, []string{"provider"},
+	)
+)
+
+func init() {
+	prometheus.MustRegister(usersGauge)
+}
 
 // Config is our top level config struct used to carry all configuration from
 // cobra commands into our application code.
@@ -112,6 +128,29 @@ func (a *App) Start() error {
 	go func() {
 		a.wg.Add(1)
 		a.indexer.Start()
+	}()
+
+	ticker := time.NewTicker(time.Second * time.Duration(30))
+
+	go func() {
+		for range ticker.C {
+			userStats, err := a.db.CountUsers(context.Background())
+			if err != nil {
+				a.logger.Log(
+					"msg", "failed to read user stats",
+					"error", err,
+				)
+				continue
+			}
+
+			for _, stat := range userStats {
+				usersGauge.With(
+					prometheus.Labels{
+						"provider": stat.Provider,
+					},
+				).Set(stat.Count)
+			}
+		}
 	}()
 
 	a.logger.Log("msg", "starting app")
