@@ -23,13 +23,22 @@ var (
 		prometheus.GaugeOpts{
 			Namespace: "grow",
 			Name:      "registered_users",
-			Help:      "Count of users partitioned by auth provider",
+			Help:      "A count of users partitioned by auth provider",
 		}, []string{"provider"},
+	)
+
+	thingsGauge = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Namespace: "grow",
+			Name:      "things",
+			Help:      "A count of things partitioned by provider and status",
+		}, []string{"provider", "status"},
 	)
 )
 
 func init() {
 	prometheus.MustRegister(usersGauge)
+	prometheus.MustRegister(thingsGauge)
 }
 
 // Config is our top level config struct used to carry all configuration from
@@ -130,11 +139,13 @@ func (a *App) Start() error {
 		a.indexer.Start()
 	}()
 
-	ticker := time.NewTicker(time.Second * time.Duration(30))
+	ticker := time.NewTicker(time.Second * time.Duration(60))
 
 	go func() {
+		ctx := logger.ToContext(context.Background(), a.logger)
+
 		for range ticker.C {
-			userStats, err := a.db.CountUsers(context.Background())
+			userStats, err := a.db.CountUsers(ctx)
 			if err != nil {
 				a.logger.Log(
 					"msg", "failed to read user stats",
@@ -143,12 +154,44 @@ func (a *App) Start() error {
 				continue
 			}
 
-			for _, stat := range userStats {
+			for _, userStat := range userStats {
 				usersGauge.With(
 					prometheus.Labels{
-						"provider": stat.Provider,
+						"provider": userStat.Provider,
 					},
-				).Set(stat.Count)
+				).Set(userStat.Count)
+			}
+
+			thingStats, err := a.db.GetThingStats(ctx)
+			if err != nil {
+				a.logger.Log(
+					"msg", "failed to read thing stats",
+					"error", err,
+				)
+				continue
+			}
+
+			for _, thingStat := range thingStats {
+				thingsGauge.With(
+					prometheus.Labels{
+						"provider": thingStat.Provider,
+						"status":   "all",
+					},
+				).Set(thingStat.All)
+
+				thingsGauge.With(
+					prometheus.Labels{
+						"provider": thingStat.Provider,
+						"status":   "stale",
+					},
+				).Set(thingStat.Stale)
+
+				thingsGauge.With(
+					prometheus.Labels{
+						"provider": thingStat.Provider,
+						"status":   "invalid_location",
+					},
+				).Set(thingStat.InvalidLocation)
 			}
 		}
 	}()
