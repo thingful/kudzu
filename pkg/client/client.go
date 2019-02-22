@@ -18,8 +18,9 @@ import (
 var (
 	durationHist = prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Name: "client_request_duration_seconds",
-			Help: "A histogram of the latency in seconds for requests made by the client",
+			Namespace: "grow",
+			Name:      "client_request_duration_seconds",
+			Help:      "A histogram of the latency in seconds for requests made by the client",
 		}, []string{"code", "method", "host"},
 	)
 )

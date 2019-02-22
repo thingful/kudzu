@@ -10,9 +10,10 @@ import (
 var (
 	duration = prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Name:    "request_duration_seconds",
-			Help:    "A histogram of the latency in seconds for serving requests",
-			Buckets: prometheus.DefBuckets,
+			Namespace: "grow",
+			Name:      "server_request_duration_seconds",
+			Help:      "A histogram of the latency in seconds for serving requests",
+			Buckets:   prometheus.DefBuckets,
 		}, []string{"code", "method"},
 	)
 )
