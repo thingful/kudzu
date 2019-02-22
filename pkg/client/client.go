@@ -10,9 +10,23 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/version"
 )
+
+var (
+	durationHist = prometheus.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Name: "client_request_duration_seconds",
+			Help: "A histogram of the latency in seconds for requests made by the client",
+		}, []string{"code", "method", "host"},
+	)
+)
+
+func init() {
+	prometheus.MustRegister(durationHist)
+}
 
 // Client is our custom client type that ensures a timeout is used, and adds a
 // user agent header to be polite.
@@ -25,8 +39,11 @@ type Client struct {
 // NewClient returns a new client instance initialized with a user agent string
 // and timeout
 func NewClient(timeout int, verbose bool) *Client {
+	roundTripper := InstrumentRoundTripperDuration(durationHist, http.DefaultTransport)
+
 	c := &http.Client{
-		Timeout: time.Duration(timeout) * time.Second,
+		Timeout:   time.Duration(timeout) * time.Second,
+		Transport: roundTripper,
 	}
 
 	return &Client{
