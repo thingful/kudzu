@@ -140,7 +140,7 @@ func (s *LocationHandlersSuite) TestUpdatelocation() {
 	assert.Nil(s.T(), err)
 
 	// setup up simular mock for the thingful update request
-	simular.Activate()
+	simular.ActivateNonDefault(s.client.Client)
 	defer simular.DeactivateAndReset()
 
 	simular.RegisterStubRequests(

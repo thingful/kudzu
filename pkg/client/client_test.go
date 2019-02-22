@@ -23,7 +23,7 @@ func TestClient(t *testing.T) {
 func TestGet(t *testing.T) {
 	cl := client.NewClient(1, false)
 
-	simular.Activate()
+	simular.ActivateNonDefault(cl.Client)
 	defer simular.DeactivateAndReset()
 
 	simular.RegisterStubRequests(
@@ -51,7 +51,7 @@ func TestGet(t *testing.T) {
 func TestGetNotFoundError(t *testing.T) {
 	cl := client.NewClient(1, false)
 
-	simular.Activate()
+	simular.ActivateNonDefault(cl.Client)
 	defer simular.DeactivateAndReset()
 
 	simular.RegisterStubRequests(

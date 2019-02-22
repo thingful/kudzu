@@ -21,7 +21,7 @@ import (
 func TestGetUser(t *testing.T) {
 	cl := client.NewClient(1, false)
 
-	simular.Activate()
+	simular.ActivateNonDefault(cl.Client)
 	defer simular.DeactivateAndReset()
 
 	profileBytes, err := ioutil.ReadFile("testdata/barnabas_profile.json")
@@ -55,7 +55,7 @@ func TestGetUserWhenInvalidToken(t *testing.T) {
 
 	cl := client.NewClient(1, false)
 
-	simular.Activate()
+	simular.ActivateNonDefault(cl.Client)
 	defer simular.DeactivateAndReset()
 
 	simular.RegisterStubRequests(
@@ -84,7 +84,7 @@ func TestGetLocations(t *testing.T) {
 
 	cl := client.NewClient(1, false)
 
-	simular.Activate()
+	simular.ActivateNonDefault(cl.Client)
 	defer simular.DeactivateAndReset()
 
 	statusBytes, err := ioutil.ReadFile("testdata/barnabas_status.json")
@@ -131,7 +131,7 @@ func TestGetLocations404(t *testing.T) {
 	ctx := logger.ToContext(context.Background(), log)
 	cl := client.NewClient(1, false)
 
-	simular.Activate()
+	simular.ActivateNonDefault(cl.Client)
 	defer simular.DeactivateAndReset()
 
 	simular.RegisterStubRequests(
@@ -160,7 +160,7 @@ func TestGetLocationsInvalidResponse(t *testing.T) {
 
 	cl := client.NewClient(1, true)
 
-	simular.Activate()
+	simular.ActivateNonDefault(cl.Client)
 	defer simular.DeactivateAndReset()
 
 	simular.RegisterStubRequests(
@@ -189,7 +189,7 @@ func TestGetReadingsOK(t *testing.T) {
 
 	cl := client.NewClient(1, true)
 
-	simular.Activate()
+	simular.ActivateNonDefault(cl.Client)
 	defer simular.DeactivateAndReset()
 
 	dataBytes, err := ioutil.ReadFile("testdata/barnabas_data.json")

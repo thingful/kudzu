@@ -31,7 +31,7 @@ func init() {
 // Client is our custom client type that ensures a timeout is used, and adds a
 // user agent header to be polite.
 type Client struct {
-	client    *http.Client
+	*http.Client
 	userAgent string
 	verbose   bool
 }
@@ -47,7 +47,7 @@ func NewClient(timeout int, verbose bool) *Client {
 	}
 
 	return &Client{
-		client:    c,
+		Client:    c,
 		userAgent: fmt.Sprintf("grow(%s)/%s", version.BinaryName, version.Version),
 		verbose:   verbose,
 	}
@@ -73,7 +73,7 @@ func (c *Client) Get(ctx context.Context, requestURL, accessToken string) ([]byt
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
 	req.Header.Set("User-Agent", c.userAgent)
 
-	resp, err := c.client.Do(req)
+	resp, err := c.Do(req)
 	if err != nil {
 		log.Log(
 			"msg", "error making request",
@@ -135,7 +135,7 @@ func (c *Client) postOrPatch(ctx context.Context, method, requestURL, accessToke
 	req.Header.Set("User-Agent", c.userAgent)
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := c.client.Do(req)
+	resp, err := c.Do(req)
 	if err != nil {
 		log.Log(
 			"msg", "error making request",

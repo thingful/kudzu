@@ -64,7 +64,7 @@ func (s *UsersSuite) TestCreateUser() {
 	configurationBytes, err := ioutil.ReadFile("../../flowerpower/testdata/barnabas_configuration.json")
 	assert.Nil(s.T(), err)
 
-	simular.Activate()
+	simular.ActivateNonDefault(s.client.Client)
 	defer simular.DeactivateAndReset()
 
 	simular.RegisterStubRequests(
@@ -137,7 +137,7 @@ func (s *UsersSuite) TestCreateUserWhenAlreadyRegistered() {
 	profileBytes, err := ioutil.ReadFile("../../flowerpower/testdata/barnabas_profile.json")
 	assert.Nil(s.T(), err)
 
-	simular.Activate()
+	simular.ActivateNonDefault(s.client.Client)
 	defer simular.DeactivateAndReset()
 
 	sql := `INSERT INTO users (uid, parrot_id) VALUES ($1, $2)`
