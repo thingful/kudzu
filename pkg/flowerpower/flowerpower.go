@@ -7,9 +7,34 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+
 	"github.com/pkg/errors"
 	"github.com/thingful/kuzu/pkg/client"
 )
+
+var (
+	locationsCounter = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Namespace: "grow",
+			Name:      "retrieved_locations",
+			Help:      "A counter of received locations from Parrot",
+		},
+	)
+
+	readingsCounter = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Namespace: "grow",
+			Name:      "retrieved_readings",
+			Help:      "A counter of received readings from Parrot",
+		},
+	)
+)
+
+func init() {
+	prometheus.MustRegister(locationsCounter)
+	prometheus.MustRegister(readingsCounter)
+}
 
 const (
 	// ProfileURL is parrot's user profile URL
@@ -139,6 +164,8 @@ func GetLocations(ctx context.Context, client *client.Client, accessToken string
 		}
 	}
 
+	locationsCounter.Add(float64(len(locations)))
+
 	return locations, nil
 }
 
@@ -166,6 +193,8 @@ func GetReadings(ctx context.Context, client *client.Client, accessToken, locati
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to unmarshal sample data json")
 	}
+
+	readingsCounter.Add(float64(len(data.Readings)))
 
 	return data.Readings, nil
 }

@@ -34,11 +34,20 @@ var (
 			Help:      "A count of things partitioned by provider and status",
 		}, []string{"provider", "status"},
 	)
+
+	identitiesGauge = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Namespace: "grow",
+			Name:      "identities",
+			Help:      "A count of identities partitioned by status",
+		}, []string{"status"},
+	)
 )
 
 func init() {
 	prometheus.MustRegister(usersGauge)
 	prometheus.MustRegister(thingsGauge)
+	prometheus.MustRegister(identitiesGauge)
 }
 
 // Config is our top level config struct used to carry all configuration from
@@ -139,9 +148,9 @@ func (a *App) Start() error {
 		a.indexer.Start()
 	}()
 
-	ticker := time.NewTicker(time.Second * time.Duration(60))
-
 	go func() {
+		ticker := time.NewTicker(time.Second * time.Duration(60))
+
 		ctx := logger.ToContext(context.Background(), a.logger)
 
 		for range ticker.C {
@@ -161,6 +170,33 @@ func (a *App) Start() error {
 					},
 				).Set(userStat.Count)
 			}
+
+			identityStat, err := a.db.GetIdentityStats(ctx)
+			if err != nil {
+				a.logger.Log(
+					"msg", "failed to read identity stats",
+					"error", err,
+				)
+				continue
+			}
+
+			identitiesGauge.With(
+				prometheus.Labels{
+					"status": "all",
+				},
+			).Set(identityStat.All)
+
+			identitiesGauge.With(
+				prometheus.Labels{
+					"status": "pending",
+				},
+			).Set(identityStat.Pending)
+
+			identitiesGauge.With(
+				prometheus.Labels{
+					"status": "stale",
+				},
+			).Set(identityStat.Stale)
 
 			thingStats, err := a.db.GetThingStats(ctx)
 			if err != nil {
