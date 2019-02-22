@@ -16,6 +16,7 @@ import (
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 	"github.com/thingful/kuzu/pkg/thingful"
+	"github.com/thingful/kuzu/pkg/version"
 )
 
 var (
@@ -42,12 +43,21 @@ var (
 			Help:      "A count of identities partitioned by status",
 		}, []string{"status"},
 	)
+
+	buildInfo = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Namespace: "grow",
+			Name:      "build_info",
+			Help:      "Information about the current build of the service",
+		}, []string{"name", "version", "build_date"},
+	)
 )
 
 func init() {
 	prometheus.MustRegister(usersGauge)
 	prometheus.MustRegister(thingsGauge)
 	prometheus.MustRegister(identitiesGauge)
+	prometheus.MustRegister(buildInfo)
 }
 
 // Config is our top level config struct used to carry all configuration from
@@ -68,11 +78,20 @@ type Config struct {
 func NewApp(config *Config) *App {
 	logger := logger.NewLogger()
 
+	logger.Log(
+		"clientTimeout", config.ClientTimeout,
+		"delay", config.Delay,
+		"thingfulURL", config.ThingfulURL,
+		"concurrency", config.Concurrency,
+	)
+
 	db := postgres.NewDB(config.DatabaseURL, config.Verbose)
 
 	cl := client.NewClient(config.ClientTimeout, config.Verbose)
 
 	th := thingful.NewClient(cl, config.ThingfulURL, config.ThingfulKey, config.Verbose, config.Concurrency)
+
+	buildInfo.WithLabelValues(version.BinaryName, version.Version, version.BuildDate)
 
 	quitChan := make(chan struct{})
 	errChan := make(chan error)
