@@ -59,6 +59,9 @@ func (d *DB) GetThing(ctx context.Context, locationID string) (*Thing, error) {
 	return &thing, nil
 }
 
+// GetThingByUID returns a thing on being given it's Thingful generated UID.
+// Added as a separate function as we do load Things in two different ways, in
+// two different places.
 func (d *DB) GetThingByUID(ctx context.Context, uid string) (*Thing, error) {
 	log := logger.FromContext(ctx)
 
@@ -209,6 +212,56 @@ func (d *DB) UpdateThing(ctx context.Context, thing *Thing) error {
 	}
 
 	return tx.Commit()
+}
+
+// ThingStats is a data structure used to pass
+type ThingStats struct {
+	All             float64 `db:"all_things"`
+	Stale           float64 `db:"stale_things"`
+	InvalidLocation float64 `db:"invalid_location_things"`
+	Provider        string  `db:"provider"`
+}
+
+// GetThingStats returns a data structure containing some thing metrics for
+// Prometheus.
+func (d *DB) GetThingStats(ctx context.Context) ([]ThingStats, error) {
+	log := logger.FromContext(ctx)
+
+	if d.verbose {
+		log.Log("msg", "counting things")
+	}
+
+	sql := `SELECT
+		COUNT(*) AS all_things,
+		COUNT(stale) AS stale_things,
+		COUNT(invalid_location) AS invalid_location_things,
+		provider
+	FROM (
+		SELECT
+			CASE WHEN last_sample < NOW() - interval '30 days' THEN 1 END stale,
+			CASE WHEN lat = 0 AND long = 0 THEN 1 END invalid_location,
+			provider
+		FROM things
+	) things GROUP BY provider`
+
+	rows, err := d.DB.Queryx(sql)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get thing stats")
+	}
+
+	stats := []ThingStats{}
+
+	for rows.Next() {
+		var stat ThingStats
+		err = rows.StructScan(&stat)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to scan things stat struct")
+		}
+
+		stats = append(stats, stat)
+	}
+
+	return stats, nil
 }
 
 // makeChannels returns static list of channels for flowerpower devices
