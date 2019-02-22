@@ -22,8 +22,8 @@ type User struct {
 
 // UserStat is a type used to export metrics from the DB to prometheus
 type UserStat struct {
-	Count    int    `db:"count"`
-	Provider string `db:"auth_provider"`
+	Count    float64 `db:"count"`
+	Provider string  `db:"auth_provider"`
 }
 
 // SaveUser attempts to save a user into the database along with an associated
