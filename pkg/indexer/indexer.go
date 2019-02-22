@@ -120,10 +120,24 @@ func (i *Indexer) IndexLocations(ctx context.Context, identity *postgres.Identit
 		return errors.Wrap(err, "failed to get locations for indexing")
 	}
 
+	if i.Verbose {
+		log.Log(
+			"msg", "retrieved locations from parrot",
+			"numLocations", len(locations),
+		)
+	}
+
 	// now let's range over our retrieved locations
 	for _, l := range locations {
 		thing, err := i.DB.GetThing(ctx, l.LocationID)
 		if err != nil {
+			if i.Verbose {
+				log.Log(
+					"msg", "error getting thing from DB",
+					"err", err.Error(),
+				)
+			}
+
 			if errors.Cause(err) == sql.ErrNoRows {
 				// launch new thing flow
 				err = i.indexNewLocation(ctx, identity, &l)
