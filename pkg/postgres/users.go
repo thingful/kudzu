@@ -9,6 +9,8 @@ import (
 	"github.com/thingful/kuzu/pkg/logger"
 )
 
+// User is a struct used to pass data into the SaveUser function - captures all
+// the data we receive when creating a new user record.
 type User struct {
 	ID           int64  `db:"id"`
 	UID          string `db:"uid"`
@@ -16,6 +18,12 @@ type User struct {
 	AccessToken  string `db:"access_token"`
 	RefreshToken string `db:"refresh_token"`
 	Provider     string `db:"auth_provider"`
+}
+
+// UserStat is a type used to export metrics from the DB to prometheus
+type UserStat struct {
+	Count    int    `db:"count"`
+	Provider string `db:"auth_provider"`
 }
 
 // SaveUser attempts to save a user into the database along with an associated
@@ -85,4 +93,37 @@ func (d *DB) DeleteUser(ctx context.Context, uid string) error {
 	}
 
 	return tx.Commit()
+}
+
+// CountUsers returns a count of registered users partitioned by provider
+// (currently just Parrot)
+func (d *DB) CountUsers(ctx context.Context) ([]UserStat, error) {
+	log := logger.FromContext(ctx)
+
+	if d.verbose {
+		log.Log("msg", "counting users")
+	}
+
+	sql := `SELECT COUNT(u.*), i.auth_provider
+		FROM users u
+		JOIN identities i ON i.owner_Id = u.id
+		GROUP BY i.auth_provider`
+
+	rows, err := d.DB.Queryx(sql)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to count users")
+	}
+
+	stats := []UserStat{}
+
+	for rows.Next() {
+		var stat UserStat
+		err = rows.StructScan(&stat)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to scan row into UserStat struct")
+		}
+		stats = append(stats, stat)
+	}
+
+	return stats, nil
 }

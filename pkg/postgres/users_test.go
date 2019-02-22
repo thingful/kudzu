@@ -76,6 +76,26 @@ func (s *UsersSuite) TestDeleteUnknownUser() {
 	assert.Nil(s.T(), err)
 }
 
+func (s *UsersSuite) TestCountUsers() {
+	ctx := logger.ToContext(context.Background(), s.logger)
+
+	_, err := s.db.SaveUser(ctx, &postgres.User{
+		UID:          "abc123",
+		ParrotID:     "foo@example.com",
+		AccessToken:  "access",
+		RefreshToken: "refresh",
+		Provider:     "parrot",
+	})
+
+	assert.Nil(s.T(), err)
+
+	stats, err := s.db.CountUsers(ctx)
+	assert.Nil(s.T(), err)
+	assert.Len(s.T(), stats, 1)
+
+	assert.Equal(s.T(), postgres.UserStat{Count: 1, Provider: "parrot"}, stats[0])
+}
+
 func TestUsersSuite(t *testing.T) {
 	suite.Run(t, new(UsersSuite))
 }
