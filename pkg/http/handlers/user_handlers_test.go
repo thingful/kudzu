@@ -118,7 +118,7 @@ func (s *UsersSuite) TestCreateUser() {
 
 	expected := `{"User": "barnabas","TotalThings": 35}`
 
-	req, err := http.NewRequest(http.MethodPost, "/user/new", bytes.NewReader(input))
+	req, err := http.NewRequest(http.MethodPost, "/api/user/new", bytes.NewReader(input))
 	req = req.WithContext(ctx)
 	assert.Nil(s.T(), err)
 
@@ -175,7 +175,7 @@ func (s *UsersSuite) TestCreateUserWhenAlreadyRegistered() {
 
 	expected := `{"Message": "failed to insert user: client error, i.e. non-unique violation or missing required field","Name": 422}`
 
-	req, err := http.NewRequest(http.MethodPost, "/user/new", bytes.NewReader(input))
+	req, err := http.NewRequest(http.MethodPost, "/api/user/new", bytes.NewReader(input))
 	assert.Nil(s.T(), err)
 	req = req.WithContext(ctx)
 
@@ -205,7 +205,7 @@ func (s *UsersSuite) TestDeleteUser() {
 		}
 	}`)
 
-	req, err := http.NewRequest(http.MethodDelete, "/user/delete", bytes.NewReader(input))
+	req, err := http.NewRequest(http.MethodDelete, "/api/user/delete", bytes.NewReader(input))
 	assert.Nil(s.T(), err)
 
 	req = req.WithContext(ctx)

@@ -1,51 +1,33 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/thingful/kuzu/pkg/client"
+	"github.com/thingful/kuzu/pkg/flowerpower"
 	"github.com/thingful/kuzu/pkg/indexer"
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 	"github.com/thingful/kuzu/pkg/thingful"
 )
 
-// Error is an interface for an error type we return from our custom handler
-// type.
-type Error interface {
-	error
-	Status() int
-}
+// Thingful is the interface we expect for a type of object that can speak to
+// the Thingful backend to write or read data.
+type Thingful interface {
+	// CreateThing attempts to create a new entry in the Thingful data store,
+	// returning a generated UID or an error
+	CreateThing(context.Context, *postgres.Thing, []flowerpower.Reading) (string, error)
 
-// HTTPError is our concrete implementation of the Error interface we return
-// from handlers
-type HTTPError struct {
-	Code int
-	Err  error
-}
+	// UpdateThing attempts to update an existing Thing, specifically its title,
+	// indexed_at, updated_at, and any channels. Used for writing time series data.
+	UpdateThing(context.Context, *postgres.Thing, []flowerpower.Reading) error
 
-// Error returns the message
-func (he *HTTPError) Error() string {
-	return he.Err.Error()
-}
-
-// Status returns the status code associated with the error response.
-func (he *HTTPError) Status() int {
-	return he.Code
-}
-
-// MarshalJSON is our implementation of the json marshaller interface as we want
-// to output the error message rather than the default error serialization which
-// seems to be an empty json object.
-func (he *HTTPError) MarshalJSON() ([]byte, error) {
-	return json.Marshal(struct {
-		Code    int    `json:"Name"`
-		Message string `json:"Message"`
-	}{
-		Code:    he.Code,
-		Message: he.Err.Error(),
-	})
+	// GetData attempts to return a slice of objects read from the Thingful core
+	// API. This is how this component returns time series data to any caller.
+	GetData(context.Context, []string, time.Time, time.Time, bool) ([]thingful.Thing, error)
 }
 
 // Env is used to pass in our database and indexer environment to handlers
@@ -53,7 +35,7 @@ type Env struct {
 	db       *postgres.DB
 	client   *client.Client
 	indexer  *indexer.Indexer
-	thingful *thingful.Thingful
+	thingful Thingful
 }
 
 // Handler is a custom handler type that provides some error handling niceties.

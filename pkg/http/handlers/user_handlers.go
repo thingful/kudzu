@@ -18,8 +18,8 @@ import (
 
 // RegisterUserHandlers registers our user related handlers into the mux
 func RegisterUserHandlers(mux *goji.Mux, db *postgres.DB, cl *client.Client, in *indexer.Indexer) {
-	mux.Handle(pat.Post("/user/new"), Handler{env: &Env{db: db, client: cl, indexer: in}, handler: newUserHandler})
-	mux.Handle(pat.Delete("/user/delete"), Handler{env: &Env{db: db}, handler: deleteUserHandler})
+	mux.Handle(pat.Post("/api/user/new"), Handler{env: &Env{db: db, client: cl, indexer: in}, handler: newUserHandler})
+	mux.Handle(pat.Delete("/api/user/delete"), Handler{env: &Env{db: db}, handler: deleteUserHandler})
 }
 
 // newUserRequest is a local type used for parsing incoming requests
@@ -82,6 +82,11 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 		}
 	}
 
+	log.Log(
+		"msg", "created user record",
+		"userID", userID,
+	)
+
 	// get locations from parrot
 	locations, err := flowerpower.GetLocations(ctx, env.client, userData.Info.AccessToken)
 	if err != nil {
@@ -105,19 +110,6 @@ func newUserHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 			Err:  errors.Wrap(err, "failed to marshal response JSON"),
 		}
 	}
-
-	// spawn goroutine to index all things for the user
-	go func() {
-		identity := &postgres.Identity{
-			OwnerID:     userID,
-			AccessToken: userData.Info.AccessToken,
-		}
-
-		err := env.indexer.IndexLocations(ctx, identity)
-		if err != nil {
-			log.Log("msg", "error indexing locations", "err", err)
-		}
-	}()
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusAccepted)

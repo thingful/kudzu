@@ -10,15 +10,14 @@ import (
 	"github.com/pkg/errors"
 	"github.com/thingful/kuzu/pkg/flowerpower"
 	"github.com/thingful/kuzu/pkg/postgres"
-	"github.com/thingful/kuzu/pkg/thingful"
 	goji "goji.io"
 	"goji.io/pat"
 )
 
 // RegisterLocationHandlers registers handlers for working with locations
-func RegisterLocationHandlers(mux *goji.Mux, db *postgres.DB, th *thingful.Thingful) {
-	mux.Handle(pat.Post("/entity/locations/get"), Handler{env: &Env{db: db}, handler: listLocationsHandler})
-	mux.Handle(pat.Post("/entity/locations/update"), Handler{env: &Env{db: db, thingful: th}, handler: updateLocationHandler})
+func RegisterLocationHandlers(mux *goji.Mux, db *postgres.DB, th Thingful) {
+	mux.Handle(pat.Post("/api/entity/locations/get"), Handler{env: &Env{db: db}, handler: listLocationsHandler})
+	mux.Handle(pat.Post("/api/entity/locations/update"), Handler{env: &Env{db: db, thingful: th}, handler: updateLocationHandler})
 }
 
 // listLocationsRequest is used to parse incoming requests for locations

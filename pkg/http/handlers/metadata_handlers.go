@@ -14,7 +14,7 @@ import (
 
 // RegisterMetadataHandlers registers any handlers for metadata operations
 func RegisterMetadataHandlers(mux *goji.Mux, db *postgres.DB) {
-	mux.Handle(pat.Post("/entity/timeSeriesInformations/get"), Handler{env: &Env{db: db}, handler: metadataHandler})
+	mux.Handle(pat.Post("/api/entity/timeSeriesInformations/get"), Handler{env: &Env{db: db}, handler: metadataHandler})
 }
 
 // timeseries is a struct used when rendering output for the metadata endpoint
