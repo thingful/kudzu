@@ -17,7 +17,7 @@ var (
 	locationsCounter = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Namespace: "grow",
-			Name:      "retrieved_locations",
+			Name:      "parrot_retrieved_locations_count",
 			Help:      "A counter of received locations from Parrot",
 		},
 	)
@@ -25,7 +25,7 @@ var (
 	readingsCounter = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Namespace: "grow",
-			Name:      "retrieved_readings",
+			Name:      "parrot_retrieved_readings_count",
 			Help:      "A counter of received readings from Parrot",
 		},
 	)

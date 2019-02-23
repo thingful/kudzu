@@ -11,6 +11,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+
 	"github.com/pkg/errors"
 	"github.com/thingful/thingfulx"
 	"github.com/thingful/thingfulx/schema"
@@ -20,6 +22,29 @@ import (
 	"github.com/thingful/kuzu/pkg/logger"
 	"github.com/thingful/kuzu/pkg/postgres"
 )
+
+var (
+	channelsCount = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Namespace: "grow",
+			Name:      "thingful_retreived_channel_count",
+			Help:      "A counter of channels read back from Thingful when reading timeseries data",
+		},
+	)
+
+	observationsCount = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Namespace: "grow",
+			Name:      "thingful_retrieved_observations_count",
+			Help:      "A counter of observations read back from Thingful when reading timeseries data",
+		},
+	)
+)
+
+func init() {
+	prometheus.MustRegister(channelsCount)
+	prometheus.MustRegister(observationsCount)
+}
 
 // Thingful is our thingful client instance
 type Thingful struct {
@@ -308,7 +333,7 @@ func airTemperatureChannel(obs []thingfulx.Observation) channel {
 func fertilizerChannel(obs []thingfulx.Observation) channel {
 	return channel{
 		Channel: thingfulx.Channel{
-			ID:               "fertilizer_channel",
+			ID:               "fertilizer_level",
 			MeasuredBy:       schema.Expand("thingfulqu:FertilizerSensor"),
 			QuantityKind:     schema.Expand("thingfulqu:FertilizerLevel"),
 			DomainOfInterest: []string{schema.Expand("m3-lite:Environment"), schema.Expand("m3-lite:Agriculture")},
@@ -523,5 +548,12 @@ func buildThing(b []byte) (*Thing, error) {
 	}
 
 	data := thingfulResp.Data
+
+	// increment a couple of counters
+	for _, ch := range data.Attributes.Channels {
+		channelsCount.Inc()
+		observationsCount.Add(float64(len(ch.Observations)))
+	}
+
 	return &data, nil
 }

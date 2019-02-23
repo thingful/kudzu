@@ -23,7 +23,7 @@ var (
 	usersGauge = prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Namespace: "grow",
-			Name:      "registered_users",
+			Name:      "registered_users_gauge",
 			Help:      "A count of users partitioned by auth provider",
 		}, []string{"provider"},
 	)
@@ -31,7 +31,7 @@ var (
 	thingsGauge = prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Namespace: "grow",
-			Name:      "things",
+			Name:      "things_gauge",
 			Help:      "A count of things partitioned by provider and status",
 		}, []string{"provider", "status"},
 	)
@@ -39,7 +39,7 @@ var (
 	identitiesGauge = prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Namespace: "grow",
-			Name:      "identities",
+			Name:      "identities_gauge",
 			Help:      "A count of identities partitioned by status",
 		}, []string{"status"},
 	)
@@ -47,7 +47,7 @@ var (
 	buildInfo = prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Namespace: "grow",
-			Name:      "build_info",
+			Name:      "build_info_gauge",
 			Help:      "Information about the current build of the service",
 		}, []string{"name", "version", "build_date"},
 	)
