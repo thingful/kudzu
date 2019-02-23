@@ -10,20 +10,23 @@ var (
 	}
 
 	units = map[string]string{
-		"WaterTankLevel":        "%",
-		"Water_Tank_Level":      "%",
-		"SoilMoisture":          "%",
-		"soil_moisture":         "%",
-		"Light":                 "mol/m2/d",
-		"light":                 "mol/m2/d",
-		"FertilizerLevel":       "mS/cm",
-		"fertilizer_level":      "mS/cm",
-		"AirTemperature":        "C",
-		"air_temperature":       "C",
-		"m3-lite:DegreeCelsius": "C",
-		"BatteryLevel":          "%",
-		"battery_level":         "%",
-		"m3-lite:Percent":       "%",
+		"WaterTankLevel":           "%",
+		"Water_Tank_Level":         "%",
+		"water_tank_level":         "%",
+		"SoilMoisture":             "%",
+		"soil_moisture":            "%",
+		"calibrated_soil_moisture": "%",
+		"Light":                    "mol/m2/d",
+		"light":                    "mol/m2/d",
+		"FertilizerLevel":          "mS/cm",
+		"fertilizer_level":         "mS/cm",
+		"AirTemperature":           "C",
+		"air_temperature":          "C",
+		"m3-lite:DegreeCelsius":    "C",
+		"BatteryLevel":             "%",
+		"battery_level":            "%",
+		"m3-lite:Percent":          "%",
+		"http://purl.org/iot/vocab/m3-lite#Percent": "%",
 	}
 )
 
