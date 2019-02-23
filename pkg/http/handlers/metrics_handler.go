@@ -6,7 +6,8 @@ import (
 	"goji.io/pat"
 )
 
-// Register our metrics handler created by Prometheus at the expected path
+// RegisterMetricsHandler registers our metrics handler created by Prometheus at
+// the expected path
 func RegisterMetricsHandler(mux *goji.Mux) {
 	mux.Handle(pat.Get("/metrics"), promhttp.Handler())
 }
