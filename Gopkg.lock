@@ -435,6 +435,7 @@
     "github.com/jmoiron/sqlx",
     "github.com/lib/pq",
     "github.com/pkg/errors",
+    "github.com/prometheus/client_golang/prometheus",
     "github.com/prometheus/client_golang/prometheus/promhttp",
     "github.com/serenize/snaker",
     "github.com/spf13/cobra",
