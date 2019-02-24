@@ -1,0 +1,90 @@
+{
+  "@context": "http://purl.org/iot/vocab/thingful/context.jsonld",
+  "links": {
+    "self": "https://api.thingful.net/things/ds6r2tvx"
+  },
+  "data": {
+    "id": "https://api.thingful.net/things/ds6r2tvx",
+    "type": "thing",
+    "attributes": {
+      "title": "Plant 1",
+      "description": "Sensor data",
+      "webpage": "http://example.com",
+      "endpoint": {
+        "url": "http://example.com/1",
+        "contentType": "application/json"
+      },
+      "metadata": [
+        {
+          "prop": "http://schema.org/serialNumber",
+          "val": "PA1234"
+        },
+        {
+          "prop": "http://semanticweb.cs.vu.nl/2009/11/sem/hasEndTimeStamp",
+          "val": "2019-01-23T19:05:08Z"
+        }
+      ],
+      "visibility": "shared",
+      "thingType": "http://purl.org/iot/vocab/thingful#ConnectedDevice",
+      "category": "http://purl.org/iot/vocab/thingful#Environment",
+      "license": {
+        "name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "id": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "legalCode": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+        "permits": [
+          "https://creativecommons.org/ns#Reproduction",
+          "https://creativecommons.org/ns#Distribution",
+          "https://creativecommons.org/ns#DerivativeWorks",
+          "https://creativecommons.org/ns#Sharing"
+        ]
+      },
+      "location": {
+        "long": -7.92494,
+        "lat": 54.98064
+      },
+      "createdAt": "2019-02-23T23:28:47Z",
+      "indexedAt": "2019-02-23T23:28:47Z",
+      "updatedAt": "2019-02-23T23:28:47Z",
+      "provider": {
+        "id": "https://api.thingful.net/providers/flowerpower",
+        "name": "Parrot - Flower Power",
+        "uri": "https://www.parrot.com/"
+      },
+      "channels": [
+        {
+          "id": "https://api.thingful.net/things/6dngspdq/channels/soil_moisture",
+          "type": "channel",
+          "domain": [
+            "http://purl.org/iot/vocab/m3-lite#Environment",
+            "http://purl.org/iot/vocab/m3-lite#Agriculture"
+          ],
+          "quantityKind": "http://purl.org/iot/vocab/m3-lite#SoilHumidity",
+          "measuredBy": "http://purl.org/iot/vocab/m3-lite#SoilHumiditySensor",
+          "unit": "http://purl.org/iot/vocab/m3-lite#Percent",
+          "historicalData": true,
+          "dataType": "http://www.w3.org/2001/XMLSchema#double",
+          "observations": [
+            {
+              "recordedAt": "2018-10-20T13:04:08Z",
+              "location": {
+                "long": -7.92494,
+                "lat": 54.98064
+              },
+              "value": "41.24"
+            },
+            {
+              "recordedAt": "2018-10-20T12:49:08Z",
+              "location": {
+                "long": -7.92494,
+                "lat": 54.98064
+              },
+              "value": "41.24"
+            }
+          ]
+        }
+      ],
+      "score": null,
+      "distance": null
+    }
+  }
+}
