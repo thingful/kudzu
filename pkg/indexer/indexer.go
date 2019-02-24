@@ -40,6 +40,7 @@ type Config struct {
 	WaitGroup *sync.WaitGroup
 	Delay     time.Duration
 	Verbose   bool
+	NoIndexer bool
 }
 
 // Indexer is a struct that controls the scheduled work where we pull data from
@@ -53,11 +54,6 @@ type Indexer struct {
 func NewIndexer(config *Config, logger kitlog.Logger) *Indexer {
 	logger = kitlog.With(logger, "module", "indexer")
 
-	logger.Log(
-		"msg", "configuring indexer",
-		"delay", config.Delay,
-	)
-
 	return &Indexer{
 		Config: config,
 		logger: logger,
@@ -66,14 +62,18 @@ func NewIndexer(config *Config, logger kitlog.Logger) *Indexer {
 
 // Start starts our indexer running, any errors sent back via the error channel
 func (i *Indexer) Start() {
-	i.logger.Log("msg", "starting indexer")
+	if !i.NoIndexer {
+		i.logger.Log("msg", "starting indexer")
+	}
 
 	ticker := time.NewTicker(i.Delay)
 
 	for {
 		select {
 		case <-ticker.C:
-			i.Index()
+			if !i.NoIndexer {
+				i.Index()
+			}
 		case <-i.QuitChan:
 			i.logger.Log("msg", "stopping indexer")
 			ticker.Stop()

@@ -18,12 +18,6 @@ import (
 	"github.com/thingful/kuzu/pkg/thingful"
 )
 
-const (
-	// Timeout is a timeout we add on the server to enforce timeouts for slow
-	// clients
-	Timeout = 5
-)
-
 // HTTP is our struct that exposes an HTTP server for handling incoming
 // requests.
 type HTTP struct {
@@ -34,14 +28,15 @@ type HTTP struct {
 
 // Config is a struct used to pass configuration into the HTTP instance
 type Config struct {
-	Addr      string
-	DB        *postgres.DB
-	Indexer   *indexer.Indexer
-	Client    *client.Client
-	Thingful  *thingful.Thingful
-	QuitChan  <-chan struct{}
-	ErrChan   chan<- error
-	WaitGroup *sync.WaitGroup
+	Addr          string
+	DB            *postgres.DB
+	Indexer       *indexer.Indexer
+	Client        *client.Client
+	Thingful      *thingful.Thingful
+	QuitChan      <-chan struct{}
+	ErrChan       chan<- error
+	WaitGroup     *sync.WaitGroup
+	ServerTimeout int
 }
 
 // NewHTTP returns a new HTTP instance configured and ready to use, but not yet
@@ -51,16 +46,9 @@ func NewHTTP(config *Config, logger kitlog.Logger) *HTTP {
 
 	srv := &http.Server{
 		Addr:         config.Addr,
-		ReadTimeout:  Timeout * time.Second,
-		WriteTimeout: 2 * Timeout * time.Second,
+		ReadTimeout:  time.Duration(config.ServerTimeout) * time.Second,
+		WriteTimeout: time.Duration(2*config.ServerTimeout) * time.Second,
 	}
-
-	logger.Log(
-		"msg", "configuring http server",
-		"addr", config.Addr,
-		"readTimeout", Timeout,
-		"writeTimeout", 2*Timeout,
-	)
 
 	return &HTTP{
 		logger: logger,

@@ -71,6 +71,8 @@ type Config struct {
 	ThingfulURL   string
 	ThingfulKey   string
 	Concurrency   int
+	NoIndexer     bool
+	ServerTimeout int
 }
 
 // NewApp returns a new App instance with components configured but not yet
@@ -79,19 +81,21 @@ func NewApp(config *Config) *App {
 	logger := logger.NewLogger()
 
 	logger.Log(
+		"msg", "runtime configuration",
+		"listenAddr", config.Addr,
 		"clientTimeout", config.ClientTimeout,
 		"delay", config.Delay,
 		"thingfulURL", config.ThingfulURL,
 		"concurrency", config.Concurrency,
+		"noIndexer", config.NoIndexer,
+		"serverTimeout", config.ServerTimeout,
 	)
 
-	db := postgres.NewDB(config.DatabaseURL, config.Verbose)
-
-	cl := client.NewClient(config.ClientTimeout, config.Verbose)
-
-	th := thingful.NewClient(cl, config.ThingfulURL, config.ThingfulKey, config.Verbose, config.Concurrency)
-
 	buildInfo.WithLabelValues(version.BinaryName, version.Version, version.BuildDate)
+
+	db := postgres.NewDB(config.DatabaseURL, config.Verbose)
+	cl := client.NewClient(config.ClientTimeout, config.Verbose)
+	th := thingful.NewClient(cl, config.ThingfulURL, config.ThingfulKey, config.Verbose, config.Concurrency)
 
 	quitChan := make(chan struct{})
 	errChan := make(chan error)
@@ -106,17 +110,19 @@ func NewApp(config *Config) *App {
 		Delay:     time.Duration(config.Delay) * time.Second,
 		Thingful:  th,
 		Verbose:   config.Verbose,
+		NoIndexer: config.NoIndexer,
 	}, logger)
 
 	h := http.NewHTTP(&http.Config{
-		DB:        db,
-		Client:    cl,
-		Thingful:  th,
-		Addr:      config.Addr,
-		QuitChan:  quitChan,
-		ErrChan:   errChan,
-		WaitGroup: &wg,
-		Indexer:   i,
+		DB:            db,
+		Client:        cl,
+		Thingful:      th,
+		Addr:          config.Addr,
+		QuitChan:      quitChan,
+		ErrChan:       errChan,
+		WaitGroup:     &wg,
+		Indexer:       i,
+		ServerTimeout: config.ServerTimeout,
 	}, logger)
 
 	return &App{

@@ -19,6 +19,8 @@ func init() {
 	serverCmd.Flags().String("thingful-url", "https://api.thingful.net", "The server URL at which the Thingful API is available")
 	serverCmd.Flags().String("thingful-key", "", "A valid Thingful API key")
 	serverCmd.Flags().Int("concurrency", 3, "The number of parallel go routines to spawn when fetching from Thingful")
+	serverCmd.Flags().Bool("no-indexer", false, "If present stop the indexer from running")
+	serverCmd.Flags().Int("server-timeout", 5, "HTTP server timeout in seconds")
 
 	viper.BindPFlag("addr", serverCmd.Flags().Lookup("addr"))
 	viper.BindPFlag("database-url", serverCmd.Flags().Lookup("database-url"))
@@ -27,6 +29,8 @@ func init() {
 	viper.BindPFlag("thingful-url", serverCmd.Flags().Lookup("thingful-url"))
 	viper.BindPFlag("thingful-key", serverCmd.Flags().Lookup("thingful-key"))
 	viper.BindPFlag("concurrency", serverCmd.Flags().Lookup("concurrency"))
+	viper.BindPFlag("no-indexer", serverCmd.Flags().Lookup("no-indexer"))
+	viper.BindPFlag("server-timeout", serverCmd.Flags().Lookup("server-timeout"))
 }
 
 var serverCmd = &cobra.Command{
@@ -47,6 +51,11 @@ var serverCmd = &cobra.Command{
 		clientTimeout := viper.GetInt("client-timeout")
 		if clientTimeout == 0 {
 			return errors.New("Must provide a non-zero client timeout")
+		}
+
+		serverTimeout := viper.GetInt("server-timeout")
+		if serverTimeout == 0 {
+			return errors.New("Must provide a non-zero server timeout")
 		}
 
 		verbose := viper.GetBool("verbose")
@@ -75,6 +84,8 @@ var serverCmd = &cobra.Command{
 			ThingfulURL:   thingfulURL,
 			ThingfulKey:   thingfulKey,
 			Concurrency:   viper.GetInt("concurrency"),
+			NoIndexer:     viper.GetBool("no-indexer"),
+			ServerTimeout: serverTimeout,
 		})
 
 		return a.Start()
