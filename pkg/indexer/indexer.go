@@ -108,15 +108,15 @@ func (i *Indexer) Index() {
 	}
 
 	// now index all locations for the identity
-	err = i.IndexLocations(ctx, identity)
+	err = i.indexLocations(ctx, identity)
 	if err != nil {
 		i.logger.Log("msg", "error indexing locations", "err", err)
 	}
 }
 
-// IndexLocations is the entry point to our fetching and parsing logic - indexes
+// indexLocations is the entry point to our fetching and parsing logic - indexes
 // all unindexed data for a user and publishes to Thingful
-func (i *Indexer) IndexLocations(ctx context.Context, identity *postgres.Identity) error {
+func (i *Indexer) indexLocations(ctx context.Context, identity *postgres.Identity) error {
 	// this seems cumbersome as we could pass the logger in directly here, however
 	// this function also called from the user create handler, which will have a
 	// differently scoped logger
