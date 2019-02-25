@@ -3,7 +3,17 @@ FROM ARG_FROM
 LABEL maintainer="info@thingful.net"
 LABEL description="Production image for running kudzu for GROW"
 
-ADD bin/ARG_ARCH/ARG_BIN /ARG_BIN
+ENV CHAMBER_VERSION=v2.3.2
+
+RUN apk add --no-cache --virtual .build-deps \
+    curl && \
+  apk add --no-cache \
+    ca-certificates && \
+  update-ca-certificates && \
+  curl --location --output /chamber https://github.com/segmentio/chamber/releases/download/${CHAMBER_VERSION}/chamber-${CHAMBER_VERSION}-linux-amd64 && \
+  apk del .build-deps
+
+ADD bin/ARG_BIN /ARG_BIN
 
 USER nobody:nobody
 ENTRYPOINT ["/ARG_BIN"]
