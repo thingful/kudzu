@@ -11,10 +11,10 @@ import (
 	"github.com/guregu/null"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"github.com/thingful/kuzu/pkg/http/handlers"
-	"github.com/thingful/kuzu/pkg/logger"
-	"github.com/thingful/kuzu/pkg/postgres"
-	"github.com/thingful/kuzu/pkg/postgres/helper"
+	"github.com/thingful/kudzu/pkg/http/handlers"
+	"github.com/thingful/kudzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/postgres/helper"
 	goji "goji.io"
 )
 
@@ -26,7 +26,7 @@ type DatasourceHandlersSuite struct {
 
 func (s *DatasourceHandlersSuite) SetupTest() {
 	log := kitlog.NewNopLogger()
-	connStr := os.Getenv("KUZU_DATABASE_URL")
+	connStr := os.Getenv("KUDZU_DATABASE_URL")
 
 	s.logger = log
 	s.db = helper.PrepareDB(s.T(), connStr, s.logger)

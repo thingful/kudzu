@@ -1,7 +1,7 @@
 FROM ARG_FROM
 
 LABEL maintainer="info@thingful.net"
-LABEL description="Development image for building and testing kuzu for GROW"
+LABEL description="Development image for building and testing kudzu for GROW"
 
 # add git and any other required packages to build the application
 RUN apk add --update \

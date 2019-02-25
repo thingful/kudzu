@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/thingful/kuzu/pkg/version"
+	"github.com/thingful/kudzu/pkg/version"
 )
 
 var rootCmd = &cobra.Command{
@@ -22,7 +22,7 @@ and pushing the collected data into the core Thingful API.`,
 }
 
 func init() {
-	viper.SetEnvPrefix("KUZU")
+	viper.SetEnvPrefix("kudzu")
 	viper.AutomaticEnv()
 	replacer := strings.NewReplacer("-", "_")
 	viper.SetEnvKeyReplacer(replacer)

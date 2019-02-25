@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/thingful/kuzu/pkg/http/handlers"
-	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/http/handlers"
+	"github.com/thingful/kudzu/pkg/postgres"
 )
 
 const (

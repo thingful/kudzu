@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/pkg/errors"
-	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/postgres"
 	goji "goji.io"
 	"goji.io/pat"
 )

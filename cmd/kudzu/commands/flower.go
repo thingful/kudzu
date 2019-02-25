@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/thingful/kuzu/pkg/client"
-	"github.com/thingful/kuzu/pkg/flowerpower"
+	"github.com/thingful/kudzu/pkg/client"
+	"github.com/thingful/kudzu/pkg/flowerpower"
 )
 
 func init() {

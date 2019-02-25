@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/thingful/kuzu/pkg/logger"
-	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/postgres"
 )
 
 func init() {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/guregu/null"
 	"github.com/pkg/errors"
-	"github.com/thingful/kuzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/logger"
 )
 
 // DataSource is used to retrieve data source information from the database.

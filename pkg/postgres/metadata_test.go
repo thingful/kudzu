@@ -10,9 +10,9 @@ import (
 	"github.com/guregu/null"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"github.com/thingful/kuzu/pkg/logger"
-	"github.com/thingful/kuzu/pkg/postgres"
-	"github.com/thingful/kuzu/pkg/postgres/helper"
+	"github.com/thingful/kudzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/postgres/helper"
 )
 
 type MetadataSuite struct {
@@ -23,7 +23,7 @@ type MetadataSuite struct {
 
 func (s *MetadataSuite) SetupTest() {
 	logger := kitlog.NewNopLogger()
-	connStr := os.Getenv("KUZU_DATABASE_URL")
+	connStr := os.Getenv("KUDZU_DATABASE_URL")
 
 	s.db = helper.PrepareDB(s.T(), connStr, logger)
 	s.logger = logger

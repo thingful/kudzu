@@ -12,12 +12,12 @@ import (
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"github.com/thingful/kuzu/pkg/client"
-	"github.com/thingful/kuzu/pkg/http/handlers"
-	"github.com/thingful/kuzu/pkg/logger"
-	"github.com/thingful/kuzu/pkg/postgres"
-	"github.com/thingful/kuzu/pkg/postgres/helper"
-	"github.com/thingful/kuzu/pkg/thingful"
+	"github.com/thingful/kudzu/pkg/client"
+	"github.com/thingful/kudzu/pkg/http/handlers"
+	"github.com/thingful/kudzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/postgres/helper"
+	"github.com/thingful/kudzu/pkg/thingful"
 	"github.com/thingful/simular"
 	goji "goji.io"
 )
@@ -32,7 +32,7 @@ type LocationHandlersSuite struct {
 
 func (s *LocationHandlersSuite) SetupTest() {
 	logger := kitlog.NewNopLogger()
-	connStr := os.Getenv("KUZU_DATABASE_URL")
+	connStr := os.Getenv("KUDZU_DATABASE_URL")
 
 	s.db = helper.PrepareDB(s.T(), connStr, logger)
 	s.logger = logger

@@ -23,8 +23,8 @@ services:
     environment:
       - PGHOST=postgres
       - PGPASSWORD=password
-      - PGUSER=kuzu
-      - KUZU_DATABASE_URL=postgres://kuzu:password@postgres:5432/kuzu_development?sslmode=disable
+      - PGUSER=kudzu
+      - KUDZU_DATABASE_URL=postgres://kudzu:password@postgres:5432/kudzu_development?sslmode=disable
     env_file: .env
 
   postgres:
@@ -37,9 +37,9 @@ services:
       - ARG_PWD/docker/postgres/psqlrc:/usr/local/etc/postgresql/psqlrc
     environment:
       - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=kuzu
+      - POSTGRES_USER=kudzu
       - POSTGRES_DB=postgres
-      - DATABASES=kuzu_development,kuzu_test
+      - DATABASES=kudzu_development,kudzu_test
 
 volumes:
   postgres_vol:

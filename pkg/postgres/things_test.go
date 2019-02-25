@@ -11,9 +11,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/thingful/kuzu/pkg/logger"
-	"github.com/thingful/kuzu/pkg/postgres"
-	"github.com/thingful/kuzu/pkg/postgres/helper"
+	"github.com/thingful/kudzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/postgres/helper"
 )
 
 type ThingsSuite struct {
@@ -24,7 +24,7 @@ type ThingsSuite struct {
 
 func (s *ThingsSuite) SetupTest() {
 	logger := kitlog.NewNopLogger()
-	connStr := os.Getenv("KUZU_DATABASE_URL")
+	connStr := os.Getenv("KUDZU_DATABASE_URL")
 
 	s.db = helper.PrepareDB(s.T(), connStr, logger)
 	s.logger = logger

@@ -10,7 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/pkg/errors"
-	"github.com/thingful/kuzu/pkg/client"
+	"github.com/thingful/kudzu/pkg/client"
 )
 
 var (

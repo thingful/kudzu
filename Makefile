@@ -1,10 +1,10 @@
-# kuzu - GROW server
+# kudzu - GROW server
 
 # The binary to build (just the basename)
-BIN := kuzu
+BIN := kudzu
 
 # The projects root import path (under GOPATH)
-PKG := github.com/thingful/kuzu
+PKG := github.com/thingful/kudzu
 
 # Docker Hub ID to which docker images should be pushed
 REGISTRY ?= thingful
@@ -73,7 +73,7 @@ test: $(BUILD_DIRS) .compose ## Run tests in the containerized environment
 		run \
 		--rm \
 		-u $$(id -u):$$(id -g) \
-		-e "KUZU_DATABASE_URL=postgres://kuzu:password@postgres/kuzu_test?sslmode=disable" \
+		-e "KUDZU_DATABASE_URL=postgres://kudzu:password@postgres/kudzu_test?sslmode=disable" \
 		app \
 		/bin/sh -c " \
 			./build/test.sh $(SRC_DIRS) \
@@ -87,7 +87,7 @@ test-shell: .test-shell ## Open shell in test containerized environment
 		run \
 		--rm \
 		-u "$$(id -u):$$(id -g)" \
-		-e "KUZU_DATABASE_URL=postgres://kuzu:password@postgres/kuzu_test?sslmode=disable" \
+		-e "KUDZU_DATABASE_URL=postgres://kudzu:password@postgres/kudzu_test?sslmode=disable" \
 		app \
 		/bin/sh
 
@@ -162,4 +162,4 @@ bin-clean: ## remove generated build artefacts
 psql: .compose
 	@docker-compose -f .docker-compose.yml start postgres
 	@sleep 1
-	@docker exec -it kuzu_postgres_1 psql -U postgres kuzu_development
+	@docker exec -it kudzu_postgres_1 psql -U postgres kudzu_development

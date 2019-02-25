@@ -1,7 +1,7 @@
 FROM ARG_FROM
 
 LABEL maintainer="info@thingful.net"
-LABEL description="Production image for running kuzu for GROW"
+LABEL description="Production image for running kudzu for GROW"
 
 ADD bin/ARG_ARCH/ARG_BIN /ARG_BIN
 

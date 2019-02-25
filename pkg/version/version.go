@@ -11,7 +11,7 @@ const (
 
 // BinaryName is an exported string exposing the name of the binary. May be
 // set during build.
-var BinaryName = "kuzu"
+var BinaryName = "kudzu"
 
 // Version is an exported version string which should be substituted with a
 // real value during build.

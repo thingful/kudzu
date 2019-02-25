@@ -5,7 +5,7 @@ import (
 	"database/sql"
 
 	"github.com/pkg/errors"
-	"github.com/thingful/kuzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/logger"
 )
 
 // Identity is a type containing both access token and user id we return when

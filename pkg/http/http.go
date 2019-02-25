@@ -10,12 +10,12 @@ import (
 	goji "goji.io"
 	"goji.io/pat"
 
-	"github.com/thingful/kuzu/pkg/client"
-	"github.com/thingful/kuzu/pkg/http/handlers"
-	"github.com/thingful/kuzu/pkg/http/middleware"
-	"github.com/thingful/kuzu/pkg/indexer"
-	"github.com/thingful/kuzu/pkg/postgres"
-	"github.com/thingful/kuzu/pkg/thingful"
+	"github.com/thingful/kudzu/pkg/client"
+	"github.com/thingful/kudzu/pkg/http/handlers"
+	"github.com/thingful/kudzu/pkg/http/middleware"
+	"github.com/thingful/kudzu/pkg/indexer"
+	"github.com/thingful/kudzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/thingful"
 )
 
 // HTTP is our struct that exposes an HTTP server for handling incoming

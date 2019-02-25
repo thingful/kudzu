@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/thingful/kuzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/logger"
 )
 
 // ScopeClaim is a custom type used to represent existing scope levels

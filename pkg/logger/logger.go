@@ -5,7 +5,7 @@ import (
 	"os"
 
 	kitlog "github.com/go-kit/kit/log"
-	"github.com/thingful/kuzu/pkg/version"
+	"github.com/thingful/kudzu/pkg/version"
 )
 
 type contextKey string

@@ -6,7 +6,7 @@ import (
 
 	kitlog "github.com/go-kit/kit/log"
 
-	"github.com/thingful/kuzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/logger"
 )
 
 // loggingResponseWriter is a struct that allows us to capture the status code

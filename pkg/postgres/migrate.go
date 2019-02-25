@@ -15,7 +15,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/serenize/snaker"
 
-	"github.com/thingful/kuzu/pkg/migrations"
+	"github.com/thingful/kudzu/pkg/migrations"
 )
 
 // MigrateUp attempts to run all up migrations against the database
@@ -99,7 +99,7 @@ func NewMigration(dirName, migrationName string, logger kitlog.Logger) error {
 
 func getMigrator(db *sql.DB, logger kitlog.Logger) (*migrate.Migrate, error) {
 	dbDriver, err := postgres.WithInstance(db, &postgres.Config{
-		MigrationsTable: "kuzu_schema_migrations",
+		MigrationsTable: "kudzu_schema_migrations",
 	})
 
 	if err != nil {

@@ -12,11 +12,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/thingful/kuzu/pkg/client"
-	"github.com/thingful/kuzu/pkg/flowerpower"
-	"github.com/thingful/kuzu/pkg/logger"
-	"github.com/thingful/kuzu/pkg/postgres"
-	"github.com/thingful/kuzu/pkg/thingful"
+	"github.com/thingful/kudzu/pkg/client"
+	"github.com/thingful/kudzu/pkg/flowerpower"
+	"github.com/thingful/kudzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/thingful"
 	"github.com/thingful/simular"
 )
 

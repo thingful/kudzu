@@ -10,13 +10,13 @@ import (
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/thingful/kuzu/pkg/client"
-	"github.com/thingful/kuzu/pkg/http"
-	"github.com/thingful/kuzu/pkg/indexer"
-	"github.com/thingful/kuzu/pkg/logger"
-	"github.com/thingful/kuzu/pkg/postgres"
-	"github.com/thingful/kuzu/pkg/thingful"
-	"github.com/thingful/kuzu/pkg/version"
+	"github.com/thingful/kudzu/pkg/client"
+	"github.com/thingful/kudzu/pkg/http"
+	"github.com/thingful/kudzu/pkg/indexer"
+	"github.com/thingful/kudzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/thingful"
+	"github.com/thingful/kudzu/pkg/version"
 )
 
 var (

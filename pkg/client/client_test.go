@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/thingful/simular"
 
-	"github.com/thingful/kuzu/pkg/client"
-	"github.com/thingful/kuzu/pkg/logger"
-	"github.com/thingful/kuzu/pkg/version"
+	"github.com/thingful/kudzu/pkg/client"
+	"github.com/thingful/kudzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/version"
 )
 
 func TestClient(t *testing.T) {
@@ -34,7 +34,7 @@ func TestGet(t *testing.T) {
 			simular.WithHeader(
 				&http.Header{
 					"Authorization": []string{"Bearer foo"},
-					"User-Agent":    []string{fmt.Sprintf("grow(kuzu)/%s", version.Version)},
+					"User-Agent":    []string{fmt.Sprintf("grow(kudzu)/%s", version.Version)},
 				},
 			),
 		),
@@ -62,7 +62,7 @@ func TestGetNotFoundError(t *testing.T) {
 			simular.WithHeader(
 				&http.Header{
 					"Authorization": []string{"Bearer foo"},
-					"User-Agent":    []string{fmt.Sprintf("grow(kuzu)/%s", version.Version)},
+					"User-Agent":    []string{fmt.Sprintf("grow(kudzu)/%s", version.Version)},
 				},
 			),
 		),

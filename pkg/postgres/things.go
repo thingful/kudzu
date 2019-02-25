@@ -6,7 +6,7 @@ import (
 	"github.com/guregu/null"
 	"github.com/pkg/errors"
 
-	"github.com/thingful/kuzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/logger"
 )
 
 // Thing is our representation of a sensor read from Postgres

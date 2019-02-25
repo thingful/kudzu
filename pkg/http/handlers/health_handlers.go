@@ -7,7 +7,7 @@ import (
 	goji "goji.io"
 	"goji.io/pat"
 
-	"github.com/thingful/kuzu/pkg/postgres"
+	"github.com/thingful/kudzu/pkg/postgres"
 )
 
 // RegisterHealthCheck registers a couple of endpoints using the heptiolabs

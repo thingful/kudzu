@@ -6,7 +6,7 @@ import (
 	sq "github.com/elgris/sqrl"
 	"github.com/guregu/null"
 	"github.com/pkg/errors"
-	"github.com/thingful/kuzu/pkg/logger"
+	"github.com/thingful/kudzu/pkg/logger"
 )
 
 // Location is a type used to return location information from  the database.
