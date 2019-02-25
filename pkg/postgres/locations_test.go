@@ -56,16 +56,21 @@ func (s *LocationsSuite) TestListLocations() {
 		VALUES ($1, $2, $3, $4, $5, $6, NOW() - interval '31 days')`, "1236", userID, "PA3", 12.2, 13.3, "LOC3",
 	)
 	assert.Nil(s.T(), err)
+	_, err = s.db.DB.Exec(`
+		INSERT INTO things (uid, owner_id, serial_num, long, lat, location_identifier, last_sample)
+		VALUES ($1, $2, $3, $4, $5, $6, NOW() - interval '91 days')`, "1237", userID, "PA4", 12.2, 13.3, "LOC4",
+	)
+	assert.Nil(s.T(), err)
 
 	ctx := logger.ToContext(context.Background(), s.logger)
 
 	locations, err := s.db.ListLocations(ctx, "", false, false)
 	assert.Nil(s.T(), err)
-	assert.Len(s.T(), locations, 3)
+	assert.Len(s.T(), locations, 4)
 
 	locations, err = s.db.ListLocations(ctx, "abc123", false, false)
 	assert.Nil(s.T(), err)
-	assert.Len(s.T(), locations, 3)
+	assert.Len(s.T(), locations, 4)
 
 	locations, err = s.db.ListLocations(ctx, "foobar", false, false)
 	assert.Nil(s.T(), err)

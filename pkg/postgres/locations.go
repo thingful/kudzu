@@ -53,7 +53,7 @@ func (d *DB) ListLocations(ctx context.Context, ownerUID string, invalidLocation
 	}
 
 	if staleData {
-		builder = builder.Where("t.last_sample < NOW() - interval '30 days'")
+		builder = builder.Where("t.last_sample < NOW() - interval '30 days' AND t.last_sample >= NOW() - interval '90 days'")
 	}
 
 	sql, args, err := builder.ToSql()
