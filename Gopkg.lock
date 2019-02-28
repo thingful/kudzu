@@ -166,6 +166,14 @@
   revision = "b84e30acd515aadc4b783ad4ff83aff3299bdfe0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:31f78da7dcb294a865548bbf3a4128aa15f2db5fc8d6db58d499f481e9f6424f"
+  name = "github.com/lestrrat-go/backoff"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "0bc2a4274cd0f8baa49f2d598df5ef0cc3069c80"
+
+[[projects]]
   digest = "1:8ef506fc2bb9ced9b151dafa592d4046063d744c646c1bbe801982ce87e4bc24"
   name = "github.com/lib/pq"
   packages = [
@@ -441,6 +449,7 @@
     "github.com/guregu/null",
     "github.com/heptiolabs/healthcheck",
     "github.com/jmoiron/sqlx",
+    "github.com/lestrrat-go/backoff",
     "github.com/lib/pq",
     "github.com/pkg/errors",
     "github.com/prometheus/client_golang/prometheus",
