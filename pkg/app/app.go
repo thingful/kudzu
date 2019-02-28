@@ -173,89 +173,7 @@ func (a *App) Start() error {
 		a.indexer.Start()
 	}()
 
-	go func() {
-		ticker := time.NewTicker(time.Second * time.Duration(60))
-
-		ctx := logger.ToContext(context.Background(), a.logger)
-
-		for range ticker.C {
-			userStats, err := a.db.CountUsers(ctx)
-			if err != nil {
-				a.logger.Log(
-					"msg", "failed to read user stats",
-					"error", err,
-				)
-				continue
-			}
-
-			for _, userStat := range userStats {
-				usersGauge.With(
-					prometheus.Labels{
-						"provider": userStat.Provider,
-					},
-				).Set(userStat.Count)
-			}
-
-			identityStat, err := a.db.GetIdentityStats(ctx)
-			if err != nil {
-				a.logger.Log(
-					"msg", "failed to read identity stats",
-					"error", err,
-				)
-				continue
-			}
-
-			identitiesGauge.With(
-				prometheus.Labels{
-					"status": "all",
-				},
-			).Set(identityStat.All)
-
-			identitiesGauge.With(
-				prometheus.Labels{
-					"status": "pending",
-				},
-			).Set(identityStat.Pending)
-
-			identitiesGauge.With(
-				prometheus.Labels{
-					"status": "stale",
-				},
-			).Set(identityStat.Stale)
-
-			thingStats, err := a.db.GetThingStats(ctx)
-			if err != nil {
-				a.logger.Log(
-					"msg", "failed to read thing stats",
-					"error", err,
-				)
-				continue
-			}
-
-			for _, thingStat := range thingStats {
-				thingsGauge.With(
-					prometheus.Labels{
-						"provider": thingStat.Provider,
-						"status":   "all",
-					},
-				).Set(thingStat.All)
-
-				thingsGauge.With(
-					prometheus.Labels{
-						"provider": thingStat.Provider,
-						"status":   "stale",
-					},
-				).Set(thingStat.Stale)
-
-				thingsGauge.With(
-					prometheus.Labels{
-						"provider": thingStat.Provider,
-						"status":   "invalid_location",
-					},
-				).Set(thingStat.InvalidLocation)
-			}
-		}
-	}()
+	go a.recordMetrics()
 
 	a.logger.Log("msg", "starting app")
 
@@ -269,4 +187,106 @@ func (a *App) Start() error {
 	}
 
 	return nil
+}
+
+// recordMetrics starts a goroutine that records some system metrics at a 60
+// second interval
+func (a *App) recordMetrics() {
+	ticker := time.NewTicker(time.Second * time.Duration(60))
+
+	log := kitlog.With(a.logger, "task", "metrics")
+
+	ctx := logger.ToContext(context.Background(), log)
+
+	for range ticker.C {
+		userStats, err := a.db.CountUsers(ctx)
+		if err != nil {
+			a.logger.Log(
+				"msg", "failed to read user stats",
+				"error", err,
+			)
+			continue
+		}
+
+		for _, userStat := range userStats {
+			usersGauge.With(
+				prometheus.Labels{
+					"provider": userStat.Provider,
+				},
+			).Set(userStat.Count)
+		}
+
+		identityStat, err := a.db.GetIdentityStats(ctx)
+		if err != nil {
+			a.logger.Log(
+				"msg", "failed to read identity stats",
+				"error", err,
+			)
+			continue
+		}
+
+		identitiesGauge.With(
+			prometheus.Labels{
+				"status": "all",
+			},
+		).Set(identityStat.All)
+
+		identitiesGauge.With(
+			prometheus.Labels{
+				"status": "pending",
+			},
+		).Set(identityStat.Pending)
+
+		identitiesGauge.With(
+			prometheus.Labels{
+				"status": "stale",
+			},
+		).Set(identityStat.Stale)
+
+		thingStats, err := a.db.GetThingStats(ctx)
+		if err != nil {
+			a.logger.Log(
+				"msg", "failed to read thing stats",
+				"error", err,
+			)
+			continue
+		}
+
+		for _, thingStat := range thingStats {
+			thingsGauge.With(
+				prometheus.Labels{
+					"provider": thingStat.Provider,
+					"status":   "all",
+				},
+			).Set(thingStat.All)
+
+			thingsGauge.With(
+				prometheus.Labels{
+					"provider": thingStat.Provider,
+					"status":   "live",
+				},
+			).Set(thingStat.Live)
+
+			thingsGauge.With(
+				prometheus.Labels{
+					"provider": thingStat.Provider,
+					"status":   "stale",
+				},
+			).Set(thingStat.Stale)
+
+			thingsGauge.With(
+				prometheus.Labels{
+					"provider": thingStat.Provider,
+					"status":   "dead",
+				},
+			).Set(thingStat.Dead)
+
+			thingsGauge.With(
+				prometheus.Labels{
+					"provider": thingStat.Provider,
+					"status":   "invalid_location",
+				},
+			).Set(thingStat.InvalidLocation)
+		}
+	}
 }

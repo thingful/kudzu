@@ -221,7 +221,9 @@ func (d *DB) UpdateThing(ctx context.Context, thing *Thing) error {
 // ThingStats is a data structure used to pass
 type ThingStats struct {
 	All             float64 `db:"all_things"`
+	Live            float64 `db:"live_things"`
 	Stale           float64 `db:"stale_things"`
+	Dead            float64 `db:"dead_things"`
 	InvalidLocation float64 `db:"invalid_location_things"`
 	Provider        string  `db:"provider"`
 }
@@ -237,12 +239,16 @@ func (d *DB) GetThingStats(ctx context.Context) ([]ThingStats, error) {
 
 	sql := `SELECT
 		COUNT(*) AS all_things,
+		COUNT(live) AS live_things,
 		COUNT(stale) AS stale_things,
 		COUNT(invalid_location) AS invalid_location_things,
+		COUNT(dead) AS dead_things,
 		provider
 	FROM (
 		SELECT
-			CASE WHEN last_sample < NOW() - interval '30 days' THEN 1 END stale,
+			CASE WHEN last_sample < NOW() - interval '30 days' AND last_sample >= NOW() - interval '90 days' THEN 1 END stale,
+			CASE WHEN last_sample >= NOW() - interval '30 days' THEN 1 END live,
+			CASE WHEN last_sample < NOW() - interval '90 days' THEN 1 END dead,
 			CASE WHEN lat = 0 AND long = 0 THEN 1 END invalid_location,
 			provider
 		FROM things
