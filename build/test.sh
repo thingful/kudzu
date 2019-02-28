@@ -13,6 +13,7 @@ TARGETS=$(for d in "$@"; do echo ./$d/...; done)
 go test -i -installsuffix "static" ${TARGETS}
 go test -v -installsuffix "static" -coverprofile=.coverage/coverage.out -p 1 ${TARGETS}
 go tool cover -html=.coverage/coverage.out -o .coverage/coverage.html
+go tool cover -func=.coverage/coverage.out
 echo
 
 echo -n "Checking gofmt: "
