@@ -96,3 +96,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/prometheus/client_golang"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/thingful/retryable-registry-prometheus"

@@ -341,6 +341,14 @@
   version = "v1.3.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:e5583898a989195137730e572a4d9fedfbea4982bc7ca8dd66ac0cb53c67ea70"
+  name = "github.com/thingful/retryable-registry-prometheus"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "0538f7de5ba9348c2cdd8b45776469782447f905"
+
+[[projects]]
   digest = "1:148e33d00fb649ecb53e2c0b219cfedf7b30d39ea821c1ca356a6f0f2d77c539"
   name = "github.com/thingful/simular"
   packages = ["."]
@@ -442,6 +450,7 @@
     "github.com/spf13/viper",
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/suite",
+    "github.com/thingful/retryable-registry-prometheus",
     "github.com/thingful/simular",
     "github.com/thingful/thingfulx",
     "github.com/thingful/thingfulx/schema",
