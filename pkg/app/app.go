@@ -9,7 +9,6 @@ import (
 
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/prometheus/client_golang/prometheus"
-
 	"github.com/thingful/kudzu/pkg/client"
 	"github.com/thingful/kudzu/pkg/http"
 	"github.com/thingful/kudzu/pkg/indexer"
@@ -17,6 +16,7 @@ import (
 	"github.com/thingful/kudzu/pkg/postgres"
 	"github.com/thingful/kudzu/pkg/thingful"
 	"github.com/thingful/kudzu/pkg/version"
+	registry "github.com/thingful/retryable-registry-prometheus"
 )
 
 var (
@@ -54,10 +54,10 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(usersGauge)
-	prometheus.MustRegister(thingsGauge)
-	prometheus.MustRegister(identitiesGauge)
-	prometheus.MustRegister(buildInfo)
+	registry.MustRegister(usersGauge)
+	registry.MustRegister(thingsGauge)
+	registry.MustRegister(identitiesGauge)
+	registry.MustRegister(buildInfo)
 }
 
 // Config is our top level config struct used to carry all configuration from

@@ -7,10 +7,10 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/prometheus/client_golang/prometheus"
-
 	"github.com/pkg/errors"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/thingful/kudzu/pkg/client"
+	registry "github.com/thingful/retryable-registry-prometheus"
 )
 
 var (
@@ -32,8 +32,8 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(locationsCounter)
-	prometheus.MustRegister(readingsCounter)
+	registry.MustRegister(locationsCounter)
+	registry.MustRegister(readingsCounter)
 }
 
 const (

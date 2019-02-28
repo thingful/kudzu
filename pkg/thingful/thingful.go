@@ -11,16 +11,15 @@ import (
 	"sync"
 	"time"
 
-	"github.com/prometheus/client_golang/prometheus"
-
 	"github.com/pkg/errors"
-	"github.com/thingful/thingfulx"
-	"github.com/thingful/thingfulx/schema"
-
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/thingful/kudzu/pkg/client"
 	"github.com/thingful/kudzu/pkg/flowerpower"
 	"github.com/thingful/kudzu/pkg/logger"
 	"github.com/thingful/kudzu/pkg/postgres"
+	registry "github.com/thingful/retryable-registry-prometheus"
+	"github.com/thingful/thingfulx"
+	"github.com/thingful/thingfulx/schema"
 )
 
 var (
@@ -42,8 +41,8 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(channelsCount)
-	prometheus.MustRegister(observationsCount)
+	registry.MustRegister(channelsCount)
+	registry.MustRegister(observationsCount)
 }
 
 // Thingful is our thingful client instance

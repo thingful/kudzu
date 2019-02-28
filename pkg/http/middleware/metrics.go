@@ -5,6 +5,7 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	registry "github.com/thingful/retryable-registry-prometheus"
 )
 
 var (
@@ -19,7 +20,7 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(duration)
+	registry.MustRegister(duration)
 }
 
 // MetricsMiddleware returns a handler that records some basic prometheus

@@ -13,6 +13,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/thingful/kudzu/pkg/logger"
 	"github.com/thingful/kudzu/pkg/version"
+	registry "github.com/thingful/retryable-registry-prometheus"
 )
 
 var (
@@ -26,7 +27,7 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(durationHist)
+	registry.MustRegister(durationHist)
 }
 
 // Client is our custom client type that ensures a timeout is used, and adds a
