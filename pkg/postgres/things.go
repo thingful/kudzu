@@ -26,6 +26,10 @@ type Thing struct {
 	Nickname        null.String `db:"nickname"`
 	LastUploadedUTC null.Time   `db:"last_uploaded_sample"`
 	LocationID      string      `db:"location_identifier"`
+
+	// TODO - delete when old server removed
+	DataURL     null.String `db:"data_url"`
+	ResourceURL null.String `db:"resource_url"`
 }
 
 // Channel is used to persist channel information to the database

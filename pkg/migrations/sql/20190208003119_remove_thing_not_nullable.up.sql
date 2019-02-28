@@ -1,6 +1,5 @@
 ALTER TABLE things
-  DROP COLUMN resource_url,
-  DROP COLUMN data_url;
+  ALTER COLUMN owner_id SET NOT NULL;
 
 ALTER TABLE things
-  ALTER COLUMN owner_id SET NOT NULL;
+  ALTER COLUMN resource_url DROP NOT NULL;
