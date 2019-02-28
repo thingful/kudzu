@@ -1,11 +1,13 @@
 package commands
 
 import (
+	"context"
 	"errors"
+	"time"
 
+	"github.com/lestrrat-go/backoff"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-
 	"github.com/thingful/kudzu/pkg/app"
 )
 
@@ -75,19 +77,27 @@ var serverCmd = &cobra.Command{
 			return errors.New("Must specify the Thingful API key")
 		}
 
-		a := app.NewApp(&app.Config{
-			Addr:          addr,
-			DatabaseURL:   databaseURL,
-			ClientTimeout: clientTimeout,
-			Verbose:       verbose,
-			Delay:         delay,
-			ThingfulURL:   thingfulURL,
-			ThingfulKey:   thingfulKey,
-			Concurrency:   viper.GetInt("concurrency"),
-			NoIndexer:     viper.GetBool("no-indexer"),
-			ServerTimeout: serverTimeout,
+		e := backoff.ExecuteFunc(func(_ context.Context) error {
+			a := app.NewApp(&app.Config{
+				Addr:          addr,
+				DatabaseURL:   databaseURL,
+				ClientTimeout: clientTimeout,
+				Verbose:       verbose,
+				Delay:         delay,
+				ThingfulURL:   thingfulURL,
+				ThingfulKey:   thingfulKey,
+				Concurrency:   viper.GetInt("concurrency"),
+				NoIndexer:     viper.GetBool("no-indexer"),
+				ServerTimeout: serverTimeout,
+			})
+
+			return a.Start()
 		})
 
-		return a.Start()
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+		defer cancel()
+
+		policy := backoff.NewExponential()
+		return backoff.Retry(ctx, policy, e)
 	},
 }
