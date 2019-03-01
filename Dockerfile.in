@@ -5,14 +5,12 @@ LABEL description="Production image for running kudzu for GROW"
 
 ENV CHAMBER_VERSION=v2.3.2
 
-RUN apk add --no-cache --virtual .build-deps \
+RUN apk add --no-cache \
+    ca-certificates \
     curl && \
-  apk add --no-cache \
-    ca-certificates && \
   update-ca-certificates && \
   curl --location --output /chamber https://github.com/segmentio/chamber/releases/download/${CHAMBER_VERSION}/chamber-${CHAMBER_VERSION}-linux-amd64 && \
-  chmod +x /chamber && \
-  apk del .build-deps
+  chmod +x /chamber
 
 ADD bin/ARG_BIN /ARG_BIN
 
