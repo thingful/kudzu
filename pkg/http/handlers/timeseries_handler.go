@@ -132,14 +132,22 @@ type series struct {
 // fields on serialization
 func (s series) MarshalJSON() ([]byte, error) {
 	type S series
+
+	type interval struct {
+		Type  string
+		Value int
+	}
+
 	return json.Marshal(&struct {
-		StartDate       string `json:"StartDate"`
-		EndDate         string `json:"EndDate"`
-		DataType        string `json:"DataType"`
-		TimeZoneOffset  string `json:"TimeZoneOffset"`
-		IsCumulative    bool   `json:"IsCumulative"`
-		UseQuality      bool   `json:"UseQuality"`
-		CalculationType string `json:"CalculationType"`
+		StartDate       string   `json:"StartDate"`
+		EndDate         string   `json:"EndDate"`
+		DataType        string   `json:"DataType"`
+		TimeZoneOffset  string   `json:"TimeZoneOffset"`
+		IsCumulative    bool     `json:"IsCumulative"`
+		UseQuality      bool     `json:"UseQuality"`
+		CalculationType string   `json:"CalculationType"`
+		NoDataValue     int      `json:"NoDataValue"`
+		Interval        interval `json:"Interval"`
 		S
 	}{
 		StartDate:       s.StartDate.Format(timeFormat),
@@ -149,7 +157,12 @@ func (s series) MarshalJSON() ([]byte, error) {
 		IsCumulative:    false,
 		CalculationType: "None",
 		UseQuality:      false,
-		S:               (S)(s),
+		NoDataValue:     -9999,
+		Interval: interval{
+			Type:  "None",
+			Value: 0,
+		},
+		S: (S)(s),
 	})
 }
 
