@@ -39,18 +39,19 @@ type updateLocationRequest struct {
 // location is used when rendering the response to the client. The structure is
 // defined by hydronet
 type location struct {
-	Code                         string  `json:"Code"`
-	DataSourceGroupCode          string  `json:"DataSourceGroupCode"`
-	Identifier                   string  `json:"Identifier"`
-	Name                         string  `json:"Name"`
-	LocationID                   int64   `json:"LocationId"`
-	ProjectionID                 int64   `json:"ProjectionId"`
-	X                            float64 `json:"X"`
-	Y                            float64 `json:"Y"`
-	Z                            float64 `json:"Z"`
-	FirstSampleTimestamp         string  `json:"FirstSampleTimestamp"`
-	LastAvailableSampleTimestamp string  `json:"LastAvailableSampleTimestamp"`
-	LastFetchedSampleTimestamp   string  `json:"LastFetchedSampleTimestamp"`
+	Code                       string  `json:"Code"`
+	DataSourceGroupCode        string  `json:"DataSourceGroupCode"`
+	Identifier                 string  `json:"Identifier"`
+	Name                       string  `json:"Name"`
+	LocationID                 int64   `json:"LocationId"`
+	ProjectionID               int64   `json:"ProjectionId"`
+	X                          float64 `json:"X"`
+	Y                          float64 `json:"Y"`
+	Z                          float64 `json:"Z"`
+	FirstSampleTimestamp       string  `json:"FirstSampleTimestamp"`
+	LastFetchedSampleTimestamp string  `json:"LastFetchedSampleTimestamp"`
+	UserUID                    string  `json:"UserUid"`
+	SerialNumber               string  `json:"SerialNumber"`
 }
 
 // listLocationsHandler is our handler that returns location information to
@@ -189,17 +190,18 @@ func parseUpdateRequest(r *http.Request) (*updateLocationRequest, error) {
 // Postgres
 func buildLocation(loc *postgres.Location) *location {
 	return &location{
-		Code:                         loc.UID,
-		DataSourceGroupCode:          "Grow.Thingful",
-		Identifier:                   fmt.Sprintf("Grow.Thingful#%s", loc.UID),
-		Name:                         fmt.Sprintf("%s. Serial Number: %s", loc.Nickname, loc.SerialNum),
-		LocationID:                   loc.ID,
-		ProjectionID:                 3,
-		X:                            loc.Longitude,
-		Y:                            loc.Latitude,
-		Z:                            0,
-		FirstSampleTimestamp:         loc.FirstSampleUTC.Time.Format("20060102150405"),
-		LastAvailableSampleTimestamp: loc.LastSampleUTC.Time.Format("20060102150405"),
-		LastFetchedSampleTimestamp:   loc.LastUploadedSampleUTC.Time.Format("20060102150405"),
+		Code:                       loc.UID,
+		DataSourceGroupCode:        "Grow.Thingful",
+		Identifier:                 fmt.Sprintf("Grow.Thingful#%s", loc.UID),
+		Name:                       fmt.Sprintf("%s. Serial Number: %s", loc.Nickname, loc.SerialNum),
+		LocationID:                 loc.ID,
+		ProjectionID:               3,
+		X:                          loc.Longitude,
+		Y:                          loc.Latitude,
+		Z:                          0,
+		FirstSampleTimestamp:       loc.FirstSampleUTC.Time.Format("20060102150405"),
+		LastFetchedSampleTimestamp: loc.LastSampleUTC.Time.Format("20060102150405"),
+		SerialNumber:               loc.SerialNum,
+		UserUID:                    loc.UserUID,
 	}
 }

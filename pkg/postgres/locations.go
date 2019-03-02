@@ -21,9 +21,11 @@ type Location struct {
 	Nickname              string    `db:"nickname"`
 	LocationID            string    `db:"location_identifier"`
 	SerialNum             string    `db:"serial_num"`
+	UserUID               string    `db:"user_uid"`
 }
 
-// ListLocationis returns a list of locations with some optional filtering parameters applied.
+// ListLocations returns a list of locations with some optional filtering
+// parameters applied.
 func (d *DB) ListLocations(ctx context.Context, ownerUID string, invalidLocation, staleData bool) ([]Location, error) {
 	log := logger.FromContext(ctx)
 
@@ -39,6 +41,7 @@ func (d *DB) ListLocations(ctx context.Context, ownerUID string, invalidLocation
 	builder := sq.Select(
 		"t.id", "t.uid", "t.long", "t.lat", "t.first_sample", "t.last_sample",
 		"t.last_uploaded_sample", "t.nickname", "t.location_identifier", "t.serial_num",
+		"u.uid AS user_uid",
 	).
 		From("things t").
 		Join("users u ON u.id = t.owner_id").

@@ -42,7 +42,7 @@ func metadataHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	for _, m := range metadata {
 		t := timeseries{
 			ID:           m.ID,
-			LocationID:   fmt.Sprintf("Grow.Thingful.%s", m.ThingUID),
+			LocationID:   fmt.Sprintf("Grow.Thingful#%s", m.ThingUID),
 			DataSourceID: m.DataSourceID,
 			StartDate:    m.FirstSampleUTC.Time.Format("20060102150405"),
 			EndDate:      m.LastSampleUTC.Time.Format("20060102150405"),
