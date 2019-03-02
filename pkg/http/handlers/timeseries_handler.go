@@ -272,7 +272,7 @@ func timeseriesHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 		}
 	}
 
-	resp, err := buildResponse(things, rd.VariableCodes, datasources)
+	resp, err := buildResponse(things, rd.VariableCodes, datasources, rd.Ascending)
 	if err != nil {
 		return &HTTPError{
 			Code: http.StatusInternalServerError,
@@ -367,7 +367,7 @@ func parseTimeSeriesRequest(r *http.Request) (*setting, error) {
 	return &reader.Setting, nil
 }
 
-func buildResponse(things []thingful.Thing, variableCodes []string, datasources []postgres.DataSource) (*timeseriesResponse, error) {
+func buildResponse(things []thingful.Thing, variableCodes []string, datasources []postgres.DataSource, ascending bool) (*timeseriesResponse, error) {
 	allSeries := []series{}
 	locations := map[string]hydronetLocation{}
 	units := map[string]hydronetUnit{}
@@ -427,14 +427,14 @@ func buildResponse(things []thingful.Thing, variableCodes []string, datasources 
 				variables[variableCode] = buildVariable(c.ID, variableCode, unitKey)
 			}
 
-			// build observations
-			startDate := c.Observations[0].RecordedAt
-			endDate := c.Observations[len(c.Observations)-1].RecordedAt
-
-			observations, err := buildObservations(c.Observations)
+			observations, err := buildObservations(c.Observations, ascending)
 			if err != nil {
 				return nil, err
 			}
+
+			// build observations
+			startDate := observations[0].DateTime
+			endDate := observations[len(observations)-1].DateTime
 
 			s := series{
 				LocationIdentifier: locationIdentifier,
@@ -486,21 +486,37 @@ func isPresent(needle string, haystack []string) bool {
 // buildObservations returns a slice of output observations from the data
 // received from Thingful. Returns an error if any value is unable to be parsed
 // as a float.
-func buildObservations(input []thingful.Observation) ([]observation, error) {
+func buildObservations(input []thingful.Observation, ascending bool) ([]observation, error) {
 	observations := []observation{}
 
-	for _, i := range input {
-		val, err := strconv.ParseFloat(i.Value, 64)
-		if err != nil {
-			return nil, errors.Wrap(err, "failed to parse value to a float")
-		}
+	if ascending {
+		for i := len(input) - 1; i >= 0; i-- {
+			val, err := strconv.ParseFloat(input[i].Value, 64)
+			if err != nil {
+				return nil, errors.Wrap(err, "failed to parse value to a float")
+			}
 
-		o := observation{
-			Value:    val,
-			DateTime: i.RecordedAt,
-		}
+			o := observation{
+				Value:    val,
+				DateTime: input[i].RecordedAt,
+			}
 
-		observations = append(observations, o)
+			observations = append(observations, o)
+		}
+	} else {
+		for _, i := range input {
+			val, err := strconv.ParseFloat(i.Value, 64)
+			if err != nil {
+				return nil, errors.Wrap(err, "failed to parse value to a float")
+			}
+
+			o := observation{
+				Value:    val,
+				DateTime: i.RecordedAt,
+			}
+
+			observations = append(observations, o)
+		}
 	}
 
 	return observations, nil
