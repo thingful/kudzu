@@ -26,7 +26,7 @@ var (
 	channelsCount = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Namespace: "grow",
-			Name:      "thingful_retreived_channel_count",
+			Name:      "thingful_retrieved_channel_count",
 			Help:      "A counter of channels read back from Thingful when reading timeseries data",
 		},
 	)
