@@ -22,7 +22,7 @@ PWD := $(shell pwd)
 SRC_DIRS := cmd pkg
 
 BASE_IMAGE ?= alpine
-BUILD_IMAGE ?= golang:1.11-alpine
+BUILD_IMAGE ?= golang:1.12-alpine
 
 IMAGE := $(REGISTRY)/$(BIN)
 
