@@ -38,11 +38,20 @@ var (
 			Help:      "A counter of observations read back from Thingful when reading timeseries data",
 		},
 	)
+
+	thingfulErrorCount = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Namespace: "grow",
+			Name:      "thingful_errors",
+			Help:      "A counter of errors when reading or writing from Thingful",
+		}, []string{"operation"},
+	)
 )
 
 func init() {
 	registry.MustRegister(channelsCount)
 	registry.MustRegister(observationsCount)
+	registry.MustRegister(thingfulErrorCount)
 }
 
 // Thingful is our thingful client instance
@@ -99,8 +108,22 @@ type updateData struct {
 
 // thing wraps a thingfulx.Thing to add time series recording flag.
 type thing struct {
-	thingfulx.Thing
-	Channels []channel `json:"channels"`
+	Title           string                 `json:"title"`
+	Description     string                 `json:"description"`
+	IndexedAt       time.Time              `json:"indexedAt"`
+	Webpage         string                 `json:"webpage"`
+	Endpoint        *thingfulx.Endpoint    `json:"endpoint"`
+	Metadata        []thingfulx.Metadata   `json:"metadata"`
+	Location        *thingfulx.Location    `json:"location"`
+	Provider        *thingfulx.Provider    `json:"provider"`
+	Visibility      thingfulx.Visibility   `json:"visibility"`
+	ThingType       string                 `json:"thingType"`
+	Category        thingfulx.Category     `json:"category"`
+	DataLicense     *thingfulx.DataLicense `json:"license"`
+	AttributionName string                 `json:"attributionName,omitempty"`
+	AttributionURL  string                 `json:"attributionURL,omitempty"`
+	UpdateInterval  int                    `json:"updateInterval,omitempty"`
+	Channels        []channel              `json:"channels"`
 }
 
 // channel wraps a thingfulx.Channel to add the flag
@@ -140,39 +163,37 @@ func (t *Thingful) CreateThing(ctx context.Context, th *postgres.Thing, readings
 		Data: &data{
 			Type: "thing",
 			Attributes: &thing{
-				Thing: thingfulx.Thing{
-					Title:       th.Nickname.String,
-					Description: "Soil sensor data produced by the GROW observatory. For more info see https://growobservatory.org",
-					IndexedAt:   th.IndexedAt.Time,
-					Webpage:     "http://global.parrot.com/au/products/flower-power/",
-					Visibility:  thingfulx.Shared,
-					Category:    thingfulx.Environment,
-					Endpoint: &thingfulx.Endpoint{
-						URL:         fmt.Sprintf("https://api-flower-power-pot.parrot.com/sensor_data/v6/sample/location/%s", th.LocationID),
-						ContentType: "application/json",
+				Title:       th.Nickname.String,
+				Description: "Soil sensor data produced by the GROW observatory. For more info see https://growobservatory.org",
+				IndexedAt:   th.IndexedAt.Time,
+				Webpage:     "http://global.parrot.com/au/products/flower-power/",
+				Visibility:  thingfulx.Shared,
+				Category:    thingfulx.Environment,
+				Endpoint: &thingfulx.Endpoint{
+					URL:         fmt.Sprintf("https://api-flower-power-pot.parrot.com/sensor_data/v6/sample/location/%s", th.LocationID),
+					ContentType: "application/json",
+				},
+				Metadata: []thingfulx.Metadata{
+					{
+						Prop: "schema:serialNumber",
+						Val:  th.SerialNum,
 					},
-					Metadata: []thingfulx.Metadata{
-						{
-							Prop: "schema:serialNumber",
-							Val:  th.SerialNum,
-						},
-						{
-							Prop: "sem:hasEndTimeStamp",
-							Val:  th.LastSampleUTC.Time.Format(time.RFC3339),
-						},
+					{
+						Prop: "sem:hasEndTimeStamp",
+						Val:  th.LastSampleUTC.Time.Format(time.RFC3339),
 					},
-					ThingType: schema.Expand("thingful:ConnectedDevice"),
-					Location: &thingfulx.Location{
-						Lng: th.Longitude,
-						Lat: th.Latitude,
-					},
-					DataLicense: thingfulx.GetDataLicense(thingfulx.CC0V1URL),
-					Provider: &thingfulx.Provider{
-						ID:          "flowerpower",
-						Name:        "Parrot - Flower Power",
-						Description: "Parrot SA is a french wireless products manufacturer company specialized in technologies involving voice recognition, signal processing for embedded products and drones.",
-						URL:         "https://www.parrot.com/",
-					},
+				},
+				ThingType: schema.Expand("thingful:ConnectedDevice"),
+				Location: &thingfulx.Location{
+					Lng: th.Longitude,
+					Lat: th.Latitude,
+				},
+				DataLicense: thingfulx.GetDataLicense(thingfulx.CC0V1URL),
+				Provider: &thingfulx.Provider{
+					ID:          "flowerpower",
+					Name:        "Parrot - Flower Power",
+					Description: "Parrot SA is a french wireless products manufacturer company specialized in technologies involving voice recognition, signal processing for embedded products and drones.",
+					URL:         "https://www.parrot.com/",
 				},
 				Channels: buildChannels(readings, th.Longitude, th.Latitude),
 			},
@@ -186,6 +207,7 @@ func (t *Thingful) CreateThing(ctx context.Context, th *postgres.Thing, readings
 
 	respBytes, err := t.client.Post(ctx, fmt.Sprintf("%s/things", t.apiBase), t.apiKey, bytes.NewBuffer(b))
 	if err != nil {
+		thingfulErrorCount.With(prometheus.Labels{"operation": "create"}).Inc()
 		return "", errors.Wrap(err, "failed to post thing data")
 	}
 
@@ -218,12 +240,10 @@ func (t *Thingful) UpdateThing(ctx context.Context, th *postgres.Thing, readings
 			Type: "thing",
 			ID:   fmt.Sprintf("%s/things/%s", t.apiBase, th.UID.String),
 			Attributes: &thing{
-				Thing: thingfulx.Thing{
-					Title: th.Nickname.String,
-					Location: &thingfulx.Location{
-						Lng: th.Longitude,
-						Lat: th.Latitude,
-					},
+				Title: th.Nickname.String,
+				Location: &thingfulx.Location{
+					Lng: th.Longitude,
+					Lat: th.Latitude,
 				},
 				Channels: buildChannels(readings, th.Longitude, th.Latitude),
 			},
@@ -239,6 +259,7 @@ func (t *Thingful) UpdateThing(ctx context.Context, th *postgres.Thing, readings
 
 	_, err = t.client.Patch(ctx, url, t.apiKey, bytes.NewBuffer(b))
 	if err != nil {
+		thingfulErrorCount.With(prometheus.Labels{"operation": "update"}).Inc()
 		return errors.Wrap(err, "failed to patch thing data")
 	}
 
@@ -520,6 +541,7 @@ func (t *Thingful) GetData(ctx context.Context, uids []string, from, to time.Tim
 
 	for wr := range wrappedResponseChan {
 		if wr.Err != nil {
+			thingfulErrorCount.With(prometheus.Labels{"operation": "read"}).Inc()
 			return nil, errors.Wrap(wr.Err, "failed to receive value from channel")
 		}
 

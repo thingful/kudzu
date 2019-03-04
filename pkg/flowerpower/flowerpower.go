@@ -29,11 +29,21 @@ var (
 			Help:      "A counter of received readings from Parrot",
 		},
 	)
+
+	errorCounter = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Namespace: "grow",
+			Name:      "parrot_errors",
+			Help:      "A counter of errors when reading from the Parrot API",
+		},
+		[]string{"endpoint"},
+	)
 )
 
 func init() {
 	registry.MustRegister(locationsCounter)
 	registry.MustRegister(readingsCounter)
+	registry.MustRegister(errorCounter)
 }
 
 const (
@@ -96,6 +106,7 @@ type userProfile struct {
 func GetUser(ctx context.Context, client *client.Client, accessToken string) (*User, error) {
 	profileBytes, err := client.Get(ctx, ProfileURL, accessToken)
 	if err != nil {
+		errorCounter.With(prometheus.Labels{"endpoint": "profile"}).Inc()
 		return nil, errors.Wrap(err, "failed to retrieve user profile data")
 	}
 
@@ -118,6 +129,7 @@ func GetUser(ctx context.Context, client *client.Client, accessToken string) (*U
 func GetLocations(ctx context.Context, client *client.Client, accessToken string) ([]Location, error) {
 	statusBytes, err := client.Get(ctx, StatusURL, accessToken)
 	if err != nil {
+		errorCounter.With(prometheus.Labels{"endpoint": "status"}).Inc()
 		return nil, errors.Wrap(err, "failed to retrieve status data")
 	}
 
@@ -130,6 +142,7 @@ func GetLocations(ctx context.Context, client *client.Client, accessToken string
 
 	configurationBytes, err := client.Get(ctx, ConfigurationURL, accessToken)
 	if err != nil {
+		errorCounter.With(prometheus.Labels{"endpoint": "configuration"}).Inc()
 		return nil, errors.Wrap(err, "failed to retrieve configuration data")
 	}
 
@@ -185,6 +198,7 @@ func GetReadings(ctx context.Context, client *client.Client, accessToken, locati
 
 	b, err := client.Get(ctx, locationURL.String(), accessToken)
 	if err != nil {
+		errorCounter.With(prometheus.Labels{"endpoint": "data"}).Inc()
 		return nil, errors.Wrap(err, "failed to fetch sensor data")
 	}
 
