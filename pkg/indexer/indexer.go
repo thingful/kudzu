@@ -3,6 +3,7 @@ package indexer
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"sync"
 	"time"
 
@@ -296,7 +297,9 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 
 		// get the next time window to fetch
 		fromUTC := thing.LastUploadedUTC.Time
+		fmt.Println(fromUTC)
 		toUTC := fromUTC.AddDate(0, 0, 10)
+		fmt.Println(toUTC)
 
 		if i.Verbose {
 			log.Log(
