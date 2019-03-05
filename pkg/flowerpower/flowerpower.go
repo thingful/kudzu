@@ -10,6 +10,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/thingful/kudzu/pkg/client"
+	"github.com/thingful/kudzu/pkg/logger"
 	registry "github.com/thingful/retryable-registry-prometheus"
 )
 
@@ -127,6 +128,8 @@ func GetUser(ctx context.Context, client *client.Client, accessToken string) (*U
 // given credential is not valid. Does not return any sensor values, these must
 // be retrieved separately.
 func GetLocations(ctx context.Context, client *client.Client, accessToken string) ([]Location, error) {
+	log := logger.FromContext(ctx)
+
 	statusBytes, err := client.Get(ctx, StatusURL, accessToken)
 	if err != nil {
 		errorCounter.With(prometheus.Labels{"endpoint": "status"}).Inc()
@@ -171,6 +174,13 @@ func GetLocations(ctx context.Context, client *client.Client, accessToken string
 					Longitude:      cl.Longitude,
 					Latitude:       cl.Latitude,
 				}
+
+				log.Log(
+					"msg", "found location",
+					"locationID", l.LocationID,
+					"from", l.FirstSampleUTC,
+					"last", l.LastSampleUTC,
+				)
 
 				locations = append(locations, location)
 			}

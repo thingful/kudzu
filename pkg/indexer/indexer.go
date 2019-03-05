@@ -267,6 +267,14 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.Identity, location *flowerpower.Location, thing *postgres.Thing) error {
 	log := logger.FromContext(ctx)
 
+	if i.Verbose {
+		log.Log(
+			"msg", "indexing existing location",
+			"firstSampleUTC", location.FirstSampleUTC,
+			"lastSampleUTC", location.LastSampleUTC,
+		)
+	}
+
 	// read the sample timestamp values from retrieved data
 	thing.FirstSampleUTC = null.TimeFrom(location.FirstSampleUTC)
 	thing.LastSampleUTC = null.TimeFrom(location.LastSampleUTC)
