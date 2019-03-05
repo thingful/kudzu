@@ -17,7 +17,7 @@ import (
 // RegisterLocationHandlers registers handlers for working with locations
 func RegisterLocationHandlers(mux *goji.Mux, db *postgres.DB, th Thingful) {
 	mux.Handle(pat.Post("/entity/locations/get"), Handler{env: &Env{db: db}, handler: listLocationsHandler})
-	mux.Handle(pat.Post("/entity/locations/update"), Handler{env: &Env{db: db, thingful: th}, handler: updateLocationHandler})
+	mux.Handle(pat.Patch("/entity/locations/update"), Handler{env: &Env{db: db, thingful: th}, handler: updateLocationHandler})
 }
 
 // listLocationsRequest is used to parse incoming requests for locations

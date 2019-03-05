@@ -170,7 +170,7 @@ func (s *LocationHandlersSuite) TestUpdatelocation() {
 		"Y": 13.2
 	}`)
 
-	req, err := http.NewRequest(http.MethodPost, "/entity/locations/update", bytes.NewReader(input))
+	req, err := http.NewRequest(http.MethodPatch, "/entity/locations/update", bytes.NewReader(input))
 	assert.Nil(s.T(), err)
 	req = req.WithContext(ctx)
 
