@@ -29,7 +29,7 @@ func (d *DB) NextIdentity(ctx context.Context) (*Identity, error) {
 	query := `WITH next_identity AS (
 		SELECT id FROM identities
 		WHERE indexed_at IS NULL OR indexed_at < NOW() - interval '24 hours'
-		ORDER BY indexed_at ASC NULLS FIRST
+		ORDER BY indexed_at ASC NULLS FIRST, created_at DESC
 		LIMIT 1
 	) UPDATE identities SET indexed_at = NOW()
 	WHERE id = (SELECT id FROM next_identity)
