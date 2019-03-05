@@ -291,6 +291,14 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 		fromUTC := thing.LastUploadedUTC.Time
 		toUTC := fromUTC.AddDate(0, 0, 10)
 
+		if i.Verbose {
+			log.Log(
+				"msg", "requesting chunk of data",
+				"fromUTC", fromUTC,
+				"toUTC", toUTC,
+			)
+		}
+
 		// check if our calculated upper bound is beyond the last sample value
 		if thing.LastSampleUTC.Time.Before(toUTC) {
 			toUTC = thing.LastSampleUTC.Time

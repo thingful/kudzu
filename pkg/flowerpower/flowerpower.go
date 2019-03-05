@@ -196,6 +196,10 @@ func GetLocations(ctx context.Context, client *client.Client, accessToken string
 // location, between the specified start and end times. Returns either a slice
 // of values or an error.
 func GetReadings(ctx context.Context, client *client.Client, accessToken, locationID string, from, to time.Time) ([]Reading, error) {
+	log := logger.FromContext(ctx)
+
+	log.Log("from", from, "to", to)
+
 	locationURL, err := url.Parse(fmt.Sprintf(DataURL, locationID))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse location url")
