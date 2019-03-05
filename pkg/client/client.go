@@ -152,9 +152,12 @@ func (c *Client) postOrPatch(ctx context.Context, method, requestURL, accessToke
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+		b, _ := ioutil.ReadAll(resp.Body)
+
 		log.Log(
 			"msg", "unexpected response code",
 			"code", resp.StatusCode,
+			"body", string(b),
 		)
 		switch resp.StatusCode {
 		case http.StatusUnauthorized:

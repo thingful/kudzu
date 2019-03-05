@@ -178,7 +178,7 @@ func (i *Indexer) indexNewLocation(ctx context.Context, identity *postgres.Ident
 
 	thing := &postgres.Thing{
 		OwnerID:        identity.OwnerID,
-		Provider:       null.StringFrom("parrot"),
+		Provider:       null.StringFrom("https://api.thingful.net/providers/flowerpower"),
 		SerialNum:      l.SerialNum,
 		Longitude:      l.Longitude,
 		Latitude:       l.Latitude,
