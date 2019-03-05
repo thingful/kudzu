@@ -279,7 +279,7 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 	thing.FirstSampleUTC = null.TimeFrom(location.FirstSampleUTC)
 	thing.LastSampleUTC = null.TimeFrom(location.LastSampleUTC)
 
-	if i.verbose {
+	if i.Verbose {
 		log.Log(
 			"firstSampleUTCValid", thing.FirstSampleUTC.Valid,
 			"firstSampleUTC", thing.FirstSampleUTC.Time,
