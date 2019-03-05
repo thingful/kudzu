@@ -279,6 +279,13 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 	thing.FirstSampleUTC = null.TimeFrom(location.FirstSampleUTC)
 	thing.LastSampleUTC = null.TimeFrom(location.LastSampleUTC)
 
+	if i.verbose {
+		log.Log(
+			"firstSampleUTCValid", thing.FirstSampleUTC.Valid,
+			"firstSampleUTC", thing.FirstSampleUTC.Time,
+		)
+	}
+
 	for {
 		// we sleep to avoid hammering Parrot too hard
 		time.Sleep(i.Delay)
