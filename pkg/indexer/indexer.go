@@ -279,13 +279,6 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 	thing.FirstSampleUTC = null.TimeFrom(location.FirstSampleUTC)
 	thing.LastSampleUTC = null.TimeFrom(location.LastSampleUTC)
 
-	if i.Verbose {
-		log.Log(
-			"firstSampleUTCValid", thing.FirstSampleUTC.Valid,
-			"firstSampleUTC", thing.FirstSampleUTC.Time,
-		)
-	}
-
 	for {
 		// we sleep to avoid hammering Parrot too hard
 		time.Sleep(i.Delay)
@@ -300,14 +293,6 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 			fromUTC = thing.FirstSampleUTC.Time
 		}
 		toUTC := fromUTC.AddDate(0, 0, 10)
-
-		if i.Verbose {
-			log.Log(
-				"msg", "requesting chunk of data",
-				"fromUTC", fromUTC,
-				"toUTC", toUTC,
-			)
-		}
 
 		// check if our calculated upper bound is beyond the last sample value
 		if thing.LastSampleUTC.Time.Before(toUTC) {

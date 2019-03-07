@@ -445,9 +445,18 @@ func buildResponse(things []thingful.Thing, variableCodes []string, datasources 
 				return nil, err
 			}
 
+			var (
+				startDate, endDate time.Time
+			)
+
 			// build observations
-			startDate := observations[0].DateTime
-			endDate := observations[len(observations)-1].DateTime
+			if ascending {
+				startDate = observations[0].DateTime
+				endDate = observations[len(observations)-1].DateTime
+			} else {
+				startDate = observations[len(observations)-1].DateTime
+				endDate = observations[0].DateTime
+			}
 
 			s := series{
 				LocationIdentifier: locationIdentifier,

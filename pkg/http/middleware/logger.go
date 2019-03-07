@@ -56,7 +56,7 @@ func (l *LoggingMiddleware) Handler(next http.Handler) http.Handler {
 			}(time.Now())
 		}
 
-		ctx := logger.ToContext(r.Context(), log) //context.WithValue(r.Context(), loggerKey, logger)
+		ctx := logger.ToContext(r.Context(), log)
 		next.ServeHTTP(lrw, r.WithContext(ctx))
 	}
 

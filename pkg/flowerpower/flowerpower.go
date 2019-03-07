@@ -10,7 +10,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/thingful/kudzu/pkg/client"
-	"github.com/thingful/kudzu/pkg/logger"
 	registry "github.com/thingful/retryable-registry-prometheus"
 )
 
@@ -128,8 +127,6 @@ func GetUser(ctx context.Context, client *client.Client, accessToken string) (*U
 // given credential is not valid. Does not return any sensor values, these must
 // be retrieved separately.
 func GetLocations(ctx context.Context, client *client.Client, accessToken string) ([]Location, error) {
-	log := logger.FromContext(ctx)
-
 	statusBytes, err := client.Get(ctx, StatusURL, accessToken)
 	if err != nil {
 		errorCounter.With(prometheus.Labels{"endpoint": "status"}).Inc()
@@ -175,13 +172,6 @@ func GetLocations(ctx context.Context, client *client.Client, accessToken string
 					Latitude:       cl.Latitude,
 				}
 
-				log.Log(
-					"msg", "found location",
-					"locationID", l.LocationID,
-					"from", l.FirstSampleUTC,
-					"last", l.LastSampleUTC,
-				)
-
 				locations = append(locations, location)
 			}
 		}
@@ -196,10 +186,6 @@ func GetLocations(ctx context.Context, client *client.Client, accessToken string
 // location, between the specified start and end times. Returns either a slice
 // of values or an error.
 func GetReadings(ctx context.Context, client *client.Client, accessToken, locationID string, from, to time.Time) ([]Reading, error) {
-	log := logger.FromContext(ctx)
-
-	log.Log("from", from, "to", to)
-
 	locationURL, err := url.Parse(fmt.Sprintf(DataURL, locationID))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse location url")
