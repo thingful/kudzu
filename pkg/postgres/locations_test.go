@@ -93,18 +93,30 @@ func (s *LocationsSuite) TestUpdateGeolocation() {
 	assert.Nil(s.T(), err)
 	assert.NotEqual(s.T(), 0, userID)
 
-	// insert some things
-	_, err = s.db.DB.Exec(`
+	// insert a thing
+	var thingID int
+
+	err = s.db.DB.Get(&thingID, `
 		INSERT INTO things (uid, owner_id, serial_num, long, lat, location_identifier, last_sample)
-		VALUES ($1, $2, $3, $4, $5, $6, NOW())`, "1234", userID, "PA1", 12.2, 13.3, "LOC1",
+		VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id`, "1234", userID, "PA1", 12.2, 13.3, "LOC1",
 	)
 	assert.Nil(s.T(), err)
+	assert.NotEqual(s.T(), 0, thingID)
+
+	var locationChangesCount int
+	err = s.db.DB.Get(&locationChangesCount, "SELECT COUNT(*) FROM location_changes WHERE thing_id = $1", thingID)
+	assert.Nil(s.T(), err)
+	assert.Equal(s.T(), 1, locationChangesCount)
 
 	ctx := logger.ToContext(context.Background(), s.logger)
 
 	loc, err := s.db.UpdateGeolocation(ctx, "1234", 25, 25)
 	assert.Nil(s.T(), err)
 	assert.NotNil(s.T(), loc)
+
+	err = s.db.DB.Get(&locationChangesCount, "SELECT COUNT(*) FROM location_changes WHERE thing_id = $1", thingID)
+	assert.Nil(s.T(), err)
+	assert.Equal(s.T(), 2, locationChangesCount)
 
 	locations, err := s.db.ListLocations(ctx, "", false, false)
 	assert.Nil(s.T(), err)
