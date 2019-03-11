@@ -1,0 +1,1 @@
+DROP FUNCTION thing_location_audit() CASCADE;

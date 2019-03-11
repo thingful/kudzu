@@ -22,6 +22,8 @@
 // sql/20190214003216_non_nullable_channel_columns.up.sql (103B)
 // sql/20190217011904_thing_uid_not_null.down.sql (52B)
 // sql/20190217011904_thing_uid_not_null.up.sql (51B)
+// sql/20190311125125_add_location_audit_table.down.sql (45B)
+// sql/20190311125125_add_location_audit_table.up.sql (1.004kB)
 
 package migrations
 
@@ -530,6 +532,46 @@ func _20190217011904_thing_uid_not_nullUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __20190311125125_add_location_audit_tableDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\x09\xf2\x0f\x50\x70\x0b\xf5\x73\x0e\xf1\xf4\xf7\x53\x28\xc9\xc8\xcc\x4b\x8f\xcf\xc9\x4f\x4e\x2c\xc9\xcc\xcf\x8b\x4f\x2c\x4d\xc9\x2c\xd1\xd0\x54\x70\x76\x0c\x76\x76\x74\x71\xb5\x06\x04\x00\x00\xff\xff\x68\x85\x71\xa2\x2d\x00\x00\x00")
+
+func _20190311125125_add_location_audit_tableDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190311125125_add_location_audit_tableDownSql,
+		"20190311125125_add_location_audit_table.down.sql",
+	)
+}
+
+func _20190311125125_add_location_audit_tableDownSql() (*asset, error) {
+	bytes, err := _20190311125125_add_location_audit_tableDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190311125125_add_location_audit_table.down.sql", size: 45, mode: os.FileMode(0644), modTime: time.Unix(1552312396, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x19, 0x69, 0xca, 0x9d, 0x2b, 0x9b, 0x2d, 0xfd, 0x7c, 0x40, 0x8d, 0xd3, 0x4d, 0x32, 0x8c, 0x41, 0x74, 0x8e, 0x1f, 0x8b, 0x3c, 0xe0, 0xcc, 0xce, 0xd4, 0x97, 0xc, 0x6e, 0x8c, 0x69, 0xdc, 0xc6}}
+	return a, nil
+}
+
+var __20190311125125_add_location_audit_tableUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x94\x52\xc1\x6e\x9b\x40\x14\xbc\xef\x57\xcc\x21\x52\x8c\x84\xfa\x03\x56\x0f\x9b\xe5\x41\x56\x5d\xef\xa2\xdd\x47\x9d\xf4\x62\xd1\x60\x39\x48\x16\x4e\x03\x69\xd5\xbf\xaf\x16\x82\x53\x57\xf8\xd0\x1b\x68\xe7\xcd\x9b\x37\x33\xca\x93\x64\x02\xcb\x3b\x43\xd0\x39\xac\x63\xd0\x83\x0e\x1c\x70\x3c\x3d\xd5\x43\x7b\xea\x76\x4f\xcf\x75\x77\xd8\xf7\x58\x09\xa0\x6d\x10\xc8\x6b\x69\x50\x7a\xbd\x91\xfe\x11\x5f\xe8\x31\x15\xc0\xf0\xdc\x76\x87\x5d\xdb\x40\x5b\xa6\x82\xfc\xc8\x64\x2b\x63\xe0\x29\x27\x4f\x56\x51\x98\x40\xfd\xaa\x6d\x12\x38\x8b\x8c\x0c\x31\x41\xc9\xa0\x64\x46\x91\xa4\xed\xfa\xfd\xeb\xb0\x6f\x76\xf5\x00\xd6\x1b\x0a\x2c\x37\x25\xb6\x9a\xef\xc7\x5f\x7c\x73\x96\x3e\x88\x33\xca\x65\x65\x18\xd6\x6d\x57\x49\x1c\x7f\x79\xdd\xff\x6c\x4f\x6f\xfd\xee\x78\xea\x0e\xc8\x5c\x15\x8f\x2a\x3d\x29\x1d\xb4\xb3\x97\x88\x7a\x58\x04\x74\xfb\x5f\xcb\xd3\xe7\xb5\x67\xd4\x02\xc3\x19\x24\x92\xb5\x10\xef\xde\x3a\x0f\x4f\xa5\x91\x8a\x90\x57\x56\x71\xc4\x4d\x6e\x9d\x1d\xae\xdf\x9a\x76\x58\x25\xf0\xc4\x95\xb7\x01\xec\x75\x11\x3d\x94\x01\x37\xdf\x4f\xcd\xef\x1b\x71\x47\x85\xb6\x02\x31\xa2\x15\x17\x3b\x57\xe2\x33\x6e\xab\x32\x93\x4c\xb7\x09\xf8\x9e\xe2\xe3\xf4\x6c\x69\xfb\x69\x3c\x41\x07\x64\x3a\xb0\xb6\x8a\x91\x7b\xb7\x81\x33\xd9\xf4\xe2\x3c\x46\x54\x3d\x5c\x01\xd5\xc3\x5f\xa4\x80\xb6\x81\x3c\xc7\x68\xdd\x42\x2d\xe6\xe8\xd3\xcb\x00\xd2\x0b\xb7\xd3\xb3\xb5\xe9\x6c\x5f\xf2\xce\xfe\x55\x9a\x8a\xc2\x24\x3c\xb2\xcc\x32\xd3\x59\x4b\x8a\xf9\xa6\x74\xd6\x9d\xac\xc7\x61\xb2\x19\x74\x1e\xbf\xc9\x04\x12\xff\xa3\xf5\x8a\x9c\x7f\xc5\x2c\x6f\xfe\xd8\x3b\x45\x36\x86\xbe\x16\x64\xb3\xb5\x98\x12\x83\x91\xb6\xa8\x64\x41\x78\x39\xbe\x1c\xfa\x1f\xc7\x8f\x42\xcc\xe9\x2e\x95\x40\xc8\x9c\xc9\xcf\x47\x38\x8f\x29\x63\xcc\x9d\xe9\x05\x90\x3b\x0f\x92\xea\x1e\xde\x6d\xa3\x96\x07\x52\x15\xc7\x16\x3a\x45\x59\xe5\xe9\x4a\xbb\xd6\x7f\x02\x00\x00\xff\xff\xdd\x67\x36\xf0\xec\x03\x00\x00")
+
+func _20190311125125_add_location_audit_tableUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190311125125_add_location_audit_tableUpSql,
+		"20190311125125_add_location_audit_table.up.sql",
+	)
+}
+
+func _20190311125125_add_location_audit_tableUpSql() (*asset, error) {
+	bytes, err := _20190311125125_add_location_audit_tableUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190311125125_add_location_audit_table.up.sql", size: 1004, mode: os.FileMode(0644), modTime: time.Unix(1552313487, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x6e, 0x5f, 0x70, 0x8a, 0x88, 0xc6, 0x8e, 0xbb, 0xff, 0x24, 0xa0, 0xee, 0x65, 0xb, 0xc, 0xda, 0x9c, 0xb3, 0x7, 0xd5, 0x18, 0x2a, 0x9b, 0x66, 0x0, 0xf9, 0x31, 0x1d, 0x38, 0x93, 0xc7, 0x56}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -664,6 +706,10 @@ var _bindata = map[string]func() (*asset, error){
 	"20190217011904_thing_uid_not_null.down.sql": _20190217011904_thing_uid_not_nullDownSql,
 
 	"20190217011904_thing_uid_not_null.up.sql": _20190217011904_thing_uid_not_nullUpSql,
+
+	"20190311125125_add_location_audit_table.down.sql": _20190311125125_add_location_audit_tableDownSql,
+
+	"20190311125125_add_location_audit_table.up.sql": _20190311125125_add_location_audit_tableUpSql,
 }
 
 // AssetDir returns the file names below a certain
@@ -729,6 +775,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"20190214003216_non_nullable_channel_columns.up.sql":        &bintree{_20190214003216_non_nullable_channel_columnsUpSql, map[string]*bintree{}},
 	"20190217011904_thing_uid_not_null.down.sql":                &bintree{_20190217011904_thing_uid_not_nullDownSql, map[string]*bintree{}},
 	"20190217011904_thing_uid_not_null.up.sql":                  &bintree{_20190217011904_thing_uid_not_nullUpSql, map[string]*bintree{}},
+	"20190311125125_add_location_audit_table.down.sql":          &bintree{_20190311125125_add_location_audit_tableDownSql, map[string]*bintree{}},
+	"20190311125125_add_location_audit_table.up.sql":            &bintree{_20190311125125_add_location_audit_tableUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
