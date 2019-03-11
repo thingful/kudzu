@@ -547,7 +547,7 @@ func _20190311125125_add_location_audit_tableDownSql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "20190311125125_add_location_audit_table.down.sql", size: 45, mode: os.FileMode(0644), modTime: time.Unix(1552312396, 0)}
+	info := bindataFileInfo{name: "20190311125125_add_location_audit_table.down.sql", size: 45, mode: os.FileMode(0644), modTime: time.Unix(1552315639, 0)}
 	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x19, 0x69, 0xca, 0x9d, 0x2b, 0x9b, 0x2d, 0xfd, 0x7c, 0x40, 0x8d, 0xd3, 0x4d, 0x32, 0x8c, 0x41, 0x74, 0x8e, 0x1f, 0x8b, 0x3c, 0xe0, 0xcc, 0xce, 0xd4, 0x97, 0xc, 0x6e, 0x8c, 0x69, 0xdc, 0xc6}}
 	return a, nil
 }
@@ -567,7 +567,7 @@ func _20190311125125_add_location_audit_tableUpSql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "20190311125125_add_location_audit_table.up.sql", size: 1004, mode: os.FileMode(0644), modTime: time.Unix(1552313487, 0)}
+	info := bindataFileInfo{name: "20190311125125_add_location_audit_table.up.sql", size: 1004, mode: os.FileMode(0644), modTime: time.Unix(1552315639, 0)}
 	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x6e, 0x5f, 0x70, 0x8a, 0x88, 0xc6, 0x8e, 0xbb, 0xff, 0x24, 0xa0, 0xee, 0x65, 0xb, 0xc, 0xda, 0x9c, 0xb3, 0x7, 0xd5, 0x18, 0x2a, 0x9b, 0x66, 0x0, 0xf9, 0x31, 0x1d, 0x38, 0x93, 0xc7, 0x56}}
 	return a, nil
 }
