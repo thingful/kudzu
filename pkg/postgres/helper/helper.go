@@ -56,6 +56,7 @@ func Truncate(t *testing.T, db *postgres.DB) error {
 	TRUNCATE things CASCADE;
 	TRUNCATE users CASCADE;
 	TRUNCATE applications CASCADE;
+	TRUNCATE location_changes CASCADE;
 	`
 
 	_, err := db.DB.Exec(sql)
