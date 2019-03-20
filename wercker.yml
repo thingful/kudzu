@@ -1,8 +1,22 @@
-box: golang:1.11-alpine
+box: golang:1.12-alpine
+
+services:
+  - name: postgres
+    id: postgres:9.6-alpine
+    env:
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
 
 build:
   steps:
     - setup-go-workspace
+
+    - script:
+        name: set environment
+        code: |
+          export KUDZU_DATABASE_URL="user=postgres dbname=postgres host=${POSTGRES_PORT_5432_TCP_ADDR} port=5432 password=secretpassword sslmode=disable"
+          export POSTGRES_PASSWORD=secretpassword
 
     - script:
         name: go version
@@ -19,6 +33,6 @@ build:
         code: |
           echo
           go test -i -installsuffix "static" ./cmd/... ./pkg/...
-          go test -v -installsuffix "static" -coverprofile=$WERCKER_REPORT_ARTEFACTS_DIR/coverage.out ./cmd/... ./pkg/...
+          go test -v -installsuffix "static" -coverprofile=$WERCKER_REPORT_ARTEFACTS_DIR/coverage.out -p 1 ./cmd/... ./pkg/...
           go tool cover -html=$WERCKER_REPORT_ARTEFACTS_DIR/coverage.out -o $WERCKER_REPORT_ARTEFACTS_DIR/coverage.html
           go tool cover -func=$WERCKER_REPORT_ARTEFACTS_DIR/coverage.out
