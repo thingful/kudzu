@@ -219,19 +219,15 @@ func (d *DB) UpdateThing(ctx context.Context, thing *Thing) error {
 }
 
 // UpdateNickname updates just a devices nickname
-func (d *DB) UpdateNickname(ctx context.Context, locationID string, nickname null.String) error {
+func (d *DB) UpdateNickname(ctx context.Context, locationID, nickname string) error {
 	log := logger.FromContext(ctx)
 
 	if d.verbose {
 		log.Log(
 			"msg", "updating nickname",
 			"locationID", locationID,
-			"nickname", nickname.String,
+			"nickname", nickname,
 		)
-	}
-
-	if !nickname.Valid {
-		return nil
 	}
 
 	sql := `UPDATE things SET

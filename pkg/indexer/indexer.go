@@ -285,7 +285,7 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 
 		if !hasMoreReadingsToIndex(ctx, thing) {
 			// ensure we always update the nickname even if there is no new data
-			err := i.DB.UpdateNickname(ctx, thing.LocationID, thing.Nickname)
+			err := i.DB.UpdateNickname(ctx, location.LocationID, location.Nickname)
 			if err != nil {
 				return errors.Wrap(err, "failed to update thing nickname")
 			}
@@ -323,6 +323,7 @@ func (i *Indexer) indexExistingLocation(ctx context.Context, identity *postgres.
 		thing.IndexedAt = null.TimeFrom(now)
 		thing.UpdatedAt = null.TimeFrom(now)
 		thing.LastUploadedUTC = null.TimeFrom(toUTC)
+		thing.Nickname = null.StringFrom(location.Nickname)
 
 		// update the last uploaded timestamp and any related channels
 		err = i.DB.UpdateThing(ctx, thing)
