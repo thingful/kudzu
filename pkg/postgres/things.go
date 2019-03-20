@@ -218,6 +218,53 @@ func (d *DB) UpdateThing(ctx context.Context, thing *Thing) error {
 	return tx.Commit()
 }
 
+// UpdateNickname updates just a devices nickname
+func (d *DB) UpdateNickname(ctx context.Context, locationID string, nickname null.String) error {
+	log := logger.FromContext(ctx)
+
+	if d.verbose {
+		log.Log(
+			"msg", "updating nickname",
+			"locationID", locationID,
+			"nickname", nickname.String,
+		)
+	}
+
+	if !nickname.Valid {
+		return nil
+	}
+
+	sql := `UPDATE things SET
+		nickname = :nickname,
+		updated_at = NOW(),
+		indexed_at = NOW()
+	WHERE location_identifier = :location_identifier`
+
+	mapArgs := map[string]interface{}{
+		"nickname":            nickname,
+		"location_identifier": locationID,
+	}
+
+	tx, err := d.DB.Beginx()
+	if err != nil {
+		return errors.Wrap(err, "failed to begin transaction")
+	}
+
+	sql, args, err := tx.BindNamed(sql, mapArgs)
+	if err != nil {
+		tx.Rollback()
+		return errors.Wrap(err, "failed to bind named query")
+	}
+
+	_, err = tx.Exec(sql, args...)
+	if err != nil {
+		tx.Rollback()
+		return errors.Wrap(err, "failed to update thing")
+	}
+
+	return tx.Commit()
+}
+
 // ThingStats is a data structure used to pass
 type ThingStats struct {
 	All             float64 `db:"all_things"`
