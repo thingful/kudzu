@@ -1,8 +1,22 @@
-box: golang:1.11-alpine
+box: golang:1.12-alpine
+
+services:
+  - name: postgres
+    id: postgres:9.6-alpine
+    env:
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
 
 build:
   steps:
     - setup-go-workspace
+
+    - script:
+        name: set environment
+        code: |
+          export DATABASE_URL="user=postgres dbname=postgres host=${POSTGRES_PORT_5432_TCP_ADDR} port=5432 password=secretpassword sslmode=disable"
+          export POSTGRES_PASSWORD=secretpassword
 
     - script:
         name: go version
