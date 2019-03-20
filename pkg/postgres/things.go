@@ -249,7 +249,7 @@ func (d *DB) GetThingStats(ctx context.Context) ([]ThingStats, error) {
 			CASE WHEN last_sample < NOW() - interval '30 days' AND last_sample >= NOW() - interval '90 days' THEN 1 END stale,
 			CASE WHEN last_sample >= NOW() - interval '30 days' THEN 1 END live,
 			CASE WHEN last_sample < NOW() - interval '90 days' THEN 1 END dead,
-			CASE WHEN lat = 0 AND long = 0 THEN 1 END invalid_location,
+			CASE WHEN lat = 0 AND long = 0 AND last_sample >= NOW() - interval '90 days' THEN 1 END invalid_location,
 			provider
 		FROM things
 	) things GROUP BY provider`
