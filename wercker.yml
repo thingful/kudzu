@@ -15,7 +15,7 @@ build:
     - script:
         name: set environment
         code: |
-          export DATABASE_URL="user=postgres dbname=postgres host=${POSTGRES_PORT_5432_TCP_ADDR} port=5432 password=secretpassword sslmode=disable"
+          export KUDZU_DATABASE_URL="user=postgres dbname=postgres host=${POSTGRES_PORT_5432_TCP_ADDR} port=5432 password=secretpassword sslmode=disable"
           export POSTGRES_PASSWORD=secretpassword
 
     - script:
