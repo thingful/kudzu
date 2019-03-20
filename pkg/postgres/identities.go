@@ -31,6 +31,7 @@ func (d *DB) NextIdentity(ctx context.Context) (*Identity, error) {
 		WHERE indexed_at IS NULL OR indexed_at < NOW() - interval '24 hours'
 		ORDER BY indexed_at ASC NULLS FIRST, created_at DESC
 		LIMIT 1
+		FOR UPDATE SKIP LOCKED
 	) UPDATE identities SET indexed_at = NOW()
 	WHERE id = (SELECT id FROM next_identity)
 	RETURNING owner_id, access_token`
