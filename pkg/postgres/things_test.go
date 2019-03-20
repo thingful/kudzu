@@ -88,6 +88,15 @@ func (s *ThingsSuite) TestRoundTrip() {
 
 	assert.Equal(s.T(), 12.2, readThing.Longitude)
 	assert.Equal(s.T(), 15.4, readThing.Latitude)
+
+	err = s.db.UpdateNickname(ctx, readThing.LocationID, null.StringFrom("new nickname"))
+	assert.Nil(s.T(), err)
+
+	// verify that the nickname has changed
+	readThing, err = s.db.GetThing(ctx, "abc123")
+	assert.Nil(s.T(), err)
+
+	assert.Equal(s.T(), "new nickname", readThing.Nickname.String)
 }
 
 func (s *ThingsSuite) TestGetUnknownThing() {
