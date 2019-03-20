@@ -53,6 +53,7 @@ func (d *DB) ListLocations(ctx context.Context, ownerUID string, invalidLocation
 
 	if invalidLocation {
 		builder = builder.Where(sq.Eq{"t.long": 0}).Where(sq.Eq{"t.lat": 0})
+		builder = builder.Where("t.last_sample >= NOW() - interval '90 days'")
 	}
 
 	if staleData {

@@ -56,19 +56,48 @@ func (s *LocationHandlersSuite) TestListLocations() {
 	ctx := logger.ToContext(context.Background(), s.logger)
 
 	// insert some things
+	// a live valid location thing
 	_, err = s.db.DB.Exec(`
 		INSERT INTO things (uid, owner_id, serial_num, long, lat, location_identifier, last_sample)
 		VALUES ($1, $2, $3, $4, $5, $6, NOW())`, "1234", userID, "PA1", 12.2, 13.3, "LOC1",
 	)
 	assert.Nil(s.T(), err)
+
+	// a live invalid location thing
 	_, err = s.db.DB.Exec(`
 		INSERT INTO things (uid, owner_id, serial_num, long, lat, location_identifier, last_sample)
 		VALUES ($1, $2, $3, $4, $5, $6, NOW())`, "1235", userID2, "PA2", 0, 0, "LOC2",
 	)
+
+	// a stale thing with valid location
 	assert.Nil(s.T(), err)
 	_, err = s.db.DB.Exec(`
 		INSERT INTO things (uid, owner_id, serial_num, long, lat, location_identifier, last_sample)
 		VALUES ($1, $2, $3, $4, $5, $6, NOW() - interval '31 days')`, "1236", userID, "PA3", 12.2, 13.3, "LOC3",
+	)
+	assert.Nil(s.T(), err)
+
+	// a stale thing with an invalid location
+	assert.Nil(s.T(), err)
+	_, err = s.db.DB.Exec(`
+		INSERT INTO things (uid, owner_id, serial_num, long, lat, location_identifier, last_sample)
+		VALUES ($1, $2, $3, $4, $5, $6, NOW() - interval '31 days')`, "1237", userID, "PA4", 0, 0, "LOC4",
+	)
+	assert.Nil(s.T(), err)
+
+	// a dead thing
+	assert.Nil(s.T(), err)
+	_, err = s.db.DB.Exec(`
+		INSERT INTO things (uid, owner_id, serial_num, long, lat, location_identifier, last_sample)
+		VALUES ($1, $2, $3, $4, $5, $6, NOW() - interval '91 days')`, "1238", userID, "PA5", 12.2, 13.3, "LOC5",
+	)
+	assert.Nil(s.T(), err)
+
+	// a dead thing with invalid location
+	assert.Nil(s.T(), err)
+	_, err = s.db.DB.Exec(`
+		INSERT INTO things (uid, owner_id, serial_num, long, lat, location_identifier, last_sample)
+		VALUES ($1, $2, $3, $4, $5, $6, NOW() - interval '91 days')`, "1239", userID, "PA6", 0, 0, "LOC6",
 	)
 	assert.Nil(s.T(), err)
 
@@ -84,25 +113,25 @@ func (s *LocationHandlersSuite) TestListLocations() {
 		{
 			label:           "all locations",
 			requestBody:     []byte(`{"DataSourceCodes":["Thingful.Connectors.GROWSensors"]}`),
-			expectedLength:  3,
+			expectedLength:  6,
 			expectedFirstID: "Grow.Thingful#1234",
 		},
 		{
 			label:           "just alice locations",
 			requestBody:     []byte(`{"DataSourceCodes":["Thingful.Connectors.GROWSensors"],"UserId":"alice"}`),
-			expectedLength:  2,
+			expectedLength:  5,
 			expectedFirstID: "Grow.Thingful#1234",
 		},
 		{
 			label:           "invalid geolocations",
 			requestBody:     []byte(`{"DataSourceCodes":["Thingful.Connectors.GROWSensors"],"InvalidLocation":true}`),
-			expectedLength:  1,
+			expectedLength:  2,
 			expectedFirstID: "Grow.Thingful#1235",
 		},
 		{
 			label:           "stale data",
 			requestBody:     []byte(`{"DataSourceCodes":["Thingful.Connectors.GROWSensors"],"StaleData":true}`),
-			expectedLength:  1,
+			expectedLength:  2,
 			expectedFirstID: "Grow.Thingful#1236",
 		},
 	}
