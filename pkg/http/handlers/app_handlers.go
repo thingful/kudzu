@@ -36,6 +36,14 @@ func createAppHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)
 
+	//roles := middleware.RolesFromContext(ctx)
+	//if !roles.Permits(postgres.CreateUserScope) {
+	//	return &HTTPError{
+	//		Code: http.StatusForbidden,
+	//		Err:  errors.New("you are not permitted to create new application keys"),
+	//	}
+	//}
+
 	appReq, err := parseCreateAppRequest(r)
 	if err != nil {
 		return err

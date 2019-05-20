@@ -59,6 +59,19 @@ func (s *ScopeClaims) Scan(src interface{}) error {
 	return nil
 }
 
+// Permits is a function that allows us to ask a ScopeClaims if the given claim
+// is contained within it (i.e. the user has that permission). Returns true if
+// so, otherwise false. We use this to clean up the API in our controllers where
+// we test this.
+func (s ScopeClaims) Permits(claim ScopeClaim) bool {
+	for _, c := range s {
+		if c == claim {
+			return true
+		}
+	}
+	return false
+}
+
 const (
 	// CreateUserScope is used for clients allowed to create new users
 	CreateUserScope = ScopeClaim("create-users")

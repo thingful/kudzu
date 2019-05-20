@@ -79,3 +79,13 @@ func (s *AppsSuite) TestLoadInvalidKey() {
 func TestAppsSuite(t *testing.T) {
 	suite.Run(t, new(AppsSuite))
 }
+
+func TestPermits(t *testing.T) {
+	claims := postgres.ScopeClaims{
+		postgres.ScopeClaim("timeseries"),
+		postgres.ScopeClaim("metadata"),
+	}
+
+	assert.True(t, claims.Permits(postgres.ScopeClaim("timeseries")))
+	assert.False(t, claims.Permits(postgres.ScopeClaim("create-user")))
+}
