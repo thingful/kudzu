@@ -98,7 +98,7 @@ type App struct {
 }
 
 // CreateApp attempts to create and store an app record into the DB. We generate
-// a random UID and a random hash which is hashed and stored to the DB
+// a random UID and a random api key which is hashed and stored to the DB
 func (d *DB) CreateApp(ctx context.Context, name string, claims []string) (*App, error) {
 	log := logger.FromContext(ctx)
 
