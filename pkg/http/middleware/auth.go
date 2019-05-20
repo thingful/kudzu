@@ -19,16 +19,24 @@ const (
 	rolesKey   = contextKey("roles")
 )
 
+// AppLoader is an interface we define here for a type that can load an App from
+// somewhere to verify the validity of the submitted token.
+type AppLoader interface {
+	LoadApp(context.Context, string) (*postgres.App, error)
+}
+
 // AuthMiddleware is middleware that checks in the request for an authorization
 // header which we attempt to validate against the DB
 type AuthMiddleware struct {
-	db *postgres.DB
+	al AppLoader
 }
 
-// NewAuthMiddleware returns a new AuthMiddleware instance
-func NewAuthMiddleware(db *postgres.DB) *AuthMiddleware {
+// NewAuthMiddleware returns a new AuthMiddleware instance. Takes as input an
+// AppLoader which is a type that exposes a single method for loading an App on
+// being given a token.
+func NewAuthMiddleware(al AppLoader) *AuthMiddleware {
 	return &AuthMiddleware{
-		db: db,
+		al: al,
 	}
 }
 
@@ -43,7 +51,7 @@ func (a *AuthMiddleware) Handler(next http.Handler) http.Handler {
 			return
 		}
 
-		app, err := a.db.LoadApp(ctx, token)
+		app, err := a.al.LoadApp(ctx, token)
 		if err != nil {
 			authForbiddenError(w, err)
 			return
@@ -104,4 +112,15 @@ func authForbiddenError(w http.ResponseWriter, err error) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusForbidden)
 	w.Write(b)
+}
+
+// RolesFromContext returns a slice of strings from the context representing the
+// roles associated with the current user. Returns an empty slice if no roles
+// are found.
+func RolesFromContext(ctx context.Context) postgres.ScopeClaims {
+	if roles, ok := ctx.Value(rolesKey).(postgres.ScopeClaims); ok {
+		return roles
+	}
+
+	return postgres.ScopeClaims{}
 }
