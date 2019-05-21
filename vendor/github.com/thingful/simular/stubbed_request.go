@@ -2,30 +2,11 @@ package simular
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
-)
-
-var (
-	// ErrIncorrectMethod is the error returned when Matches detects an incorrect
-	// HTTP method
-	ErrIncorrectMethod = errors.New("Incorrect request method attempted")
-
-	// ErrIncorrectURL is the error returned when Matches detects an incorrect
-	// normalized URL
-	ErrIncorrectURL = errors.New("Incorrect URL used")
-
-	// ErrIncorrectHeaders is the error returned when Matches detects incorrect
-	// headers sent
-	ErrIncorrectHeaders = errors.New("Incorrect HTTP headers sent")
-
-	// ErrIncorrectRequestBody = is the error returned when Matches detects an
-	// incorrect request body was sent
-	ErrIncorrectRequestBody = errors.New("Incorrect request body sent")
 )
 
 // Option is a functional configurator allowing non-standard configuration to be
@@ -83,7 +64,7 @@ func WithBody(body io.Reader) Option {
 // we return false.
 func (r *StubRequest) Matches(req *http.Request) error {
 	if !strings.EqualFold(req.Method, r.Method) {
-		return ErrIncorrectMethod
+		return fmt.Errorf("Unexpected method, expected %s, got %s", r.Method, req.Method)
 	}
 
 	normalizedURL, err := normalizeURL(r.URL)
@@ -97,13 +78,12 @@ func (r *StubRequest) Matches(req *http.Request) error {
 	}
 
 	if normalizedURL != normalizedReqURL {
-		return ErrIncorrectURL
+		return fmt.Errorf("Unexpected URL, expected %s, got %s", normalizedURL, normalizedReqURL)
 	}
 
 	// only check headers if the stubbed request has set headers to some not nil
 	// value
 	if r.Header != nil {
-
 		// for each header defined on the stub, iterate through all the values and
 		// make sure they are present in the corresponding header on the request
 		for header, stubValues := range map[string][]string(*r.Header) {
@@ -111,7 +91,7 @@ func (r *StubRequest) Matches(req *http.Request) error {
 			reqValues := req.Header[http.CanonicalHeaderKey(header)]
 			for _, v := range stubValues {
 				if !contains(reqValues, v) {
-					return ErrIncorrectHeaders
+					return fmt.Errorf("Unexpected request headers, expected: %v, got %v", r.Header, req.Header)
 				}
 			}
 		}
@@ -131,7 +111,7 @@ func (r *StubRequest) Matches(req *http.Request) error {
 		}
 
 		if bytes.Compare(stubBody, requestBody) != 0 {
-			return ErrIncorrectRequestBody
+			return fmt.Errorf("Unexpected request body, expected %s, got %s", stubBody, requestBody)
 		}
 	}
 
