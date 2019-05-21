@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/thingful/kudzu/pkg/http/handlers"
 	"github.com/thingful/kudzu/pkg/postgres"
 )
 
@@ -18,6 +17,11 @@ const (
 	subjectKey = contextKey("subject")
 	rolesKey   = contextKey("roles")
 )
+
+type httpError struct {
+	Name    int    `json:"Name"`
+	Message string `json:"Message"`
+}
 
 // AppLoader is an interface we define here for a type that can load an App from
 // somewhere to verify the validity of the submitted token.
@@ -82,9 +86,9 @@ func extractToken(r *http.Request) (string, error) {
 }
 
 func invalidTokenError(w http.ResponseWriter, err error) {
-	httpErr := &handlers.HTTPError{
-		Code: http.StatusUnauthorized,
-		Err:  err,
+	httpErr := &httpError{
+		Name:    http.StatusUnauthorized,
+		Message: err.Error(),
 	}
 
 	b, err := json.Marshal(httpErr)
@@ -99,9 +103,9 @@ func invalidTokenError(w http.ResponseWriter, err error) {
 }
 
 func authForbiddenError(w http.ResponseWriter, err error) {
-	httpErr := &handlers.HTTPError{
-		Code: http.StatusForbidden,
-		Err:  err,
+	httpErr := &httpError{
+		Name:    http.StatusForbidden,
+		Message: err.Error(),
 	}
 
 	b, err := json.Marshal(httpErr)
@@ -114,9 +118,9 @@ func authForbiddenError(w http.ResponseWriter, err error) {
 	w.Write(b)
 }
 
-// RolesFromContext returns a slice of strings from the context representing the
-// roles associated with the current user. Returns an empty slice if no roles
-// are found.
+// RolesFromContext returns a ScopeClaims object from the context representing
+// the roles associated with the current user. Returns an empty slice if no
+// roles are found.
 func RolesFromContext(ctx context.Context) postgres.ScopeClaims {
 	if roles, ok := ctx.Value(rolesKey).(postgres.ScopeClaims); ok {
 		return roles
