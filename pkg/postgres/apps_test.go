@@ -44,7 +44,7 @@ func (s *AppsSuite) TearDownTest() {
 func (s *AppsSuite) TestCreateLoadApp() {
 	ctx := logger.ToContext(context.Background(), s.logger)
 
-	app, err := s.db.CreateApp(ctx, "app", []string{"create-users"})
+	app, err := s.db.CreateApp(ctx, "app", postgres.ScopeClaims{postgres.CreateUserScope})
 	assert.Nil(s.T(), err)
 	assert.NotEqual(s.T(), "", app.UID)
 	assert.Equal(s.T(), "app", app.Name)
@@ -58,7 +58,7 @@ func (s *AppsSuite) TestCreateLoadApp() {
 func (s *AppsSuite) TestInvalidClaim() {
 	ctx := logger.ToContext(context.Background(), s.logger)
 
-	_, err := s.db.CreateApp(ctx, "app", []string{"create-bananas"})
+	_, err := s.db.CreateApp(ctx, "app", postgres.ScopeClaims{postgres.ScopeClaim("create-bananas")})
 	assert.NotNil(s.T(), err)
 }
 
