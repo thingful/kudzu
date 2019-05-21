@@ -59,6 +59,19 @@ func (s *ScopeClaims) Scan(src interface{}) error {
 	return nil
 }
 
+// Permits is a function that allows us to ask a ScopeClaims if the given claim
+// is contained within it (i.e. the user has that permission). Returns true if
+// so, otherwise false. We use this to clean up the API in our controllers where
+// we test this.
+func (s ScopeClaims) Permits(claim ScopeClaim) bool {
+	for _, c := range s {
+		if c == claim {
+			return true
+		}
+	}
+	return false
+}
+
 const (
 	// CreateUserScope is used for clients allowed to create new users
 	CreateUserScope = ScopeClaim("create-users")
@@ -98,8 +111,8 @@ type App struct {
 }
 
 // CreateApp attempts to create and store an app record into the DB. We generate
-// a random UID and a random hash which is hashed and stored to the DB
-func (d *DB) CreateApp(ctx context.Context, name string, claims []string) (*App, error) {
+// a random UID and a random api key which is hashed and stored to the DB
+func (d *DB) CreateApp(ctx context.Context, name string, claims ScopeClaims) (*App, error) {
 	log := logger.FromContext(ctx)
 
 	if d.verbose {
@@ -110,9 +123,7 @@ func (d *DB) CreateApp(ctx context.Context, name string, claims []string) (*App,
 		)
 	}
 
-	scope := buildScopeClaims(claims)
-
-	if !areKnownClaims(scope) {
+	if !areKnownClaims(claims) {
 		return nil, errors.New("invalid scope claims")
 	}
 
@@ -130,7 +141,7 @@ func (d *DB) CreateApp(ctx context.Context, name string, claims []string) (*App,
 		UID:   uid,
 		Name:  name,
 		Hash:  fmt.Sprintf("%x", b),
-		Roles: scope,
+		Roles: claims,
 		Key:   fmt.Sprintf("%s-%x", uid, b),
 	}
 
@@ -185,16 +196,6 @@ func (d *DB) LoadApp(ctx context.Context, key string) (*App, error) {
 	}
 
 	return &app, nil
-}
-
-func buildScopeClaims(claims []string) ScopeClaims {
-	scope := ScopeClaims{}
-
-	for _, c := range claims {
-		scope = append(scope, ScopeClaim(c))
-	}
-
-	return scope
 }
 
 // checks the passed in claim set is one of our known values
