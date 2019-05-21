@@ -58,7 +58,12 @@ available scopes are: create-users, metadata or timeseries.`,
 
 		ctx := logger.ToContext(context.Background(), log)
 
-		app, err := db.CreateApp(ctx, name, scope)
+		claims := postgres.ScopeClaims{}
+		for _, s := range scope {
+			claims = append(claims, postgres.ScopeClaim(s))
+		}
+
+		app, err := db.CreateApp(ctx, name, claims)
 		if err != nil {
 			return errors.Wrap(err, "failed to create app")
 		}
