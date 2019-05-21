@@ -75,6 +75,7 @@ func (h *HTTP) Start() {
 	handlers.RegisterLocationHandlers(apiMux, h.DB, h.Thingful)
 	handlers.RegisterMetadataHandlers(apiMux, h.DB)
 	handlers.RegisterTimeseriesHandler(apiMux, h.DB, h.Thingful)
+	handlers.RegisterAppHandlers(apiMux, h.DB)
 
 	// add middleware
 	apiMux.Use(middleware.RequestIDMiddleware)
