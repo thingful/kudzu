@@ -8,8 +8,13 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/lib/pq"
 	"github.com/pkg/errors"
 	"github.com/thingful/kudzu/pkg/logger"
+)
+
+const (
+	pqUniqueViolation = "23505"
 )
 
 // ScopeClaim is a custom type used to represent existing scope levels
@@ -163,6 +168,11 @@ func (d *DB) CreateApp(ctx context.Context, name string, claims ScopeClaims) (*A
 	_, err = tx.Exec(sql, args...)
 	if err != nil {
 		tx.Rollback()
+		if pqErr, ok := err.(*pq.Error); ok {
+			if pqErr.Code == pqUniqueViolation {
+				return nil, errors.New("duplicate application name error. an application with this name is already registered")
+			}
+		}
 		return nil, errors.Wrap(err, "failed to execute query")
 	}
 
