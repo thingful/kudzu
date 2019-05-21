@@ -6,13 +6,12 @@ import (
 	"net/http"
 
 	"github.com/pkg/errors"
+	"github.com/thingful/kudzu/pkg/http/middleware"
 	"github.com/thingful/kudzu/pkg/logger"
 	"github.com/thingful/kudzu/pkg/postgres"
 	goji "goji.io"
 	"goji.io/pat"
 )
-
-var defaultScope = []string{"timeseries"}
 
 // RegisterAppHandlers registers our new app creation endpoint with the mux
 func RegisterAppHandlers(mux *goji.Mux, db *postgres.DB) {
@@ -21,8 +20,8 @@ func RegisterAppHandlers(mux *goji.Mux, db *postgres.DB) {
 
 type appRequest struct {
 	App struct {
-		Name  string   `json:"Name"`
-		Scope []string `json:"Scope"`
+		Name  string               `json:"Name"`
+		Scope postgres.ScopeClaims `json:"Scope"`
 	} `json:"App"`
 }
 
@@ -36,13 +35,13 @@ func createAppHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)
 
-	//roles := middleware.RolesFromContext(ctx)
-	//if !roles.Permits(postgres.CreateUserScope) {
-	//	return &HTTPError{
-	//		Code: http.StatusForbidden,
-	//		Err:  errors.New("you are not permitted to create new application keys"),
-	//	}
-	//}
+	roles := middleware.RolesFromContext(ctx)
+	if !roles.Permits(postgres.CreateUserScope) {
+		return &HTTPError{
+			Code: http.StatusForbidden,
+			Err:  errors.New("you are not permitted to create new application keys"),
+		}
+	}
 
 	appReq, err := parseCreateAppRequest(r)
 	if err != nil {
@@ -57,7 +56,7 @@ func createAppHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 
 	if len(appReq.App.Scope) == 0 {
-		appReq.App.Scope = defaultScope
+		appReq.App.Scope = postgres.ScopeClaims{postgres.GetTimeSeriesDataScope}
 	}
 
 	app, err := env.db.CreateApp(ctx, appReq.App.Name, appReq.App.Scope)
