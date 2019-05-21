@@ -158,6 +158,14 @@
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:75ab90ae3f5d876167e60f493beadfe66f0ed861a710f283fb06c86437a09538"
+  name = "github.com/jonboulle/clockwork"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "2eee05ed794112d45db504eb05aa693efd2b8b09"
+  version = "v0.1.0"
+
+[[projects]]
   branch = "master"
   digest = "1:a64e323dc06b73892e5bb5d040ced475c4645d456038333883f58934abbf6f72"
   name = "github.com/kr/logfmt"
@@ -466,6 +474,7 @@
     "github.com/guregu/null",
     "github.com/heptiolabs/healthcheck",
     "github.com/jmoiron/sqlx",
+    "github.com/jonboulle/clockwork",
     "github.com/lestrrat-go/backoff",
     "github.com/lib/pq",
     "github.com/pkg/errors",
