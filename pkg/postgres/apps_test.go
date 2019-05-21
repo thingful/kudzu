@@ -55,6 +55,17 @@ func (s *AppsSuite) TestCreateLoadApp() {
 	assert.NotNil(s.T(), loadedApp)
 }
 
+func (s *AppsSuite) TestDuplicateAppName() {
+	ctx := logger.ToContext(context.Background(), s.logger)
+
+	_, err := s.db.CreateApp(ctx, "app", postgres.ScopeClaims{postgres.CreateUserScope})
+	assert.Nil(s.T(), err)
+
+	_, err = s.db.CreateApp(ctx, "app", postgres.ScopeClaims{postgres.CreateUserScope})
+	assert.NotNil(s.T(), err)
+	assert.Equal(s.T(), "duplicate application name error. an application with this name is already registered", err.Error())
+}
+
 func (s *AppsSuite) TestInvalidClaim() {
 	ctx := logger.ToContext(context.Background(), s.logger)
 
