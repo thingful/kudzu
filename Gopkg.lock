@@ -455,6 +455,14 @@
   revision = "9d24e82272b4f38b78bc8cff74fa936d31ccd8ef"
 
 [[projects]]
+  branch = "master"
+  digest = "1:9fdc2b55e8e0fafe4b41884091e51e77344f7dc511c5acedcfd98200003bff90"
+  name = "golang.org/x/time"
+  packages = ["rate"]
+  pruneopts = "UT"
+  revision = "9d24e82272b4f38b78bc8cff74fa936d31ccd8ef"
+
+[[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
