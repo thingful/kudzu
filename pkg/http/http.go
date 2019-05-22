@@ -7,8 +7,10 @@ import (
 	"time"
 
 	kitlog "github.com/go-kit/kit/log"
+	"github.com/jonboulle/clockwork"
 	goji "goji.io"
 	"goji.io/pat"
+	"golang.org/x/time/rate"
 
 	"github.com/thingful/kudzu/pkg/client"
 	"github.com/thingful/kudzu/pkg/http/handlers"
@@ -37,6 +39,9 @@ type Config struct {
 	ErrChan       chan<- error
 	WaitGroup     *sync.WaitGroup
 	ServerTimeout int
+	Rate          rate.Limit
+	Burst         int
+	Expiry        time.Duration
 }
 
 // NewHTTP returns a new HTTP instance configured and ready to use, but not yet
@@ -87,6 +92,9 @@ func (h *HTTP) Start() {
 
 	authMiddleware := middleware.NewAuthMiddleware(h.DB)
 	apiMux.Use(authMiddleware.Handler)
+
+	rateLimitMiddleware := middleware.NewRateLimiterMiddleware(h.Config.Rate, h.Config.Burst, h.Config.Expiry, clockwork.NewRealClock())
+	apiMux.Use(rateLimitMiddleware.Handler)
 
 	h.srv.Handler = mux
 

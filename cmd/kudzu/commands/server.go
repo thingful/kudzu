@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/thingful/kudzu/pkg/app"
+	"golang.org/x/time/rate"
 )
 
 func init() {
@@ -23,6 +24,9 @@ func init() {
 	serverCmd.Flags().Int("concurrency", 3, "The number of parallel go routines to spawn when fetching from Thingful")
 	serverCmd.Flags().Bool("no-indexer", false, "If present stop the indexer from running")
 	serverCmd.Flags().Int("server-timeout", 5, "HTTP server timeout in seconds")
+	serverCmd.Flags().Float64("rate", 4, "The base rate permitted per client in req/sec")
+	serverCmd.Flags().Int("burst", 8, "The burstable API rate per client in req/sec")
+	serverCmd.Flags().Int("expiry", 60, "The interval in seconds with which we sweep the rate limit storage to free resources")
 
 	viper.BindPFlag("addr", serverCmd.Flags().Lookup("addr"))
 	viper.BindPFlag("database-url", serverCmd.Flags().Lookup("database-url"))
@@ -33,6 +37,9 @@ func init() {
 	viper.BindPFlag("concurrency", serverCmd.Flags().Lookup("concurrency"))
 	viper.BindPFlag("no-indexer", serverCmd.Flags().Lookup("no-indexer"))
 	viper.BindPFlag("server-timeout", serverCmd.Flags().Lookup("server-timeout"))
+	viper.BindPFlag("rate", serverCmd.Flags().Lookup("rate"))
+	viper.BindPFlag("burst", serverCmd.Flags().Lookup("burst"))
+	viper.BindPFlag("expiry", serverCmd.Flags().Lookup("expiry"))
 }
 
 var serverCmd = &cobra.Command{
@@ -77,6 +84,16 @@ var serverCmd = &cobra.Command{
 			return errors.New("Must specify the Thingful API key")
 		}
 
+		baseRate := viper.GetFloat64("rate")
+		if baseRate == 0 {
+			return errors.New("Must specify a non-zero rate")
+		}
+
+		expiry := viper.GetInt("expiry")
+		if expiry == 0 {
+			return errors.New("Must specify a non-zero rate limit expiry")
+		}
+
 		e := backoff.ExecuteFunc(func(_ context.Context) error {
 			a := app.NewApp(&app.Config{
 				Addr:          addr,
@@ -89,6 +106,9 @@ var serverCmd = &cobra.Command{
 				Concurrency:   viper.GetInt("concurrency"),
 				NoIndexer:     viper.GetBool("no-indexer"),
 				ServerTimeout: serverTimeout,
+				Rate:          rate.Limit(baseRate),
+				Burst:         viper.GetInt("burst"),
+				Expiry:        time.Duration(expiry) * time.Second,
 			})
 
 			return a.Start()
