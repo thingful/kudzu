@@ -93,6 +93,8 @@ func NewApp(config *Config) *App {
 		"concurrency", config.Concurrency,
 		"noIndexer", config.NoIndexer,
 		"serverTimeout", config.ServerTimeout,
+		"rateLimit", config.Rate,
+		"burstLimit", config.Burst,
 	)
 
 	buildInfo.WithLabelValues(version.BinaryName, version.Version, version.BuildDate)
@@ -130,6 +132,7 @@ func NewApp(config *Config) *App {
 		Rate:          config.Rate,
 		Burst:         config.Burst,
 		Expiry:        config.Expiry,
+		Verbose:       config.Verbose,
 	}, logger)
 
 	return &App{

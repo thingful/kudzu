@@ -42,6 +42,7 @@ type Config struct {
 	Rate          rate.Limit
 	Burst         int
 	Expiry        time.Duration
+	Verbose       bool
 }
 
 // NewHTTP returns a new HTTP instance configured and ready to use, but not yet
@@ -85,7 +86,7 @@ func (h *HTTP) Start() {
 	// add middleware
 	apiMux.Use(middleware.RequestIDMiddleware)
 
-	loggingMiddleware := middleware.NewLoggingMiddleware(h.logger, true)
+	loggingMiddleware := middleware.NewLoggingMiddleware(h.logger, h.Verbose)
 	apiMux.Use(loggingMiddleware.Handler)
 
 	apiMux.Use(middleware.MetricsMiddleware)
