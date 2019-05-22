@@ -104,3 +104,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/lestrrat-go/backoff"
+
+[[constraint]]
+  name = "github.com/jonboulle/clockwork"
+  branch = "master"

@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"net/http"
 	"strings"
@@ -17,11 +16,6 @@ const (
 	subjectKey = contextKey("subject")
 	rolesKey   = contextKey("roles")
 )
-
-type httpError struct {
-	Name    int    `json:"Name"`
-	Message string `json:"Message"`
-}
 
 // AppLoader is an interface we define here for a type that can load an App from
 // somewhere to verify the validity of the submitted token.
@@ -83,39 +77,6 @@ func extractToken(r *http.Request) (string, error) {
 	}
 
 	return authHeader[len(BearerSchema):], nil
-}
-
-func invalidTokenError(w http.ResponseWriter, err error) {
-	httpErr := &httpError{
-		Name:    http.StatusUnauthorized,
-		Message: err.Error(),
-	}
-
-	b, err := json.Marshal(httpErr)
-	if err != nil {
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("WWW-Authenticate", "Bearer")
-	w.WriteHeader(http.StatusUnauthorized)
-	w.Write(b)
-}
-
-func authForbiddenError(w http.ResponseWriter, err error) {
-	httpErr := &httpError{
-		Name:    http.StatusForbidden,
-		Message: err.Error(),
-	}
-
-	b, err := json.Marshal(httpErr)
-	if err != nil {
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusForbidden)
-	w.Write(b)
 }
 
 // RolesFromContext returns a ScopeClaims object from the context representing
