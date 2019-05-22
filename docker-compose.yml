@@ -17,7 +17,7 @@ services:
     working_dir: /go/src/ARG_PKG
     ports:
       - "3001:3001"
-    command: /go/bin/ARG_BIN server --verbose
+    command: /go/bin/ARG_BIN server --verbose --no-indexer
     depends_on:
       - postgres
     environment:
