@@ -162,4 +162,4 @@ bin-clean: ## remove generated build artefacts
 psql: .compose
 	@docker-compose -f .docker-compose.yml start postgres
 	@sleep 1
-	@docker exec -it kudzu_postgres_1 psql -U postgres kudzu_development
+	@docker exec -it kudzu_postgres_1 psql -U kudzu kudzu_development
