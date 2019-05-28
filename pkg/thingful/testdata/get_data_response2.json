@@ -1,0 +1,270 @@
+{
+  "@context": "http://purl.org/iot/vocab/thingful/context.jsonld",
+  "links": {
+    "self": "https://api.thingful.net/things/6sk90443"
+  },
+  "data": {
+    "id": "https://api.thingful.net/things/6sk90443",
+    "type": "thing",
+    "attributes": {
+      "title": "Corkscrew Rush",
+      "description": "Soil sensor data produced by the GROW observatory. For more info see https://growobservatory.org",
+      "webpage": "http://global.parrot.com/au/products/flower-power/",
+      "endpoint": {
+        "url": "https://api-flower-power-pot.parrot.com/sensor_data/v6/sample/location/IZ8r8dX6nz1553534390645",
+        "contentType": "application/json"
+      },
+      "metadata": [
+        {
+          "prop": "http://schema.org/serialNumber",
+          "val": "PI040297AA3L024781"
+        },
+        {
+          "prop": "http://semanticweb.cs.vu.nl/2009/11/sem/hasEndTimeStamp",
+          "val": "2019-03-26T13:04:29Z"
+        }
+      ],
+      "visibility": "shared",
+      "thingType": "http://purl.org/iot/vocab/thingful#ConnectedDevice",
+      "category": "http://purl.org/iot/vocab/thingful#Environment",
+      "license": {
+        "name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "id": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "legalCode": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+        "permits": [
+          "https://creativecommons.org/ns#Reproduction",
+          "https://creativecommons.org/ns#Distribution",
+          "https://creativecommons.org/ns#DerivativeWorks",
+          "https://creativecommons.org/ns#Sharing"
+        ]
+      },
+      "location": {
+        "long": -3.22402,
+        "lat": 55.830849
+      },
+      "createdAt": "2019-03-26T19:16:16Z",
+      "indexedAt": "2019-03-26T19:16:16Z",
+      "updatedAt": "2019-05-17T19:06:00Z",
+      "provider": {
+        "id": "https://api.thingful.net/providers/flowerpower",
+        "name": "Parrot - Flower Power",
+        "uri": "https://www.parrot.com/"
+      },
+      "channels": [
+        {
+          "id": "https://api.thingful.net/things/6sk90443/channels/calibrated_soil_moisture",
+          "type": "channel",
+          "domain": [
+            "http://purl.org/iot/vocab/m3-lite#Environment",
+            "http://purl.org/iot/vocab/m3-lite#Agriculture"
+          ],
+          "quantityKind": "http://purl.org/iot/vocab/m3-lite#SoilHumidity",
+          "measuredBy": "http://purl.org/iot/vocab/m3-lite#SoilHumiditySensor",
+          "unit": "http://purl.org/iot/vocab/m3-lite#Percent",
+          "historicalData": true,
+          "dataType": "http://www.w3.org/2001/XMLSchema#double",
+          "observations": [
+            {
+              "recordedAt": "2019-03-26T00:19:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "29.6"
+            },
+            {
+              "recordedAt": "2019-03-26T00:04:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "29.89"
+            }
+          ]
+        },
+        {
+          "id": "https://api.thingful.net/things/6sk90443/channels/soil_moisture",
+          "type": "channel",
+          "domain": [
+            "http://purl.org/iot/vocab/m3-lite#Environment",
+            "http://purl.org/iot/vocab/m3-lite#Agriculture"
+          ],
+          "quantityKind": "http://purl.org/iot/vocab/m3-lite#SoilHumidity",
+          "measuredBy": "http://purl.org/iot/vocab/m3-lite#SoilHumiditySensor",
+          "unit": "http://purl.org/iot/vocab/m3-lite#Percent",
+          "historicalData": true,
+          "dataType": "http://www.w3.org/2001/XMLSchema#double",
+          "observations": [
+            {
+              "recordedAt": "2019-03-26T00:19:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "23.24"
+            },
+            {
+              "recordedAt": "2019-03-26T00:04:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "23.46"
+            }
+          ]
+        },
+        {
+          "id": "https://api.thingful.net/things/6sk90443/channels/fertilizer_level",
+          "type": "channel",
+          "domain": [
+            "http://purl.org/iot/vocab/m3-lite#Environment",
+            "http://purl.org/iot/vocab/m3-lite#Agriculture"
+          ],
+          "quantityKind": "http://purl.org/iot/vocab/thingful/qu#FertilizerLevel",
+          "measuredBy": "http://purl.org/iot/vocab/thingful/qu#FertilizerSensor",
+          "historicalData": true,
+          "dataType": "http://www.w3.org/2001/XMLSchema#double",
+          "observations": [
+            {
+              "recordedAt": "2019-03-26T00:19:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "0.58"
+            },
+            {
+              "recordedAt": "2019-03-26T00:04:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "0.58"
+            }
+          ]
+        },
+        {
+          "id": "https://api.thingful.net/things/6sk90443/channels/water_tank_level",
+          "type": "channel",
+          "domain": [
+            "http://purl.org/iot/vocab/m3-lite#Environment"
+          ],
+          "quantityKind": "http://purl.org/iot/vocab/m3-lite#WaterLevel",
+          "measuredBy": "http://purl.org/iot/vocab/thingful/qu#WaterLevelSensor",
+          "unit": "http://purl.org/iot/vocab/m3-lite#Percent",
+          "historicalData": true,
+          "dataType": "http://www.w3.org/2001/XMLSchema#double",
+          "observations": [
+            {
+              "recordedAt": "2019-03-26T00:19:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "0"
+            },
+            {
+              "recordedAt": "2019-03-26T00:04:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "id": "https://api.thingful.net/things/6sk90443/channels/light",
+          "type": "channel",
+          "domain": [
+            "http://purl.org/iot/vocab/m3-lite#Environment"
+          ],
+          "quantityKind": "http://purl.org/iot/vocab/m3-lite#Illuminance",
+          "measuredBy": "http://purl.org/iot/vocab/m3-lite#LightSensor",
+          "unit": "http://purl.org/iot/vocab/m3-lite#Lux",
+          "historicalData": true,
+          "dataType": "http://www.w3.org/2001/XMLSchema#double",
+          "observations": [
+            {
+              "recordedAt": "2019-03-26T00:19:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "0.1"
+            },
+            {
+              "recordedAt": "2019-03-26T00:04:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "0.1"
+            }
+          ]
+        },
+        {
+          "id": "https://api.thingful.net/things/6sk90443/channels/battery_level",
+          "type": "channel",
+          "domain": [
+            "http://purl.org/iot/vocab/m3-lite#EnergyDOI"
+          ],
+          "quantityKind": "http://purl.org/iot/vocab/m3-lite#BatteryLevel",
+          "unit": "http://purl.org/iot/vocab/m3-lite#Percent",
+          "historicalData": true,
+          "dataType": "http://www.w3.org/2001/XMLSchema#double",
+          "observations": [
+            {
+              "recordedAt": "2019-03-26T00:19:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "100"
+            },
+            {
+              "recordedAt": "2019-03-26T00:04:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "100"
+            }
+          ]
+        },
+        {
+          "id": "https://api.thingful.net/things/6sk90443/channels/air_temperature",
+          "type": "channel",
+          "domain": [
+            "http://purl.org/iot/vocab/m3-lite#Weather"
+          ],
+          "quantityKind": "http://purl.org/iot/vocab/m3-lite#AirTemperature",
+          "measuredBy": "http://purl.org/iot/vocab/m3-lite#AirThermometer",
+          "unit": "http://purl.org/iot/vocab/m3-lite#DegreeCelsius",
+          "historicalData": true,
+          "dataType": "http://www.w3.org/2001/XMLSchema#double",
+          "observations": [
+            {
+              "recordedAt": "2019-03-26T00:19:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "25.79"
+            },
+            {
+              "recordedAt": "2019-03-26T00:04:29Z",
+              "location": {
+                "long": 0,
+                "lat": 0
+              },
+              "value": "25.97"
+            }
+          ]
+        }
+      ],
+      "score": null,
+      "distance": null
+    }
+  }
+}

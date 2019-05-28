@@ -67,12 +67,12 @@ func (s *setting) UnmarshalJSON(data []byte) error {
 
 	s.StartDate, err = time.Parse(timeFormat, set.StartDate)
 	if err != nil {
-		return err
+		return errors.Wrapf(err, "value for StartDate must be a date time string of the format: 20170329000000, received: %s", set.StartDate)
 	}
 
 	s.EndDate, err = time.Parse(timeFormat, set.EndDate)
 	if err != nil {
-		return err
+		return errors.Wrapf(err, "value for EndDate must be a date time string of the format: 20170329000000, received: %s", set.EndDate)
 	}
 
 	s.Ascending = strings.ToLower(set.Ascending) == "asc"
@@ -80,13 +80,11 @@ func (s *setting) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-type reader struct {
-	DataSourceCode string  `json:"DataSourceCode"`
-	Setting        setting `json:"Settings"`
-}
-
 type timeseriesRequest struct {
-	Readers []reader `json:"Readers"`
+	Readers []struct {
+		DataSourceCode string  `json:"DataSourceCode"`
+		Setting        setting `json:"Settings"`
+	} `json:"Readers"`
 }
 
 // output types
@@ -321,7 +319,7 @@ func parseTimeSeriesRequest(r *http.Request) (*setting, error) {
 	if err != nil {
 		return nil, &HTTPError{
 			Code: http.StatusUnprocessableEntity,
-			Err:  errors.Wrap(err, "failed to parse incoming request bodey"),
+			Err:  errors.Wrap(err, "failed to parse incoming request body"),
 		}
 	}
 

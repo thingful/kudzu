@@ -187,7 +187,6 @@ func (d *DB) LoadApp(ctx context.Context, key string) (*App, error) {
 	if d.verbose {
 		log.Log(
 			"msg", "loading app",
-			"key", key,
 		)
 	}
 

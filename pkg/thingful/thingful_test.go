@@ -84,6 +84,54 @@ func (s *ThingfulSuite) TestCreateThing() {
 	uid, err := s.thingful.CreateThing(ctx, postgresThing, readings)
 	assert.Nil(s.T(), err)
 	assert.Equal(s.T(), "ds6r2tvx", uid)
+
+	assert.Nil(s.T(), simular.AllStubsCalled())
+}
+
+func (s *ThingfulSuite) TestGetData() {
+	ctx := logger.ToContext(context.Background(), s.logger)
+
+	b1, err := ioutil.ReadFile("./testdata/get_data_response1.json")
+	assert.Nil(s.T(), err)
+
+	b2, err := ioutil.ReadFile("./testdata/get_data_response2.json")
+	assert.Nil(s.T(), err)
+
+	simular.ActivateNonDefault(s.httpClient.Client)
+	defer simular.DeactivateAndReset()
+
+	simular.RegisterStubRequests(
+		simular.NewStubRequest(
+			"GET",
+			"https://thingful.net/things/6sk90442?from=2019-03-26T00:00:00Z&to=2019-03-27T00:00:00Z",
+			simular.NewBytesResponder(200, b1),
+			simular.WithHeader(
+				&http.Header{
+					"Authorization": []string{"Bearer foobar"},
+				},
+			),
+		),
+		simular.NewStubRequest(
+			"GET",
+			"https://thingful.net/things/6sk90443?from=2019-03-26T00:00:00Z&to=2019-03-27T00:00:00Z",
+			simular.NewBytesResponder(200, b2),
+			simular.WithHeader(
+				&http.Header{
+					"Authorization": []string{"Bearer foobar"},
+				},
+			),
+		),
+	)
+
+	from, _ := time.Parse(time.RFC3339, "2019-03-26T00:00:00Z")
+	to, _ := time.Parse(time.RFC3339, "2019-03-27T00:00:00Z")
+
+	things, err := s.thingful.GetData(ctx, []string{"6sk90442", "6sk90443"}, from, to, false)
+	assert.Nil(s.T(), err)
+
+	assert.Len(s.T(), things, 2)
+
+	assert.Nil(s.T(), simular.AllStubsCalled())
 }
 
 func TestThingfulClient(t *testing.T) {
