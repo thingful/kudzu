@@ -10,7 +10,6 @@ import (
 	"github.com/jonboulle/clockwork"
 	goji "goji.io"
 	"goji.io/pat"
-	"golang.org/x/time/rate"
 
 	"github.com/thingful/kudzu/pkg/client"
 	"github.com/thingful/kudzu/pkg/http/handlers"
@@ -39,9 +38,6 @@ type Config struct {
 	ErrChan       chan<- error
 	WaitGroup     *sync.WaitGroup
 	ServerTimeout int
-	Rate          rate.Limit
-	Burst         int
-	Expiry        time.Duration
 	Verbose       bool
 }
 
@@ -94,7 +90,7 @@ func (h *HTTP) Start() {
 	authMiddleware := middleware.NewAuthMiddleware(h.DB)
 	apiMux.Use(authMiddleware.Handler)
 
-	rateLimitMiddleware := middleware.NewRateLimiterMiddleware(h.Config.Rate, h.Config.Burst, h.Config.Expiry, clockwork.NewRealClock())
+	rateLimitMiddleware := middleware.NewRateLimiterMiddleware(clockwork.NewRealClock())
 	apiMux.Use(rateLimitMiddleware.Handler)
 
 	h.srv.Handler = mux
