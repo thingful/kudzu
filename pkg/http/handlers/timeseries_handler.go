@@ -15,6 +15,7 @@ import (
 
 	"github.com/guregu/null"
 	"github.com/pkg/errors"
+	"github.com/thingful/kudzu/pkg/logger"
 	"github.com/thingful/kudzu/pkg/postgres"
 	"github.com/thingful/kudzu/pkg/thingful"
 )
@@ -262,9 +263,12 @@ type hydronetVariable struct {
 func timeseriesHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	ctx := r.Context()
 
+	log := logger.FromContext(ctx)
+
 	// parse the request giving back a setting to read data for
 	rd, err := parseTimeSeriesRequest(r)
 	if err != nil {
+		log.Log("error", err, "msg", "failed to parse request")
 		return err
 	}
 
@@ -316,6 +320,7 @@ func parseTimeSeriesRequest(r *http.Request) (*setting, error) {
 		}
 	}
 
+	fmt.Println(string(b))
 	var data timeseriesRequest
 	err = json.Unmarshal(b, &data)
 	if err != nil {
