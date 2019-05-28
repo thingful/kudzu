@@ -15,6 +15,10 @@ import (
 	"golang.org/x/time/rate"
 )
 
+const (
+	defaultRate = 4
+)
+
 var (
 	limited = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
@@ -50,8 +54,6 @@ func (v *visitor) expired(clock clockwork.Clock, expiry time.Duration) bool {
 // RateLimiterMiddleware is a middleware that implements simple rate limiting of
 // requests using the golang.org/x/time/rate package.
 type RateLimiterMiddleware struct {
-	baseRate rate.Limit
-	burst    int
 	expiry   time.Duration
 	clock    clockwork.Clock
 	visitors map[string]*visitor
@@ -61,10 +63,10 @@ type RateLimiterMiddleware struct {
 // NewRateLimiterMiddleware returns a new middleware instance that has been
 // configured to start limiting requests to the API. We limit by the submitted
 // API key that is saved to the context.
-func NewRateLimiterMiddleware(r rate.Limit, b int, expiry time.Duration, clock clockwork.Clock) *RateLimiterMiddleware {
+func NewRateLimiterMiddleware(clock clockwork.Clock) *RateLimiterMiddleware {
+	expiry := time.Duration(60) * time.Second
+
 	rm := &RateLimiterMiddleware{
-		baseRate: r,
-		burst:    b,
 		expiry:   expiry,
 		clock:    clock,
 		visitors: make(map[string]*visitor),
@@ -91,7 +93,9 @@ func (rm *RateLimiterMiddleware) Handler(next http.Handler) http.Handler {
 			return
 		}
 
-		limiter := rm.getVisitor(uid)
+		rate := rateFromContext(ctx)
+
+		limiter := rm.getVisitor(uid, rate)
 		if !limiter.Allow() {
 			limited.With(
 				prometheus.Labels{
@@ -99,7 +103,7 @@ func (rm *RateLimiterMiddleware) Handler(next http.Handler) http.Handler {
 				},
 			).Inc()
 
-			tooManyRequestsError(w, fmt.Errorf("API rate limit exceeded, please try again later. Your current limits are no more than %v req/sec", rm.baseRate))
+			tooManyRequestsError(w, fmt.Errorf("API rate limit exceeded, please try again later. Your current limits are no more than %v req/sec", rate))
 			return
 		}
 
@@ -109,12 +113,27 @@ func (rm *RateLimiterMiddleware) Handler(next http.Handler) http.Handler {
 	return http.HandlerFunc(fn)
 }
 
+// getVisitor attempts to return a rate limiter for the given uid. If an entry
+// for the visitor is already present in the map we simply return it, else we
+// hand over to `addVisitor` to create a new one.
+func (rm *RateLimiterMiddleware) getVisitor(uid string, rate int) *rate.Limiter {
+	rm.RLock()
+	if v, ok := rm.visitors[uid]; ok {
+		v.lastSeen = rm.clock.Now()
+		rm.RUnlock()
+		return v.limiter
+	}
+	rm.RUnlock()
+
+	return rm.addVisitor(uid, rate)
+}
+
 // addVisitor is an unexported function that attempts to adds a new visitor into
 // our map, initializes its limiter and adds a timestamp at which the visitor
 // was received. We later use this timestamp to remove old entries from the map.
-func (rm *RateLimiterMiddleware) addVisitor(uid string) *rate.Limiter {
+func (rm *RateLimiterMiddleware) addVisitor(uid string, r int) *rate.Limiter {
 	// create new limiter
-	limiter := rate.NewLimiter(rm.baseRate, rm.burst)
+	limiter := rate.NewLimiter(rate.Limit(r), r*2)
 
 	// add to our map
 	rm.Lock()
@@ -126,21 +145,6 @@ func (rm *RateLimiterMiddleware) addVisitor(uid string) *rate.Limiter {
 	}
 
 	return rm.visitors[uid].limiter
-}
-
-// getVisitor attempts to return a rate limiter for the given uid. If an entry
-// for the visitor is already present in the map we simply return it, else we
-// hand over to `addVisitor` to create a new one.
-func (rm *RateLimiterMiddleware) getVisitor(uid string) *rate.Limiter {
-	rm.RLock()
-	if v, ok := rm.visitors[uid]; ok {
-		v.lastSeen = rm.clock.Now()
-		rm.RUnlock()
-		return v.limiter
-	}
-	rm.RUnlock()
-
-	return rm.addVisitor(uid)
 }
 
 // cleanupVisitors must be called repeatedly in a goroutine, and is responsible
@@ -164,4 +168,13 @@ func uidFromContext(ctx context.Context) (string, error) {
 	}
 
 	return "", errors.New("Unable to find subject uid in request context")
+}
+
+// rateFromContext returns a rate value read from the context, or our default rate
+func rateFromContext(ctx context.Context) int {
+	if rate, ok := ctx.Value(rateKey).(int); ok {
+		return rate
+	}
+
+	return defaultRate
 }
