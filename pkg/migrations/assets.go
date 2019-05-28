@@ -589,7 +589,7 @@ func _20190528213142_add_app_rateDownSql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "20190528213142_add_app_rate.down.sql", size: 42, mode: os.FileMode(0644), modTime: time.Unix(1559080144, 0)}
+	info := bindataFileInfo{name: "20190528213142_add_app_rate.down.sql", size: 42, mode: os.FileMode(0644), modTime: time.Unix(1559085165, 0)}
 	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xd, 0xaa, 0xec, 0xd8, 0x7e, 0xa6, 0x17, 0x54, 0x3b, 0x2, 0x25, 0x93, 0x88, 0xdb, 0x6f, 0xd1, 0x4e, 0x4a, 0x57, 0x18, 0x2f, 0x16, 0x3a, 0x60, 0xd8, 0xca, 0xc3, 0x5d, 0x80, 0x83, 0xa5, 0x4e}}
 	return a, nil
 }
@@ -609,7 +609,7 @@ func _20190528213142_add_app_rateUpSql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "20190528213142_add_app_rate.up.sql", size: 68, mode: os.FileMode(0644), modTime: time.Unix(1559080118, 0)}
+	info := bindataFileInfo{name: "20190528213142_add_app_rate.up.sql", size: 68, mode: os.FileMode(0644), modTime: time.Unix(1559085165, 0)}
 	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x5c, 0xa7, 0x5d, 0x6a, 0xa4, 0xb9, 0xb6, 0x2d, 0xe1, 0x15, 0xee, 0xac, 0x7d, 0xd, 0x94, 0xca, 0x1c, 0x50, 0x47, 0x63, 0xb8, 0x75, 0x9c, 0xea, 0x10, 0x5a, 0x6d, 0xc2, 0xc8, 0xff, 0x4c, 0xb2}}
 	return a, nil
 }
