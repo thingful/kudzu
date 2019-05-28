@@ -112,6 +112,7 @@ type App struct {
 	Name  string      `db:"app_name"`
 	Hash  string      `db:"key_hash"`
 	Roles ScopeClaims `db:"scope"`
+	Rate  int         `db:"rate"`
 	Key   string
 }
 
@@ -195,7 +196,7 @@ func (d *DB) LoadApp(ctx context.Context, key string) (*App, error) {
 		return nil, errors.New("invalid key")
 	}
 
-	sql := `SELECT uid, app_name, scope FROM applications WHERE uid = $1 AND key_hash = crypt($2, key_hash)`
+	sql := `SELECT uid, app_name, scope, rate FROM applications WHERE uid = $1 AND key_hash = crypt($2, key_hash)`
 
 	var app App
 
