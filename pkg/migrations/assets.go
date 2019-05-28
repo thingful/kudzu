@@ -24,6 +24,8 @@
 // sql/20190217011904_thing_uid_not_null.up.sql (51B)
 // sql/20190311125125_add_location_audit_table.down.sql (45B)
 // sql/20190311125125_add_location_audit_table.up.sql (1.004kB)
+// sql/20190528213142_add_app_rate.down.sql (42B)
+// sql/20190528213142_add_app_rate.up.sql (68B)
 
 package migrations
 
@@ -572,6 +574,46 @@ func _20190311125125_add_location_audit_tableUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __20190528213142_add_app_rateDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x48\x2c\x28\xc8\xc9\x4c\x4e\x2c\xc9\xcc\xcf\x2b\x56\x70\x09\xf2\x0f\x50\x70\xf6\xf7\x09\xf5\xf5\x53\x28\x4a\x2c\x49\xb5\x06\x04\x00\x00\xff\xff\xb7\xcc\x81\x59\x2a\x00\x00\x00")
+
+func _20190528213142_add_app_rateDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190528213142_add_app_rateDownSql,
+		"20190528213142_add_app_rate.down.sql",
+	)
+}
+
+func _20190528213142_add_app_rateDownSql() (*asset, error) {
+	bytes, err := _20190528213142_add_app_rateDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190528213142_add_app_rate.down.sql", size: 42, mode: os.FileMode(0644), modTime: time.Unix(1559080144, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xd, 0xaa, 0xec, 0xd8, 0x7e, 0xa6, 0x17, 0x54, 0x3b, 0x2, 0x25, 0x93, 0x88, 0xdb, 0x6f, 0xd1, 0x4e, 0x4a, 0x57, 0x18, 0x2f, 0x16, 0x3a, 0x60, 0xd8, 0xca, 0xc3, 0x5d, 0x80, 0x83, 0xa5, 0x4e}}
+	return a, nil
+}
+
+var __20190528213142_add_app_rateUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x48\x2c\x28\xc8\xc9\x4c\x4e\x2c\xc9\xcc\xcf\x2b\x56\x70\x74\x71\x51\x70\xf6\xf7\x09\xf5\xf5\x53\x28\x4a\x2c\x49\x55\xc8\xcc\x2b\x49\x4d\x4f\x2d\x52\x70\x71\x75\x73\x0c\xf5\x09\x51\x30\x51\xf0\xf3\x0f\x51\xf0\x0b\xf5\xf1\xb1\x06\x04\x00\x00\xff\xff\xa0\x69\x21\x1f\x44\x00\x00\x00")
+
+func _20190528213142_add_app_rateUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__20190528213142_add_app_rateUpSql,
+		"20190528213142_add_app_rate.up.sql",
+	)
+}
+
+func _20190528213142_add_app_rateUpSql() (*asset, error) {
+	bytes, err := _20190528213142_add_app_rateUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "20190528213142_add_app_rate.up.sql", size: 68, mode: os.FileMode(0644), modTime: time.Unix(1559080118, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x5c, 0xa7, 0x5d, 0x6a, 0xa4, 0xb9, 0xb6, 0x2d, 0xe1, 0x15, 0xee, 0xac, 0x7d, 0xd, 0x94, 0xca, 0x1c, 0x50, 0x47, 0x63, 0xb8, 0x75, 0x9c, 0xea, 0x10, 0x5a, 0x6d, 0xc2, 0xc8, 0xff, 0x4c, 0xb2}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -710,6 +752,10 @@ var _bindata = map[string]func() (*asset, error){
 	"20190311125125_add_location_audit_table.down.sql": _20190311125125_add_location_audit_tableDownSql,
 
 	"20190311125125_add_location_audit_table.up.sql": _20190311125125_add_location_audit_tableUpSql,
+
+	"20190528213142_add_app_rate.down.sql": _20190528213142_add_app_rateDownSql,
+
+	"20190528213142_add_app_rate.up.sql": _20190528213142_add_app_rateUpSql,
 }
 
 // AssetDir returns the file names below a certain
@@ -777,6 +823,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"20190217011904_thing_uid_not_null.up.sql":                  &bintree{_20190217011904_thing_uid_not_nullUpSql, map[string]*bintree{}},
 	"20190311125125_add_location_audit_table.down.sql":          &bintree{_20190311125125_add_location_audit_tableDownSql, map[string]*bintree{}},
 	"20190311125125_add_location_audit_table.up.sql":            &bintree{_20190311125125_add_location_audit_tableUpSql, map[string]*bintree{}},
+	"20190528213142_add_app_rate.down.sql":                      &bintree{_20190528213142_add_app_rateDownSql, map[string]*bintree{}},
+	"20190528213142_add_app_rate.up.sql":                        &bintree{_20190528213142_add_app_rateUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
