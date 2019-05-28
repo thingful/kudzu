@@ -15,7 +15,6 @@ import (
 
 	"github.com/guregu/null"
 	"github.com/pkg/errors"
-	"github.com/thingful/kudzu/pkg/logger"
 	"github.com/thingful/kudzu/pkg/postgres"
 	"github.com/thingful/kudzu/pkg/thingful"
 )
@@ -68,12 +67,12 @@ func (s *setting) UnmarshalJSON(data []byte) error {
 
 	s.StartDate, err = time.Parse(timeFormat, set.StartDate)
 	if err != nil {
-		return err
+		return errors.Wrapf(err, "value for StartDate must be a date time string of the format: 20170329000000, received: %s", set.StartDate)
 	}
 
 	s.EndDate, err = time.Parse(timeFormat, set.EndDate)
 	if err != nil {
-		return err
+		return errors.Wrapf(err, "value for EndDate must be a date time string of the format: 20170329000000, received: %s", set.EndDate)
 	}
 
 	s.Ascending = strings.ToLower(set.Ascending) == "asc"
@@ -81,13 +80,11 @@ func (s *setting) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-type reader struct {
-	DataSourceCode string  `json:"DataSourceCode"`
-	Setting        setting `json:"Settings"`
-}
-
 type timeseriesRequest struct {
-	Readers []reader `json:"Readers"`
+	Readers []struct {
+		DataSourceCode string  `json:"DataSourceCode"`
+		Setting        setting `json:"Settings"`
+	} `json:"Readers"`
 }
 
 // output types
@@ -263,12 +260,9 @@ type hydronetVariable struct {
 func timeseriesHandler(env *Env, w http.ResponseWriter, r *http.Request) error {
 	ctx := r.Context()
 
-	log := logger.FromContext(ctx)
-
 	// parse the request giving back a setting to read data for
 	rd, err := parseTimeSeriesRequest(r)
 	if err != nil {
-		log.Log("error", err, "msg", "failed to parse request")
 		return err
 	}
 
@@ -320,13 +314,12 @@ func parseTimeSeriesRequest(r *http.Request) (*setting, error) {
 		}
 	}
 
-	fmt.Println(string(b))
 	var data timeseriesRequest
 	err = json.Unmarshal(b, &data)
 	if err != nil {
 		return nil, &HTTPError{
 			Code: http.StatusUnprocessableEntity,
-			Err:  errors.Wrap(err, "failed to parse incoming request bodey"),
+			Err:  errors.Wrap(err, "failed to parse incoming request body"),
 		}
 	}
 
