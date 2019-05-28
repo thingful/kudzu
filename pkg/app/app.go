@@ -17,7 +17,6 @@ import (
 	"github.com/thingful/kudzu/pkg/thingful"
 	"github.com/thingful/kudzu/pkg/version"
 	registry "github.com/thingful/retryable-registry-prometheus"
-	"golang.org/x/time/rate"
 )
 
 var (
@@ -74,9 +73,6 @@ type Config struct {
 	Concurrency   int
 	NoIndexer     bool
 	ServerTimeout int
-	Rate          rate.Limit
-	Burst         int
-	Expiry        time.Duration
 }
 
 // NewApp returns a new App instance with components configured but not yet
@@ -93,8 +89,6 @@ func NewApp(config *Config) *App {
 		"concurrency", config.Concurrency,
 		"noIndexer", config.NoIndexer,
 		"serverTimeout", config.ServerTimeout,
-		"rateLimit", config.Rate,
-		"burstLimit", config.Burst,
 	)
 
 	buildInfo.WithLabelValues(version.BinaryName, version.Version, version.BuildDate)
@@ -129,9 +123,6 @@ func NewApp(config *Config) *App {
 		WaitGroup:     &wg,
 		Indexer:       i,
 		ServerTimeout: config.ServerTimeout,
-		Rate:          config.Rate,
-		Burst:         config.Burst,
-		Expiry:        config.Expiry,
 		Verbose:       config.Verbose,
 	}, logger)
 

@@ -53,6 +53,7 @@ func (s *AppsSuite) TestCreateLoadApp() {
 	loadedApp, err := s.db.LoadApp(ctx, app.Key)
 	assert.Nil(s.T(), err)
 	assert.NotNil(s.T(), loadedApp)
+	assert.NotEqual(s.T(), 0, loadedApp.Rate)
 }
 
 func (s *AppsSuite) TestDuplicateAppName() {

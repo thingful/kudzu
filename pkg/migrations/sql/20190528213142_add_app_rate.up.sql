@@ -1,0 +1,1 @@
+ALTER TABLE applications ADD COLUMN rate integer DEFAULT 4 NOT NULL;
