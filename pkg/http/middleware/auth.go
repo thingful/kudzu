@@ -15,6 +15,7 @@ const (
 
 	subjectKey = contextKey("subject")
 	rolesKey   = contextKey("roles")
+	rateKey    = contextKey("rate")
 )
 
 // AppLoader is an interface we define here for a type that can load an App from
@@ -57,6 +58,7 @@ func (a *AuthMiddleware) Handler(next http.Handler) http.Handler {
 
 		ctx = context.WithValue(ctx, subjectKey, app.UID)
 		ctx = context.WithValue(ctx, rolesKey, app.Roles)
+		ctx = context.WithValue(ctx, rateKey, app.Rate)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	}
