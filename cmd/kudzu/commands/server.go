@@ -77,11 +77,6 @@ var serverCmd = &cobra.Command{
 			return errors.New("Must specify the Thingful API key")
 		}
 
-		baseRate := viper.GetFloat64("rate")
-		if baseRate == 0 {
-			return errors.New("Must specify a non-zero rate")
-		}
-
 		e := backoff.ExecuteFunc(func(_ context.Context) error {
 			a := app.NewApp(&app.Config{
 				Addr:          addr,
